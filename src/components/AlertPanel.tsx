@@ -65,7 +65,7 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {sortedAlerts.map((alert) => {
           const config = getAlertConfig(alert.type);
           const IconComponent = config.icon;
@@ -73,15 +73,15 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
           return (
             <Card 
               key={alert.id} 
-              className={`p-4 border-l-4 transition-all hover:scale-105 cyber-glow ${
+              className={`p-3 sm:p-4 border-l-4 transition-all hover:scale-105 cyber-glow ${
                 alert.type === 'red' ? 'border-l-destructive alert-pulse' : 
                 alert.type === 'yellow' ? 'border-l-warning' : 
                 'border-l-primary'
               }`}
             >
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <IconComponent className={`h-4 w-4 ${
+              <div className="flex items-start justify-between mb-2 sm:mb-3">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <IconComponent className={`h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 ${
                     alert.type === 'red' ? 'text-destructive' :
                     alert.type === 'yellow' ? 'text-warning' :
                     'text-primary'
@@ -94,7 +94,8 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
                       'border-primary text-primary'
                     }`}
                   >
-                    {config.priority}
+                    <span className="hidden sm:inline">{config.priority}</span>
+                    <span className="sm:hidden">{config.priority.charAt(0)}</span>
                   </Badge>
                 </div>
                 <div className="text-xs text-muted-foreground">
@@ -102,11 +103,11 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
                 </div>
               </div>
 
-              <h3 className="font-semibold text-sm mb-2 line-clamp-2">
+              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 line-clamp-2 leading-tight">
                 {alert.title}
               </h3>
 
-              <p className="text-xs text-muted-foreground mb-3 line-clamp-3">
+              <p className="text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2 sm:line-clamp-3 leading-relaxed">
                 {alert.description}
               </p>
 

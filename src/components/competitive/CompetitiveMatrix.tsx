@@ -120,24 +120,24 @@ export const CompetitiveMatrix = () => {
     : null;
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold gradient-text">Matriz Competitiva 3D</h2>
-            <Badge variant="destructive" className="alert-pulse">
+    <div className="space-y-4 sm:space-y-6">
+      <Card className="p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <Target className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <h2 className="text-base sm:text-xl font-semibold gradient-text">Matriz Competitiva</h2>
+            <Badge variant="destructive" className="alert-pulse text-xs w-fit">
               6 AMEAÇAS ATIVAS
             </Badge>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {sectors.map((sector) => (
               <Button
                 key={sector}
                 variant={filterSector === sector ? "default" : "outline"}
                 size="sm"
                 onClick={() => setFilterSector(sector)}
-                className="cyber-glow"
+                className="cyber-glow text-xs"
               >
                 {sector === "all" ? "Todos" : sector}
               </Button>

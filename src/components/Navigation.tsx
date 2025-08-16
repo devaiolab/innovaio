@@ -105,7 +105,7 @@ export const Navigation = () => {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {dashboards.map((dashboard) => {
           const IconComponent = dashboard.icon;
           const statusConfig = getStatusConfig(dashboard.status);
@@ -113,18 +113,18 @@ export const Navigation = () => {
           return (
             <Card
               key={dashboard.id}
-              className={`p-4 cursor-pointer transition-all hover:scale-105 cyber-glow ${
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover:scale-105 cyber-glow ${
                 selectedDashboard === dashboard.id ? 'ring-2 ring-primary' : ''
               }`}
               onClick={() => setSelectedDashboard(dashboard.id)}
             >
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <IconComponent className="h-5 w-5 text-primary" />
+              <div className="flex items-start justify-between mb-2 sm:mb-3">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
                   {dashboard.alertCount && (
                     <Badge 
                       variant="destructive" 
-                      className="text-xs h-5 px-2"
+                      className="text-xs h-4 px-1 sm:h-5 sm:px-2"
                     >
                       {dashboard.alertCount}
                     </Badge>
@@ -149,11 +149,11 @@ export const Navigation = () => {
                 </div>
               </div>
 
-              <h3 className="font-semibold text-sm mb-2">
+              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 leading-tight">
                 {dashboard.title}
               </h3>
 
-              <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
+              <p className="text-xs text-muted-foreground mb-3 sm:mb-4 line-clamp-2 leading-relaxed">
                 {dashboard.description}
               </p>
 

@@ -58,48 +58,52 @@ export const SituationRoom = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4">
+    <div className="min-h-screen bg-background p-2 sm:p-4">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
-            <Brain className="h-8 w-8 text-primary cyber-glow" />
-            <h1 className="text-3xl font-bold gradient-text">ORÁCULO IA</h1>
+            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary cyber-glow" />
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">ORÁCULO IA</h1>
           </div>
-          <Badge variant="outline" className="border-primary text-primary">
+          <Badge variant="outline" className="border-primary text-primary text-xs sm:text-sm w-fit">
             SITUATION ROOM
           </Badge>
         </div>
         
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <div className="text-sm text-muted-foreground">Sistema Ativo</div>
-            <div className="text-lg font-mono text-primary">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <div className="text-center sm:text-right">
+            <div className="text-xs sm:text-sm text-muted-foreground">Sistema Ativo</div>
+            <div className="text-sm sm:text-lg font-mono text-primary">
               {currentTime.toLocaleTimeString('pt-BR')}
             </div>
           </div>
           <Button 
             onClick={() => setScenarioMode(!scenarioMode)}
             variant={scenarioMode ? "default" : "outline"}
-            className="cyber-glow"
+            className="cyber-glow text-xs sm:text-sm w-full sm:w-auto"
+            size="sm"
           >
-            <Zap className="h-4 w-4 mr-2" />
-            MODO CENÁRIO
+            <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">MODO CENÁRIO</span>
+            <span className="sm:hidden">CENÁRIO</span>
           </Button>
         </div>
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Globe Section */}
         <div className="lg:col-span-2">
-          <Card className="h-[500px] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Globe className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">Pulsos Globais de Tendências</h2>
-              <Badge variant="outline" className="ml-auto">
+          <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
+              <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                <h2 className="text-base sm:text-xl font-semibold">Pulsos Globais</h2>
+              </div>
+              <Badge variant="outline" className="text-xs w-fit sm:ml-auto">
                 <Activity className="h-3 w-3 mr-1" />
-                Em Tempo Real
+                Tempo Real
               </Badge>
             </div>
             <Globe3D alerts={mockAlerts} />

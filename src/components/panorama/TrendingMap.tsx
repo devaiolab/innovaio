@@ -46,20 +46,20 @@ export const TrendingMap = () => {
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
+    <Card className="p-3 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
         <div className="flex items-center gap-2">
-          <MapPin className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold gradient-text">Mapa Global de Tendências</h2>
+          <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold gradient-text">Mapa Global de Tendências</h2>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             variant={filter === "all" ? "default" : "outline"}
             size="sm"
             onClick={() => setFilter("all")}
-            className="cyber-glow"
+            className="cyber-glow text-xs"
           >
-            <Filter className="h-4 w-4 mr-1" />
+            <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
             Todos
           </Button>
           {["high", "medium", "low"].map((level) => (
@@ -68,7 +68,7 @@ export const TrendingMap = () => {
               variant={filter === level ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter(level as any)}
-              className="cyber-glow"
+              className="cyber-glow text-xs"
             >
               {level === "high" ? "Alto" : level === "medium" ? "Médio" : "Baixo"}
             </Button>
@@ -77,7 +77,7 @@ export const TrendingMap = () => {
       </div>
 
       {/* World Map Visualization */}
-      <div className="relative h-64 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg border border-primary/20 mb-6 overflow-hidden">
+      <div className="relative h-40 sm:h-48 md:h-64 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg border border-primary/20 mb-4 sm:mb-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-pulse"></div>
         {filteredTrends.map((trend, index) => (
           <div
@@ -91,8 +91,8 @@ export const TrendingMap = () => {
             }}
             onClick={() => setSelectedRegion(selectedRegion === trend.region ? null : trend.region)}
           >
-            <div className={`w-4 h-4 rounded-full ${getIntensityColor(trend.intensity)} pulse-glow`}></div>
-            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-medium whitespace-nowrap">
+            <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${getIntensityColor(trend.intensity)} pulse-glow`}></div>
+            <div className="absolute -top-6 sm:-top-8 left-1/2 transform -translate-x-1/2 text-xs font-medium whitespace-nowrap hidden sm:block">
               {trend.region}
             </div>
           </div>
@@ -100,11 +100,11 @@ export const TrendingMap = () => {
       </div>
 
       {/* Trends Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {filteredTrends.map((trend) => (
           <div
             key={trend.id}
-            className={`p-4 border rounded-lg transition-all duration-300 cursor-pointer ${
+            className={`p-3 sm:p-4 border rounded-lg transition-all duration-300 cursor-pointer ${
               selectedRegion === trend.region
                 ? "border-primary bg-primary/5 cyber-glow"
                 : "border-border/50 hover:border-primary/50"
@@ -120,15 +120,15 @@ export const TrendingMap = () => {
                 <span className="text-xs font-medium">+{trend.growth}%</span>
               </div>
             </div>
-            <h3 className="font-semibold text-sm mb-1">{trend.technology}</h3>
-            <p className="text-xs text-muted-foreground mb-2">{trend.region}</p>
+            <h3 className="font-semibold text-xs sm:text-sm mb-1 line-clamp-2 leading-tight">{trend.technology}</h3>
+            <p className="text-xs text-muted-foreground mb-2 truncate">{trend.region}</p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">Intensidade</span>
-              <span className="text-sm font-bold">{trend.intensity}%</span>
+              <span className="text-xs sm:text-sm font-bold">{trend.intensity}%</span>
             </div>
-            <div className="w-full bg-muted rounded-full h-2 mt-2">
+            <div className="w-full bg-muted rounded-full h-1 sm:h-2 mt-2">
               <div
-                className={`h-2 rounded-full transition-all duration-500 ${
+                className={`h-1 sm:h-2 rounded-full transition-all duration-500 ${
                   trend.intensity >= 90 ? "bg-destructive" :
                   trend.intensity >= 75 ? "bg-warning" : "bg-success"
                 }`}
