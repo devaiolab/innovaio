@@ -128,9 +128,9 @@ export const SituationRoom = () => {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 sm:mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Globe Section */}
-        <div className="lg:col-span-2 mb-4 lg:mb-0">
+        <div className="md:col-span-2 mb-6 md:mb-0">
           <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
