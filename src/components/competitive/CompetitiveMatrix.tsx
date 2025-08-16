@@ -19,70 +19,94 @@ interface CompetitorData {
 
 const competitors: CompetitorData[] = [
   {
-    id: "1",
-    name: "TechCorp Alpha",
-    marketShare: 25,
-    innovation: 85,
-    funding: 2400,
-    patentScore: 92,
-    threatLevel: "crítico",
-    sector: "IA Generativa",
-    recentMoves: ["Aquisição da StartupX por $500M", "Lançamento de API revolucionária", "Parceria com Microsoft"]
-  },
-  {
-    id: "2", 
-    name: "Quantum Dynamics",
-    marketShare: 15,
-    innovation: 95,
-    funding: 800,
-    patentScore: 78,
-    threatLevel: "alto",
-    sector: "Computação Quântica",
-    recentMoves: ["Breakthrough em correção de erros", "Contrato militar $200M", "IPO previsto para 2024"]
-  },
-  {
-    id: "3",
-    name: "BioInnovate Labs",
-    marketShare: 18,
-    innovation: 72,
-    funding: 1200,
-    patentScore: 85,
+    id: "claro",
+    name: "Claro (NET)",
+    marketShare: 24,
+    innovation: 70,
+    funding: 5200,
+    patentScore: 60,
     threatLevel: "médio",
-    sector: "Biotecnologia",
-    recentMoves: ["Aprovação FDA para novo tratamento", "Expansão para Europa", "Joint venture com BigPharma"]
+    sector: "Nacional",
+    recentMoves: [
+      "Migração acelerada de HFC para FTTH",
+      "Planos 500 Mbps – 1 Gbps",
+      "Expansão de peering nos IX.br"
+    ]
   },
   {
-    id: "4",
-    name: "NanoTech Solutions",
-    marketShare: 8,
-    innovation: 88,
-    funding: 400,
-    patentScore: 71,
-    threatLevel: "médio",
-    sector: "Nanotecnologia",
-    recentMoves: ["Prototótipo de chip quântico", "Investimento Series C", "Parceria com Intel"]
-  },
-  {
-    id: "5",
-    name: "GreenEnergy Co",
+    id: "vivo",
+    name: "Vivo (Telefônica)",
     marketShare: 22,
-    innovation: 65,
-    funding: 3200,
-    patentScore: 68,
-    threatLevel: "baixo",
-    sector: "Energia Limpa",
-    recentMoves: ["Maior parque solar da América", "IPO bilionário", "Aquisições estratégicas"]
+    innovation: 85,
+    funding: 4800,
+    patentScore: 75,
+    threatLevel: "alto",
+    sector: "Nacional",
+    recentMoves: [
+      "Líder em velocidade média nacional em 2024",
+      "Expansão FTTH e ofertas 1 Gbps",
+      "Parcerias com streaming para bundling"
+    ]
   },
   {
-    id: "6",
-    name: "CyberShield Inc",
-    marketShare: 12,
-    innovation: 78,
-    funding: 600,
-    patentScore: 89,
+    id: "oi",
+    name: "Oi Fibra / V.tal",
+    marketShare: 13,
+    innovation: 65,
+    funding: 3000,
+    patentScore: 55,
+    threatLevel: "médio",
+    sector: "Nacional",
+    recentMoves: [
+      "Rede neutra V.tal amplia cobertura",
+      "Foco em conversão de legado para FTTH",
+      "Ajustes de portfólio e footprint"
+    ]
+  },
+  {
+    id: "tim",
+    name: "TIM Live",
+    marketShare: 3,
+    innovation: 80,
+    funding: 1100,
+    patentScore: 60,
+    threatLevel: "médio",
+    sector: "Nacional (capitais)",
+    recentMoves: [
+      "Planos de até 1 Gbps em capitais",
+      "Expansão seletiva com foco em ARPU",
+      "Backbone e melhoria de latência"
+    ]
+  },
+  {
+    id: "brisanet",
+    name: "Brisanet",
+    marketShare: 4,
+    innovation: 75,
+    funding: 900,
+    patentScore: 50,
     threatLevel: "alto",
-    sector: "Cibersegurança",
-    recentMoves: ["Contrato governamental $300M", "IA para detecção de ameaças", "Expansão global"]
+    sector: "Regional (Nordeste)",
+    recentMoves: [
+      "Expansão FTTH no NE e interiorização",
+      "Ofertas 700 Mbps ~ R$ 99,90",
+      "FWA/5G em cidades estratégicas"
+    ]
+  },
+  {
+    id: "unifique",
+    name: "Unifique + Vero",
+    marketShare: 3,
+    innovation: 72,
+    funding: 800,
+    patentScore: 58,
+    threatLevel: "alto",
+    sector: "Regional (Sul/SE)",
+    recentMoves: [
+      "Integração de redes após fusões",
+      "Crescimento orgânico e aquisições",
+      "Backbone próprio e melhoria de SLA"
+    ]
   }
 ];
 

@@ -18,68 +18,64 @@ interface TimelineEvent {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    id: "1",
-    date: "2024-01-15",
-    company: "TechCorp Alpha",
-    type: "aquisicao",
-    title: "Aquisição da StartupX",
-    description: "Compra da startup de IA conversacional por $500M, fortalecendo posição no mercado de chatbots empresariais.",
-    impact: 85,
-    value: 500,
-    sector: "IA Generativa"
-  },
-  {
-    id: "2",
-    date: "2024-01-22",
-    company: "Quantum Dynamics",
-    type: "patente",
-    title: "Breakthrough em Correção de Erros",
-    description: "Registro de patente revolucionária para correção de erros quânticos, reduzindo taxa de erro em 99.9%.",
-    impact: 92,
-    sector: "Computação Quântica"
-  },
-  {
-    id: "3",
-    date: "2024-02-01",
-    company: "BioInnovate Labs",
+    id: "evt1",
+    date: "2025-07-11",
+    company: "Anatel",
     type: "produto",
-    title: "Aprovação FDA para Terapia Genética",
-    description: "Primeira terapia genética aprovada para tratamento de doenças raras, mercado potencial de $2B.",
-    impact: 78,
-    value: 2000,
-    sector: "Biotecnologia"
-  },
-  {
-    id: "4",
-    date: "2024-02-10",
-    company: "CyberShield Inc",
-    type: "investimento",
-    title: "Série C de $300M",
-    description: "Rodada liderada por governo americano para desenvolvimento de IA de cibersegurança nacional.",
-    impact: 71,
-    value: 300,
-    sector: "Cibersegurança"
-  },
-  {
-    id: "5",
-    date: "2024-02-18",
-    company: "NanoTech Solutions",
-    type: "parceria",
-    title: "Joint Venture com Intel",
-    description: "Parceria estratégica para desenvolver chips quânticos de próxima geração com arquitetura híbrida.",
+    title: "PPPs alcançam 56% do market share de banda larga",
+    description: "Relatório de Monitoramento da Competição (2º tri/2025) aponta avanço das pequenas e médias operadoras no acesso fixo.",
     impact: 88,
-    sector: "Nanotecnologia"
+    sector: "Regulatório"
   },
   {
-    id: "6",
-    date: "2024-02-25",
-    company: "GreenEnergy Co",
+    id: "evt2",
+    date: "2025-03-31",
+    company: "IX.br",
+    type: "investimento",
+    title: "IX.br bate recorde com 40 Tbit/s de tráfego agregado",
+    description: "Crescimento do pico de troca de tráfego melhora latência e custo para ISPs conectados.",
+    impact: 82,
+    sector: "Infraestrutura"
+  },
+  {
+    id: "evt3",
+    date: "2025-03-13",
+    company: "Anatel",
     type: "produto",
-    title: "Maior Parque Solar das Américas",
-    description: "Inauguração de complexo solar de 2GW com tecnologia de armazenamento avançado.",
+    title: "Pesquisa de Satisfação 2024 é publicada",
+    description: "Resultado indica melhora da percepção geral; ISPs regionais seguem bem avaliados em atendimento e estabilidade.",
     impact: 65,
-    value: 1800,
-    sector: "Energia Limpa"
+    sector: "Qualidade/Satisfação"
+  },
+  {
+    id: "evt4",
+    date: "2025-04-01",
+    company: "Brisanet",
+    type: "produto",
+    title: "Oferta 700 Mbps por R$ 99,90 no NE",
+    description: "Campanha agressiva pressiona preços regionais e acelera migração para altas velocidades.",
+    impact: 72,
+    sector: "Regional (Nordeste)"
+  },
+  {
+    id: "evt5",
+    date: "2024-11-15",
+    company: "Vivo",
+    type: "investimento",
+    title: "Expansão FTTH com planos de 1 Gbps",
+    description: "Ampliação de cobertura e upsell em capitais e grandes centros elevam ticket médio.",
+    impact: 75,
+    sector: "Nacional"
+  },
+  {
+    id: "evt6",
+    date: "2024-10-20",
+    company: "Unifique + Vero",
+    type: "parceria",
+    title: "Integração operacional pós-fusão",
+    description: "Sinergias de rede/backbone e expansão comercial no Sul e Sudeste.",
+    impact: 78,
+    sector: "Regional (Sul/SE)"
   }
 ];
 
