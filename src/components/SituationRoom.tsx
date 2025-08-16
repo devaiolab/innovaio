@@ -30,6 +30,42 @@ const mockAlerts: AlertData[] = [
   },
   {
     id: "2",
+    type: "red",
+    title: "Risco Starlink - Preço Agressivo",
+    description: "Starlink reduz preços para R$ 99/mês no Brasil. Competição direta com ISPs regionais em áreas rurais.",
+    region: "Brasil",
+    urgency: 88,
+    timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
+  },
+  {
+    id: "3",
+    type: "yellow",
+    title: "Regulamentação ANATEL - 5G",
+    description: "Novas regras de compartilhamento de infraestrutura podem impactar contratos de backhaul.",
+    region: "Brasil",
+    urgency: 82,
+    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+  },
+  {
+    id: "4",
+    type: "red",
+    title: "Aquisição Big Tech - Fibra",
+    description: "Google negocia compra de provedores regionais para expandir Google Fiber no Brasil.",
+    region: "São Paulo",
+    urgency: 91,
+    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+  },
+  {
+    id: "5",
+    type: "yellow",
+    title: "Escassez de Fibra Óptica",
+    description: "Fornecedores reportam atraso de 6 meses na entrega de cabos de fibra óptica importados.",
+    region: "Brasil",
+    urgency: 77,
+    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+  },
+  {
+    id: "6",
     type: "yellow",
     title: "Tendência Emergente - Biomateriais",
     description: "Convergência de nanotecnologia e biotecnologia criando novos materiais autorreparáveis.",
@@ -38,7 +74,7 @@ const mockAlerts: AlertData[] = [
     timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
   },
   {
-    id: "3",
+    id: "7",
     type: "blue",
     title: "Sinal Fraco - IA Generativa Médica",
     description: "Modelos de linguagem especializados em diagnóstico médico mostrando precisão superior a especialistas.",
@@ -92,10 +128,10 @@ export const SituationRoom = () => {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-6 mb-4 sm:mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 sm:mb-6">
         {/* Globe Section */}
-        <div className="lg:col-span-2">
-          <Card className="h-[280px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
+        <div className="lg:col-span-2 mb-4 lg:mb-0">
+          <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
                 <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
@@ -112,7 +148,7 @@ export const SituationRoom = () => {
 
         {/* Critical Signals */}
         <div>
-          <CriticalSignals alerts={mockAlerts.slice(0, 3)} />
+          <CriticalSignals alerts={mockAlerts} />
         </div>
       </div>
 
