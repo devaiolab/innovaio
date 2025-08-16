@@ -1,8 +1,9 @@
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Crosshair, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ThreatHeatmap } from "@/components/linha-fogo/ThreatHeatmap";
+import { ContingencyPlans } from "@/components/linha-fogo/ContingencyPlans";
 
 const LinhaFogo = () => {
   const navigate = useNavigate();
@@ -23,16 +24,13 @@ const LinhaFogo = () => {
           <h1 className="text-3xl font-bold gradient-text">Linha de Fogo</h1>
         </div>
         <Badge variant="destructive" className="alert-pulse">
-          2 AMEAÇAS CRÍTICAS
+          6 AMEAÇAS CRÍTICAS
         </Badge>
       </div>
 
-      <div className="text-center py-20">
-        <Crosshair className="h-16 w-16 text-destructive mx-auto mb-4 pulse-glow" />
-        <h2 className="text-2xl font-semibold mb-4">Ameaças Imediatas</h2>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Monitoramento de riscos disruptivos e ameaças que requerem resposta imediata.
-        </p>
+      <div className="space-y-8">
+        <ThreatHeatmap />
+        <ContingencyPlans />
       </div>
     </div>
   );

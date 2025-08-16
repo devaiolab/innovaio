@@ -1,8 +1,9 @@
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Swords, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { CompetitiveMatrix } from "@/components/competitive/CompetitiveMatrix";
+import { StrategicTimeline } from "@/components/competitive/StrategicTimeline";
 
 const GuerraCompetitiva = () => {
   const navigate = useNavigate();
@@ -22,17 +23,14 @@ const GuerraCompetitiva = () => {
           <Swords className="h-8 w-8 text-primary cyber-glow" />
           <h1 className="text-3xl font-bold gradient-text">Guerra Competitiva</h1>
         </div>
-        <Badge variant="outline" className="border-warning text-warning">
-          ATUALIZANDO
+        <Badge variant="destructive" className="alert-pulse">
+          6 AMEAÇAS ATIVAS
         </Badge>
       </div>
 
-      <div className="text-center py-20">
-        <Swords className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-        <h2 className="text-2xl font-semibold mb-4">Dashboard em Desenvolvimento</h2>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Este módulo de análise competitiva está sendo preparado com inteligência estratégica avançada.
-        </p>
+      <div className="space-y-8">
+        <CompetitiveMatrix />
+        <StrategicTimeline />
       </div>
     </div>
   );
