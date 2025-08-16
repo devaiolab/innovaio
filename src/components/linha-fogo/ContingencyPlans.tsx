@@ -7,10 +7,9 @@ import { useState, useEffect } from "react";
 interface ContingencyPlan {
   id: string;
   name: string;
-  threatId: string;
-  status: "ativo" | "standby" | "executando" | "concluido";
+  status: "ativo" | "standby" | "em_progresso" | "concluido";
   priority: "crítica" | "alta" | "média";
-  timeToActivation: number; // minutes
+  timeToActivation: string;
   completionRate: number;
   steps: PlanStep[];
   resources: string[];
@@ -20,62 +19,92 @@ interface ContingencyPlan {
 interface PlanStep {
   id: string;
   description: string;
-  status: "pendente" | "executando" | "concluido";
-  estimatedTime: number; // minutes
+  status: "pendente" | "em_progresso" | "concluído";
+  estimatedTime: string;
   dependencies: string[];
 }
 
 const contingencyPlans: ContingencyPlan[] = [
   {
     id: "1",
-    name: "Protocolo Criptografia Quântica",
-    threatId: "1",
-    status: "executando",
+    name: "Resposta Anti-Starlink",
+    status: "ativo",
     priority: "crítica",
-    timeToActivation: 15,
-    completionRate: 65,
-    responsibleTeam: "CyberSec Alpha",
-    resources: ["Equipe de 15 especialistas", "Budget emergencial $2M", "Acesso laboratório Q-Labs"],
+    timeToActivation: "Imediato",
+    completionRate: 75,
     steps: [
-      { id: "1-1", description: "Avaliar vulnerabilidades atuais", status: "concluido", estimatedTime: 30, dependencies: [] },
-      { id: "1-2", description: "Implementar criptografia pós-quântica", status: "executando", estimatedTime: 120, dependencies: ["1-1"] },
-      { id: "1-3", description: "Teste de penetração avançado", status: "pendente", estimatedTime: 60, dependencies: ["1-2"] },
-      { id: "1-4", description: "Deploy em produção", status: "pendente", estimatedTime: 45, dependencies: ["1-3"] }
-    ]
+      { id: "1", description: "Acelerar deployment FTTH em áreas rurais", status: "concluído", estimatedTime: "30 dias", dependencies: [] },
+      { id: "2", description: "Lançar pacotes corporativos com SLA garantido", status: "em_progresso", estimatedTime: "15 dias", dependencies: ["1"] },
+      { id: "3", description: "Parcerias com prefeituras para conectividade pública", status: "pendente", estimatedTime: "45 dias", dependencies: ["2"] },
+      { id: "4", description: "Marketing agressivo: 'Internet Brasileira'", status: "pendente", estimatedTime: "10 dias", dependencies: [] }
+    ],
+    resources: ["R$ 2.5M orçamento", "15 técnicos", "3 gerentes comerciais", "1 especialista regulatório"],
+    responsibleTeam: "Estratégia Competitiva"
   },
   {
-    id: "2",
-    name: "Conformidade IA Europa",
-    threatId: "2",
-    status: "ativo",
-    priority: "alta",
-    timeToActivation: 45,
-    completionRate: 25,
-    responsibleTeam: "Legal Tech",
-    resources: ["5 advogados especializados", "Consultoria Ernst & Young", "Budget $500K"],
+    id: "2", 
+    name: "Contingência DDoS Massivo",
+    status: "standby",
+    priority: "crítica",
+    timeToActivation: "15 min",
+    completionRate: 90,
     steps: [
-      { id: "2-1", description: "Análise de gap regulatório", status: "executando", estimatedTime: 80, dependencies: [] },
-      { id: "2-2", description: "Redesign de algoritmos", status: "pendente", estimatedTime: 200, dependencies: ["2-1"] },
-      { id: "2-3", description: "Documentação de conformidade", status: "pendente", estimatedTime: 60, dependencies: ["2-2"] },
-      { id: "2-4", description: "Certificação externa", status: "pendente", estimatedTime: 90, dependencies: ["2-3"] }
-    ]
+      { id: "1", description: "Ativar Cloudflare Enterprise Protection", status: "concluído", estimatedTime: "5 min", dependencies: [] },
+      { id: "2", description: "Redirecionar tráfego para data centers backup", status: "concluído", estimatedTime: "10 min", dependencies: ["1"] },
+      { id: "3", description: "Comunicação de emergência para clientes", status: "concluído", estimatedTime: "15 min", dependencies: [] },
+      { id: "4", description: "Análise forense e relatório Anatel", status: "pendente", estimatedTime: "2 horas", dependencies: ["2"] }
+    ],
+    resources: ["NOC 24x7", "Cloudflare Enterprise", "3 data centers", "Equipe comunicação"],
+    responsibleTeam: "Operações de Rede"
   },
   {
     id: "3",
-    name: "Resposta Ciberataque",
-    threatId: "5",
-    status: "standby",
-    priority: "crítica",
-    timeToActivation: 5,
-    completionRate: 0,
-    responsibleTeam: "CSIRT",
-    resources: ["Team de resposta 24/7", "Backup systems", "Forensics tools"],
+    name: "Escassez Fibra Óptica",
+    status: "em_progresso", 
+    priority: "alta",
+    timeToActivation: "30 dias",
+    completionRate: 60,
     steps: [
-      { id: "3-1", description: "Isolamento de sistemas críticos", status: "pendente", estimatedTime: 10, dependencies: [] },
-      { id: "3-2", description: "Ativação de backups offline", status: "pendente", estimatedTime: 30, dependencies: ["3-1"] },
-      { id: "3-3", description: "Análise forense", status: "pendente", estimatedTime: 120, dependencies: ["3-2"] },
-      { id: "3-4", description: "Restauração controlada", status: "pendente", estimatedTime: 180, dependencies: ["3-3"] }
-    ]
+      { id: "1", description: "Contratos de longo prazo com Furukawa", status: "concluído", estimatedTime: "7 dias", dependencies: [] },
+      { id: "2", description: "Qualificar fornecedores alternativos (Prysmian)", status: "em_progresso", estimatedTime: "21 dias", dependencies: [] },
+      { id: "3", description: "Otimizar rotas existentes (reduzir 20% consumo)", status: "em_progresso", estimatedTime: "45 dias", dependencies: [] },
+      { id: "4", description: "Negociar pool compartilhado com outros ISPs", status: "pendente", estimatedTime: "30 dias", dependencies: ["2"] }
+    ],
+    resources: ["R$ 1.2M estoque estratégico", "2 engenheiros de rede", "1 comprador especializado"],
+    responsibleTeam: "Supply Chain"
+  },
+  {
+    id: "4",
+    name: "Guerra Preços Regional",
+    status: "standby",
+    priority: "alta", 
+    timeToActivation: "7 dias",
+    completionRate: 85,
+    steps: [
+      { id: "1", description: "Ativar planos promocionais 6 meses", status: "concluído", estimatedTime: "1 dia", dependencies: [] },
+      { id: "2", description: "Bundling: Internet + TV + Telefone", status: "concluído", estimatedTime: "3 dias", dependencies: [] },
+      { id: "3", description: "Programa fidelidade com pontos", status: "concluído", estimatedTime: "5 dias", dependencies: [] },
+      { id: "4", description: "Diferenciação: suporte técnico local", status: "pendente", estimatedTime: "14 dias", dependencies: [] }
+    ],
+    resources: ["R$ 800K margem flexível", "Call center local", "Equipe marketing", "Sistema CRM"],
+    responsibleTeam: "Comercial"
+  },
+  {
+    id: "5",
+    name: "Migração IPv6 Forçada", 
+    status: "em_progresso",
+    priority: "média",
+    timeToActivation: "120 dias",
+    completionRate: 40,
+    steps: [
+      { id: "1", description: "Auditoria infraestrutura IPv4/IPv6", status: "concluído", estimatedTime: "14 dias", dependencies: [] },
+      { id: "2", description: "Treinamento equipe técnica", status: "em_progresso", estimatedTime: "21 dias", dependencies: ["1"] },
+      { id: "3", description: "Configuração dual-stack em equipamentos", status: "em_progresso", estimatedTime: "60 dias", dependencies: ["2"] },
+      { id: "4", description: "Migração gradual clientes empresariais", status: "pendente", estimatedTime: "90 days", dependencies: ["3"] },
+      { id: "5", description: "Comunicação e migração clientes residenciais", status: "pendente", estimatedTime: "120 days", dependencies: ["4"] }
+    ],
+    resources: ["4 engenheiros de rede", "Consultoria IPv6", "Orçamento equipamentos", "Material treinamento"],
+    responsibleTeam: "Engenharia"
   }
 ];
 
@@ -84,24 +113,20 @@ export const ContingencyPlans = () => {
   const [timeRemaining, setTimeRemaining] = useState<{[key: string]: number}>({});
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        const updated = { ...prev };
-        contingencyPlans.forEach(plan => {
-          if (plan.status === "executando" && updated[plan.id] > 0) {
-            updated[plan.id] = Math.max(0, (updated[plan.id] || plan.timeToActivation * 60) - 1);
-          }
-        });
-        return updated;
+    // Static display - no real-time timer needed for ISP context
+    const activePlans = contingencyPlans.filter(p => p.status === "em_progresso");
+    if (activePlans.length > 0) {
+      const initialTimes: {[key: string]: number} = {};
+      activePlans.forEach(plan => {
+        initialTimes[plan.id] = Math.floor(Math.random() * 300) + 60; // Mock remaining time
       });
-    }, 1000);
-
-    return () => clearInterval(timer);
+      setTimeRemaining(initialTimes);
+    }
   }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "executando": return "border-warning text-warning bg-warning/10";
+      case "em_progresso": return "border-warning text-warning bg-warning/10";
       case "ativo": return "border-success text-success bg-success/10";
       case "standby": return "border-primary text-primary bg-primary/10";
       case "concluido": return "border-muted text-muted-foreground bg-muted/10";
@@ -120,8 +145,8 @@ export const ContingencyPlans = () => {
 
   const getStepStatusIcon = (status: string) => {
     switch (status) {
-      case "concluido": return CheckCircle;
-      case "executando": return Play;
+      case "concluído": return CheckCircle;
+      case "em_progresso": return Play;
       default: return AlertCircle;
     }
   };
@@ -146,7 +171,7 @@ export const ContingencyPlans = () => {
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             <h2 className="text-base sm:text-xl font-semibold gradient-text">Planos de Contingência</h2>
             <Badge variant="outline" className="border-warning text-warning text-xs w-fit">
-              {contingencyPlans.filter(p => p.status === "executando").length} EM EXECUÇÃO
+              {contingencyPlans.filter(p => p.status === "em_progresso").length} EM EXECUÇÃO
             </Badge>
           </div>
           <div className="text-xs sm:text-sm text-muted-foreground font-mono">
@@ -156,9 +181,9 @@ export const ContingencyPlans = () => {
 
         {/* Plans Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-          {contingencyPlans.map((plan) => {
+        {contingencyPlans.map((plan) => {
             const isSelected = selectedPlan === plan.id;
-            const timeLeft = timeRemaining[plan.id] || plan.timeToActivation * 60;
+            const timeLeft = timeRemaining[plan.id] || 120; // Mock time
             
             return (
               <div
@@ -170,10 +195,10 @@ export const ContingencyPlans = () => {
               >
                 <div className="flex items-center justify-between mb-2 sm:mb-3">
                   <Badge className={getStatusColor(plan.status)}>
-                    {plan.status === "executando" && <Play className="h-3 w-3 mr-1" />}
+                    {plan.status === "em_progresso" && <Play className="h-3 w-3 mr-1" />}
                     {plan.status === "standby" && <Pause className="h-3 w-3 mr-1" />}
                     {plan.status === "concluido" && <CheckCircle className="h-3 w-3 mr-1" />}
-                    <span className="hidden sm:inline">{plan.status.toUpperCase()}</span>
+                    <span className="hidden sm:inline">{plan.status.toUpperCase().replace("_", " ")}</span>
                     <span className="sm:hidden">{plan.status.charAt(0).toUpperCase()}</span>
                   </Badge>
                   <Badge className={getPriorityColor(plan.priority)}>
@@ -185,7 +210,7 @@ export const ContingencyPlans = () => {
                 <h3 className="font-semibold mb-1 sm:mb-2 text-xs sm:text-sm line-clamp-2 leading-tight">{plan.name}</h3>
                 <p className="text-xs text-muted-foreground mb-2 sm:mb-3 truncate">{plan.responsibleTeam}</p>
                 
-                {plan.status === "executando" && (
+                {plan.status === "em_progresso" && (
                   <div className="mb-2 sm:mb-3">
                     <div className="flex items-center gap-2 text-warning mb-1">
                       <Clock className="h-3 w-3" />
@@ -211,8 +236,8 @@ export const ContingencyPlans = () => {
                     return (
                       <div key={step.id} className="flex items-center gap-2 text-xs">
                         <StepIcon className={`h-3 w-3 flex-shrink-0 ${
-                          step.status === "concluido" ? "text-success" :
-                          step.status === "executando" ? "text-warning" : "text-muted-foreground"
+                          step.status === "concluído" ? "text-success" :
+                          step.status === "em_progresso" ? "text-warning" : "text-muted-foreground"
                         }`} />
                         <span className="truncate">{step.description}</span>
                       </div>
@@ -230,15 +255,15 @@ export const ContingencyPlans = () => {
         </div>
 
         {/* Active Executions Timeline */}
-        {contingencyPlans.filter(p => p.status === "executando").length > 0 && (
+        {contingencyPlans.filter(p => p.status === "em_progresso").length > 0 && (
           <Card className="p-3 sm:p-4 border-warning bg-warning/5">
             <h3 className="font-medium mb-2 sm:mb-3 text-warning text-xs sm:text-sm">Execuções Ativas</h3>
             <div className="space-y-2 sm:space-y-3">
               {contingencyPlans
-                .filter(p => p.status === "executando")
+                .filter(p => p.status === "em_progresso")
                 .map((plan) => {
-                  const activeStep = plan.steps.find(s => s.status === "executando");
-                  const timeLeft = timeRemaining[plan.id] || plan.timeToActivation * 60;
+                  const activeStep = plan.steps.find(s => s.status === "em_progresso");
+                  const timeLeft = timeRemaining[plan.id] || 120; // Mock time
                   
                   return (
                     <div key={plan.id} className="flex items-center justify-between p-2 sm:p-3 bg-background rounded border">
@@ -270,9 +295,9 @@ export const ContingencyPlans = () => {
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             <h3 className="text-base sm:text-lg font-semibold line-clamp-2">{selectedData.name}</h3>
             <div className="flex flex-wrap gap-2">
-              <Badge className={getStatusColor(selectedData.status)}>
-                {selectedData.status.toUpperCase()}
-              </Badge>
+                <Badge className={getStatusColor(selectedData.status)}>
+                  {selectedData.status.toUpperCase().replace("_", " ")}
+                </Badge>
               <Badge className={getPriorityColor(selectedData.priority)}>
                 <span className="hidden sm:inline">PRIORIDADE </span>{selectedData.priority.toUpperCase()}
               </Badge>
@@ -300,7 +325,7 @@ export const ContingencyPlans = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Tempo ativ.:</span>
-                  <span className="font-medium">{selectedData.timeToActivation}min</span>
+                  <span className="font-medium">{selectedData.timeToActivation}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Equipe:</span>
@@ -322,7 +347,7 @@ export const ContingencyPlans = () => {
                 </div>
               </div>
               <div className="text-xs text-muted-foreground text-center">
-                {selectedData.steps.filter(s => s.status === "concluido").length} de {selectedData.steps.length} etapas
+                {selectedData.steps.filter(s => s.status === "concluído").length} de {selectedData.steps.length} etapas
               </div>
             </div>
           </div>
@@ -332,7 +357,7 @@ export const ContingencyPlans = () => {
             <div className="space-y-2 sm:space-y-3 max-h-64 sm:max-h-80 overflow-y-auto">
               {selectedData.steps.map((step, index) => {
                 const StepIcon = getStepStatusIcon(step.status);
-                const isActive = step.status === "executando";
+                const isActive = step.status === "em_progresso";
                 
                 return (
                   <div
@@ -345,8 +370,8 @@ export const ContingencyPlans = () => {
                       isActive ? "animate-pulse" : ""
                     }`}>
                       <StepIcon className={`h-3 w-3 sm:h-4 sm:w-4 ${
-                        step.status === "concluido" ? "text-success" :
-                        step.status === "executando" ? "text-warning" : "text-muted-foreground"
+                        step.status === "concluído" ? "text-success" :
+                        step.status === "em_progresso" ? "text-warning" : "text-muted-foreground"
                       }`} />
                     </div>
                     
@@ -356,7 +381,7 @@ export const ContingencyPlans = () => {
                           Etapa {index + 1}: {step.description}
                         </span>
                         <span className="text-xs text-muted-foreground">
-                          ~{step.estimatedTime}min
+                          ~{step.estimatedTime}
                         </span>
                       </div>
                       

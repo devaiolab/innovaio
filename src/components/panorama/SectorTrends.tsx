@@ -15,19 +15,19 @@ interface SectorData {
 }
 
 const sectorData: SectorData[] = [
-  { sector: "Quantum Computing", investment: 2400, patents: 1250, startups: 180, risk: "alto", opportunity: 95 },
-  { sector: "IA Generativa", investment: 8900, patents: 3200, startups: 450, risk: "médio", opportunity: 88 },
-  { sector: "Biotecnologia", investment: 5600, patents: 1800, startups: 320, risk: "baixo", opportunity: 82 },
-  { sector: "Nanotecnologia", investment: 1800, patents: 950, startups: 120, risk: "alto", opportunity: 76 },
-  { sector: "Energia Limpa", investment: 12000, patents: 2100, startups: 280, risk: "baixo", opportunity: 71 },
+  { sector: "FTTH Deployment", investment: 4200, patents: 85, startups: 180, risk: "baixo", opportunity: 95 },
+  { sector: "5G FWA", investment: 2800, patents: 152, startups: 120, risk: "médio", opportunity: 88 },
+  { sector: "Edge Computing", investment: 1600, patents: 98, startups: 85, risk: "alto", opportunity: 82 },
+  { sector: "Satellite Internet", investment: 3400, patents: 67, startups: 95, risk: "alto", opportunity: 89 },
+  { sector: "Corporate Networks", investment: 2100, patents: 124, startups: 140, risk: "baixo", opportunity: 76 },
 ];
 
 const investmentDistribution = [
-  { name: 'IA Generativa', value: 8900, color: '#06b6d4' },
-  { name: 'Energia Limpa', value: 12000, color: '#10b981' },
-  { name: 'Biotecnologia', value: 5600, color: '#8b5cf6' },
-  { name: 'Quantum Computing', value: 2400, color: '#f59e0b' },
-  { name: 'Nanotecnologia', value: 1800, color: '#ef4444' },
+  { name: 'FTTH Deployment', value: 4200, color: '#06b6d4' },
+  { name: 'Satellite Internet', value: 3400, color: '#10b981' },
+  { name: '5G FWA', value: 2800, color: '#8b5cf6' },
+  { name: 'Corporate Networks', value: 2100, color: '#f59e0b' },
+  { name: 'Edge Computing', value: 1600, color: '#ef4444' },
 ];
 
 export const SectorTrends = () => {
@@ -53,16 +53,16 @@ export const SectorTrends = () => {
   };
 
   const formatValue = (value: number, metric: string) => {
-    if (metric === 'investment') return `$${(value / 1000).toFixed(1)}B`;
+    if (metric === 'investment') return `R$${(value / 1000).toFixed(1)}B`;
     if (metric === 'patents') return `${value}`;
     return `${value}`;
   };
 
   const getMetricLabel = (metric: string) => {
     switch (metric) {
-      case 'investment': return 'Investimento (Bilhões $)';
-      case 'patents': return 'Patentes Registradas';
-      case 'startups': return 'Startups Ativas';
+      case 'investment': return 'Investimento (Bilhões R$)';
+      case 'patents': return 'Licenças/Autorizações';
+      case 'startups': return 'Players Ativos';
       default: return '';
     }
   };
@@ -78,8 +78,8 @@ export const SectorTrends = () => {
           <div className="flex flex-wrap gap-2">
             {[
               { key: 'investment', label: 'Invest.' },
-              { key: 'patents', label: 'Patentes' },
-              { key: 'startups', label: 'Startups' }
+              { key: 'patents', label: 'Licenças' },
+              { key: 'startups', label: 'Players' }
             ].map((metric) => (
               <Button
                 key={metric.key}
@@ -165,7 +165,7 @@ export const SectorTrends = () => {
                       borderRadius: '8px',
                       fontSize: '12px'
                     }}
-                    formatter={(value) => [`$${(value as number / 1000).toFixed(1)}B`, 'Investimento']}
+                    formatter={(value) => [`R$${(value as number / 1000).toFixed(1)}B`, 'Investimento']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -203,16 +203,16 @@ export const SectorTrends = () => {
               <div className="space-y-1 sm:space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-muted-foreground">Invest.:</span>
-                  <span className="font-medium">${(sector.investment / 1000).toFixed(1)}B</span>
+                  <span className="font-medium">R${(sector.investment / 1000).toFixed(1)}B</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Patentes:</span>
-                  <span className="font-medium">{sector.patents}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Startups:</span>
-                  <span className="font-medium">{sector.startups}</span>
-                </div>
+                 <div className="flex justify-between text-xs">
+                   <span className="text-muted-foreground">Licenças:</span>
+                   <span className="font-medium">{sector.patents}</span>
+                 </div>
+                 <div className="flex justify-between text-xs">
+                   <span className="text-muted-foreground">Players:</span>
+                   <span className="font-medium">{sector.startups}</span>
+                 </div>
               </div>
               
               <div className="mt-2 sm:mt-3">

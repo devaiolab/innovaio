@@ -5,28 +5,28 @@ import { TrendingUp, Activity, Zap } from "lucide-react";
 
 interface TechData {
   month: string;
-  quantum: number;
-  ai: number;
-  biotech: number;
-  nanotech: number;
-  energy: number;
+  quantum: number; // 5G/6G
+  ai: number; // AI para ISPs
+  biotech: number; // FTTH
+  nanotech: number; // Edge Computing
+  energy: number; // Satellite/FWA
 }
 
 const evolutionData: TechData[] = [
-  { month: 'Jan', quantum: 45, ai: 78, biotech: 62, nanotech: 34, energy: 56 },
-  { month: 'Fev', quantum: 52, ai: 82, biotech: 68, nanotech: 38, energy: 61 },
-  { month: 'Mar', quantum: 48, ai: 85, biotech: 71, nanotech: 42, energy: 58 },
-  { month: 'Abr', quantum: 61, ai: 88, biotech: 74, nanotech: 46, energy: 65 },
-  { month: 'Mai', quantum: 68, ai: 91, biotech: 77, nanotech: 51, energy: 69 },
-  { month: 'Jun', quantum: 75, ai: 94, biotech: 81, nanotech: 55, energy: 72 },
+  { month: 'Jan', quantum: 45, ai: 52, biotech: 78, nanotech: 34, energy: 41 },
+  { month: 'Fev', quantum: 52, ai: 58, biotech: 82, nanotech: 38, energy: 46 },
+  { month: 'Mar', quantum: 48, ai: 61, biotech: 85, nanotech: 42, energy: 52 },
+  { month: 'Abr', quantum: 61, ai: 68, biotech: 88, nanotech: 46, energy: 58 },
+  { month: 'Mai', quantum: 68, ai: 74, biotech: 91, nanotech: 51, energy: 65 },
+  { month: 'Jun', quantum: 75, ai: 82, biotech: 94, nanotech: 55, energy: 72 },
 ];
 
 const techCategories = [
-  { key: 'quantum', name: 'Computação Quântica', color: '#8b5cf6', icon: Zap, growth: '+87%' },
-  { key: 'ai', name: 'IA Generativa', color: '#06b6d4', icon: Activity, growth: '+156%' },
-  { key: 'biotech', name: 'Biotecnologia', color: '#10b981', icon: TrendingUp, growth: '+134%' },
-  { key: 'nanotech', name: 'Nanotecnologia', color: '#f59e0b', icon: Zap, growth: '+98%' },
-  { key: 'energy', name: 'Energia Limpa', color: '#ef4444', icon: Activity, growth: '+76%' },
+  { key: 'quantum', name: '5G/6G Networks', color: '#8b5cf6', icon: Zap, growth: '+87%' },
+  { key: 'ai', name: 'AI para ISPs', color: '#06b6d4', icon: Activity, growth: '+156%' },
+  { key: 'biotech', name: 'FTTH Deployment', color: '#10b981', icon: TrendingUp, growth: '+134%' },
+  { key: 'nanotech', name: 'Edge Computing', color: '#f59e0b', icon: Zap, growth: '+98%' },
+  { key: 'energy', name: 'Satellite/FWA', color: '#ef4444', icon: Activity, growth: '+76%' },
 ];
 
 export const TechEvolution = () => {

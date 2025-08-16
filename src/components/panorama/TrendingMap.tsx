@@ -14,12 +14,14 @@ interface TrendData {
 }
 
 const mockTrends: TrendData[] = [
-  { id: "1", region: "Silicon Valley", technology: "Computação Quântica", intensity: 95, growth: 245, impact: "high" },
-  { id: "2", region: "Shenzhen", technology: "IA Generativa", intensity: 88, growth: 189, impact: "high" },
-  { id: "3", region: "Cambridge", technology: "Biotecnologia", intensity: 82, growth: 156, impact: "medium" },
-  { id: "4", region: "Tel Aviv", technology: "Cibersegurança", intensity: 78, growth: 134, impact: "medium" },
-  { id: "5", region: "Bangalore", technology: "Edge Computing", intensity: 71, growth: 98, impact: "low" },
-  { id: "6", region: "Berlin", technology: "Energia Limpa", intensity: 69, growth: 87, impact: "medium" },
+  { id: "1", region: "São Paulo", technology: "FTTH (Fibra Óptica)", intensity: 95, growth: 45, impact: "high" },
+  { id: "2", region: "Rio de Janeiro", technology: "5G FWA", intensity: 88, growth: 156, impact: "high" },
+  { id: "3", region: "Brasília", technology: "WiFi 6E", intensity: 82, growth: 89, impact: "medium" },
+  { id: "4", region: "Minas Gerais", technology: "Edge Computing", intensity: 78, growth: 134, impact: "medium" },
+  { id: "5", region: "Sul (RS/SC/PR)", technology: "Private Networks", intensity: 71, growth: 98, impact: "medium" },
+  { id: "6", region: "Nordeste", technology: "Satellite Internet", intensity: 69, growth: 187, impact: "high" },
+  { id: "7", region: "Centro-Oeste", technology: "SD-WAN", intensity: 65, growth: 76, impact: "medium" },
+  { id: "8", region: "Norte", technology: "LEO Constellation", intensity: 58, growth: 245, impact: "high" },
 ];
 
 export const TrendingMap = () => {
