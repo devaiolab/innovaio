@@ -21,7 +21,7 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
   const criticalAlerts = alerts.filter(alert => alert.urgency >= 75).slice(0, 3);
 
   return (
-    <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
+    <Card className="h-[250px] sm:h-[400px] lg:h-[500px] p-4 sm:p-6">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
         <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-destructive pulse-glow" />
         <h2 className="text-sm sm:text-xl font-semibold">Sinais Críticos</h2>
@@ -30,11 +30,11 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
         </Badge>
       </div>
 
-      <div className="space-y-2 sm:space-y-4 overflow-y-auto max-h-[200px] sm:max-h-[280px] lg:max-h-[350px]">
+      <div className="space-y-3 sm:space-y-4 overflow-y-auto max-h-[140px] sm:max-h-[280px] lg:max-h-[350px]">
         {criticalAlerts.map((alert, index) => (
           <Card 
             key={alert.id}
-            className={`p-2 sm:p-4 border-l-4 ${
+            className={`p-3 sm:p-4 border-l-4 ${
               alert.type === 'red' ? 'border-l-destructive bg-destructive/5' :
               alert.type === 'yellow' ? 'border-l-warning bg-warning/5' :
               'border-l-primary bg-primary/5'
