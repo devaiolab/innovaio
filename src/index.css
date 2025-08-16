@@ -2,41 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ORÁCULO IA - Anticipatory Intelligence Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Command Center Dark Theme */
+    --background: 216 28% 7%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 216 32% 9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 216 32% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Cyber Blue Primary */
+    --primary: 195 100% 50%;
+    --primary-foreground: 216 28% 7%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Tech Secondary */
+    --secondary: 216 20% 15%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 216 20% 12%;
+    --muted-foreground: 210 20% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Electric Accent */
+    --accent: 174 100% 50%;
+    --accent-foreground: 216 28% 7%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Alert Red */
+    --destructive: 0 75% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Warning Yellow */
+    --warning: 48 100% 67%;
+    --warning-foreground: 216 28% 7%;
 
-    --radius: 0.5rem;
+    /* Success Green */
+    --success: 142 76% 46%;
+    --success-foreground: 216 28% 7%;
+
+    --border: 216 20% 18%;
+    --input: 216 20% 15%;
+    --ring: 195 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Cyber Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(195 100% 50%), hsl(174 100% 50%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 75% 55%), hsl(15 75% 55%));
+    --gradient-warning: linear-gradient(135deg, hsl(48 100% 67%), hsl(38 100% 67%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 46%), hsl(152 76% 46%));
+    --gradient-dark: linear-gradient(135deg, hsl(216 32% 9%), hsl(216 28% 7%));
+
+    /* Glow Effects */
+    --glow-primary: 0 0 20px hsl(195 100% 50% / 0.3);
+    --glow-accent: 0 0 20px hsl(174 100% 50% / 0.3);
+    --glow-danger: 0 0 20px hsl(0 75% 55% / 0.3);
+    --glow-warning: 0 0 20px hsl(48 100% 67% / 0.3);
+
+    /* Pulse Animation */
+    --pulse-primary: hsl(195 100% 50% / 0.4);
+    --pulse-accent: hsl(174 100% 50% / 0.4);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +129,73 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Animations for ORÁCULO IA */
+@layer components {
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  .cyber-glow {
+    box-shadow: var(--glow-primary);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .cyber-glow:hover {
+    box-shadow: var(--glow-primary), var(--glow-accent);
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .situation-room-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    height: 100vh;
+  }
+
+  .alert-pulse {
+    position: relative;
+  }
+
+  .alert-pulse::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg, transparent, var(--pulse-primary), transparent);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    animation: rotate-border 2s linear infinite;
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px var(--pulse-primary);
+  }
+  100% {
+    box-shadow: 0 0 20px var(--pulse-primary), 0 0 30px var(--pulse-primary);
+  }
+}
+
+@keyframes rotate-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
