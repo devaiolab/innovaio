@@ -31,72 +31,77 @@ const techCategories = [
 
 export const TechEvolution = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Card className="p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <TrendingUp className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold gradient-text">Evolução Tecnológica</h2>
-          <Badge variant="outline" className="border-success text-success">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <Card className="p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4 sm:mb-6">
+          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold gradient-text">Evolução Tecnológica</h2>
+          <Badge variant="outline" className="border-success text-success text-xs w-fit">
             CRESCIMENTO ACELERADO
           </Badge>
         </div>
         
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={evolutionData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis 
-              dataKey="month" 
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
-            />
-            <YAxis 
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
-            />
-            <Tooltip 
-              contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '8px',
-              }}
-            />
-            {techCategories.map((tech) => (
-              <Line
-                key={tech.key}
-                type="monotone"
-                dataKey={tech.key}
-                stroke={tech.color}
-                strokeWidth={2}
-                dot={{ fill: tech.color, strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, fill: tech.color, stroke: '#fff', strokeWidth: 2 }}
+        <div className="h-48 sm:h-64 lg:h-72">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={evolutionData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis 
+                dataKey="month" 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={10}
+                tick={{ fontSize: 10 }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
+              <YAxis 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={10}
+                tick={{ fontSize: 10 }}
+              />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--background))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px',
+                  fontSize: '12px'
+                }}
+              />
+              {techCategories.map((tech) => (
+                <Line
+                  key={tech.key}
+                  type="monotone"
+                  dataKey={tech.key}
+                  stroke={tech.color}
+                  strokeWidth={2}
+                  dot={{ fill: tech.color, strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, fill: tech.color, stroke: '#fff', strokeWidth: 2 }}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </Card>
 
-      <Card className="p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <Activity className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold gradient-text">Velocidade de Inovação</h2>
-          <Badge variant="destructive" className="alert-pulse">
+      <Card className="p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4 sm:mb-6">
+          <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold gradient-text">Velocidade de Inovação</h2>
+          <Badge variant="destructive" className="alert-pulse text-xs w-fit">
             CRÍTICO
           </Badge>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {techCategories.map((tech, index) => {
             const IconComponent = tech.icon;
             const currentValue = evolutionData[evolutionData.length - 1][tech.key as keyof TechData] as number;
             
             return (
-              <div key={tech.key} className="p-4 border border-border/50 rounded-lg hover:border-primary/50 transition-all duration-300">
+              <div key={tech.key} className="p-3 sm:p-4 border border-border/50 rounded-lg hover:border-primary/50 transition-all duration-300">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <IconComponent className="h-4 w-4" style={{ color: tech.color }} />
-                    <span className="font-medium text-sm">{tech.name}</span>
+                    <IconComponent className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" style={{ color: tech.color }} />
+                    <span className="font-medium text-xs sm:text-sm truncate">{tech.name}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     <Badge 
                       variant="outline" 
                       className="text-xs"
@@ -104,14 +109,14 @@ export const TechEvolution = () => {
                     >
                       {tech.growth}
                     </Badge>
-                    <span className="text-sm font-bold">{currentValue}%</span>
+                    <span className="text-xs sm:text-sm font-bold">{currentValue}%</span>
                   </div>
                 </div>
                 
                 <div className="relative">
-                  <div className="w-full bg-muted rounded-full h-2">
+                  <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
                     <div
-                      className="h-2 rounded-full transition-all duration-1000 cyber-glow"
+                      className="h-1.5 sm:h-2 rounded-full transition-all duration-1000 cyber-glow"
                       style={{
                         width: `${currentValue}%`,
                         backgroundColor: tech.color,
@@ -122,7 +127,7 @@ export const TechEvolution = () => {
                   {/* Pulse effect for high values */}
                   {currentValue > 80 && (
                     <div
-                      className="absolute top-0 h-2 rounded-full animate-pulse opacity-50"
+                      className="absolute top-0 h-1.5 sm:h-2 rounded-full animate-pulse opacity-50"
                       style={{
                         width: `${currentValue}%`,
                         backgroundColor: tech.color,

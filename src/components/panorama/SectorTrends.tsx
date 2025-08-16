@@ -68,16 +68,16 @@ export const SectorTrends = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-6">
+    <div className="space-y-4 sm:space-y-6">
+      <Card className="p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
           <div className="flex items-center gap-2">
-            <Building2 className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold gradient-text">Análise Setorial Avançada</h2>
+            <Building2 className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <h2 className="text-base sm:text-xl font-semibold gradient-text">Análise Setorial</h2>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {[
-              { key: 'investment', label: 'Investimento' },
+              { key: 'investment', label: 'Invest.' },
               { key: 'patents', label: 'Patentes' },
               { key: 'startups', label: 'Startups' }
             ].map((metric) => (
@@ -86,7 +86,7 @@ export const SectorTrends = () => {
                 variant={selectedMetric === metric.key ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedMetric(metric.key as any)}
-                className="cyber-glow"
+                className="cyber-glow text-xs"
               >
                 {metric.label}
               </Button>
@@ -94,79 +94,87 @@ export const SectorTrends = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <h3 className="text-sm font-medium mb-4 text-muted-foreground">
+            <h3 className="text-xs sm:text-sm font-medium mb-3 sm:mb-4 text-muted-foreground">
               {getMetricLabel(selectedMetric)}
             </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={sectorData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis 
-                  dataKey="sector" 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={10}
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                />
-                <YAxis 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={12}
-                  tickFormatter={(value) => formatValue(value, selectedMetric)}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--background))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                  }}
-                  formatter={(value) => [formatValue(value as number, selectedMetric), getMetricLabel(selectedMetric)]}
-                />
-                <Bar 
-                  dataKey={selectedMetric}
-                  fill="hsl(var(--primary))"
-                  radius={[4, 4, 0, 0]}
-                  className="hover:opacity-80 transition-opacity cursor-pointer"
-                />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-48 sm:h-64 lg:h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={sectorData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis 
+                    dataKey="sector" 
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={9}
+                    angle={-45}
+                    textAnchor="end"
+                    height={60}
+                    interval={0}
+                  />
+                  <YAxis 
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={10}
+                    tickFormatter={(value) => formatValue(value, selectedMetric)}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--background))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value) => [formatValue(value as number, selectedMetric), getMetricLabel(selectedMetric)]}
+                  />
+                  <Bar 
+                    dataKey={selectedMetric}
+                    fill="hsl(var(--primary))"
+                    radius={[4, 4, 0, 0]}
+                    className="hover:opacity-80 transition-opacity cursor-pointer"
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium mb-4 text-muted-foreground">
+            <h3 className="text-xs sm:text-sm font-medium mb-3 sm:mb-4 text-muted-foreground">
               Distribuição de Investimentos
             </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={investmentDistribution}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  dataKey="value"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
-                  labelLine={false}
-                >
-                  {investmentDistribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--background))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                  }}
-                  formatter={(value) => [`$${(value as number / 1000).toFixed(1)}B`, 'Investimento']}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="h-48 sm:h-64 lg:h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={investmentDistribution}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={window.innerWidth < 640 ? 60 : 80}
+                    dataKey="value"
+                    label={({ name, percent }) => window.innerWidth < 640 ? `${(percent * 100).toFixed(0)}%` : `${name}: ${(percent * 100).toFixed(1)}%`}
+                    labelLine={false}
+                    fontSize={window.innerWidth < 640 ? 10 : 12}
+                  >
+                    {investmentDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--background))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value) => [`$${(value as number / 1000).toFixed(1)}B`, 'Investimento']}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {sectorData.map((sector) => {
           const RiskIcon = getRiskIcon(sector.risk);
           const isSelected = selectedSector === sector.sector;
@@ -174,15 +182,15 @@ export const SectorTrends = () => {
           return (
             <Card
               key={sector.sector}
-              className={`p-4 cursor-pointer transition-all duration-300 ${
+              className={`p-3 sm:p-4 cursor-pointer transition-all duration-300 ${
                 isSelected ? "border-primary bg-primary/5 cyber-glow" : "hover:border-primary/50"
               }`}
               onClick={() => setSelectedSector(isSelected ? null : sector.sector)}
             >
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <Badge className={getRiskColor(sector.risk)}>
                   <RiskIcon className="h-3 w-3 mr-1" />
-                  RISCO {sector.risk.toUpperCase()}
+                  <span className="hidden sm:inline">RISCO </span>{sector.risk.toUpperCase()}
                 </Badge>
                 <div className="flex items-center gap-1 text-success">
                   <TrendingUp className="h-3 w-3" />
@@ -190,31 +198,31 @@ export const SectorTrends = () => {
                 </div>
               </div>
               
-              <h3 className="font-semibold mb-3">{sector.sector}</h3>
+              <h3 className="font-semibold mb-2 sm:mb-3 text-xs sm:text-sm line-clamp-2 leading-tight">{sector.sector}</h3>
               
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Investimento:</span>
+              <div className="space-y-1 sm:space-y-2">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Invest.:</span>
                   <span className="font-medium">${(sector.investment / 1000).toFixed(1)}B</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs">
                   <span className="text-muted-foreground">Patentes:</span>
                   <span className="font-medium">{sector.patents}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs">
                   <span className="text-muted-foreground">Startups:</span>
                   <span className="font-medium">{sector.startups}</span>
                 </div>
               </div>
               
-              <div className="mt-3">
+              <div className="mt-2 sm:mt-3">
                 <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                  <span>Potencial de Oportunidade</span>
+                  <span>Potencial</span>
                   <span>{sector.opportunity}%</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
                   <div
-                    className={`h-2 rounded-full transition-all duration-1000 ${
+                    className={`h-1.5 sm:h-2 rounded-full transition-all duration-1000 ${
                       sector.opportunity >= 85 ? "bg-success" :
                       sector.opportunity >= 70 ? "bg-warning" : "bg-primary"
                     }`}
