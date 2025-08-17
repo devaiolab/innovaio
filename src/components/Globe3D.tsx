@@ -248,7 +248,12 @@ export const Globe3D = ({ alerts }: Globe3DProps) => {
     <div 
       ref={mountRef} 
       className="w-full h-full rounded-lg overflow-hidden cyber-glow relative"
-      style={{ minHeight: '400px' }}
+      style={{ 
+        minHeight: '400px',
+        maxHeight: '100%',
+        isolation: 'isolate',
+        zIndex: 1
+      }}
     />
   );
 };
