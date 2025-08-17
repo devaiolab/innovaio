@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertDialog } from "./AlertDialog";
 import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
+import { CriticalSignalDetails } from "./CriticalSignalDetails";
 
 interface AlertData {
   id: string;
@@ -103,13 +104,23 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
               </div>
               <h3 className="font-semibold text-xs sm:text-sm mb-1 line-clamp-2 leading-tight">{alert.title}</h3>
               <p className="text-xs text-muted-foreground mb-2 line-clamp-2 leading-tight">{alert.description}</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-2 w-2 sm:h-3 sm:w-3 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground truncate">{alert.region}</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-2 w-2 sm:h-3 sm:w-3 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground truncate">{alert.region}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold">{alert.urgency}%</span>
+                    <CriticalSignalDetails 
+                      signal={alert}
+                      trigger={
+                        <Button variant="ghost" size="sm" className="text-xs p-1 h-5">
+                          Ver
+                        </Button>
+                      }
+                    />
+                  </div>
                 </div>
-                <span className="text-xs font-bold">{alert.urgency}%</span>
-              </div>
             </Card>
           );
         })}

@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Clock, MapPin, TrendingUp } from "lucide-react";
+import { AlertImpactAnalysis } from "./AlertImpactAnalysis";
 
 interface AlertData {
   id: string;
@@ -128,13 +129,18 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
                 </div>
               </div>
 
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full mt-3 text-xs"
-              >
-                Analisar Impacto
-              </Button>
+              <AlertImpactAnalysis 
+                alert={alert}
+                trigger={
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full mt-3 text-xs"
+                  >
+                    Analisar Impacto
+                  </Button>
+                }
+              />
             </Card>
           );
         })}

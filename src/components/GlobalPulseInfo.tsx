@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Globe, TrendingUp, AlertTriangle, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
+import { GlobalPulseDetails } from "./GlobalPulseDetails";
 
 interface AlertData {
   id: string;
@@ -160,6 +162,18 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
               {realTime.toLocaleTimeString('pt-BR')}
             </span>
           </div>
+        </div>
+
+        {/* Analysis Button */}
+        <div className="mt-4">
+          <GlobalPulseDetails 
+            alerts={alerts}
+            trigger={
+              <Button variant="outline" size="sm" className="w-full text-xs">
+                Ver Análise Completa
+              </Button>
+            }
+          />
         </div>
       </Card>
   );

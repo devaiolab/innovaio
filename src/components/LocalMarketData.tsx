@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, TrendingUp, Users, Zap, AlertTriangle, Building2 } from "lucide-react";
+import { LocalMarketDetails } from "./LocalMarketDetails";
 
 interface LocalMarketItem {
   id: string;
@@ -185,9 +186,19 @@ export const LocalMarketData = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Zap className="h-3 w-3 text-yellow-400" />
-                    <span className="text-xs font-mono">{item.urgency}</span>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-1">
+                      <Zap className="h-3 w-3 text-yellow-400" />
+                      <span className="text-xs font-mono">{item.urgency}</span>
+                    </div>
+                    <LocalMarketDetails 
+                      item={item}
+                      trigger={
+                        <Button variant="ghost" size="sm" className="text-xs p-1 h-6">
+                          Detalhes
+                        </Button>
+                      }
+                    />
                   </div>
                 </div>
               </Card>
