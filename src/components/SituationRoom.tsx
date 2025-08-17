@@ -129,10 +129,10 @@ export const SituationRoom = () => {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Globe Section */}
-        <div className="md:col-span-2 mb-6 md:mb-0 relative">
-          <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
+        <div className="lg:col-span-7">
+          <Card className="h-[400px] lg:h-[500px] p-3 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
                 <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
@@ -143,15 +143,18 @@ export const SituationRoom = () => {
                 Tempo Real
               </Badge>
             </div>
-            <div className="relative h-full">
+            <div className="relative h-[calc(100%-60px)]">
               <Globe3D alerts={mockAlerts} />
-              <GlobalPulseInfo alerts={mockAlerts} />
             </div>
           </Card>
         </div>
 
-        {/* Critical Signals */}
-        <div>
+        {/* Right Panel - Global Info & Critical Signals */}
+        <div className="lg:col-span-5 space-y-4 sm:space-y-6">
+          {/* Global Pulse Info */}
+          <GlobalPulseInfo alerts={mockAlerts} />
+          
+          {/* Critical Signals */}
           <CriticalSignals alerts={mockAlerts} />
         </div>
       </div>

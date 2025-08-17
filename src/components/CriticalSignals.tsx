@@ -68,7 +68,7 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
   };
 
   return (
-    <Card className="h-[450px] sm:h-[400px] md:h-[500px] p-3 sm:p-6">
+    <Card className="h-fit p-3 sm:p-6">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
         <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-destructive pulse-glow" />
         <h2 className="text-sm sm:text-xl font-semibold">Sinais Críticos</h2>
@@ -77,7 +77,7 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
         </Badge>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-4 max-h-[320px] sm:max-h-[280px] md:max-h-[350px]">
+      <div className="space-y-1.5 sm:space-y-4">
         {displayedAlerts.map((alert, index) => {
           const config = getAlertConfig(alert.type);
           const IconComponent = config.icon;
