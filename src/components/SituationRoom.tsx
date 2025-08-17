@@ -4,6 +4,7 @@ import { GlobalPulseInfo } from "./GlobalPulseInfo";
 import { AlertPanel } from "./AlertPanel";
 import { Navigation } from "./Navigation";
 import { CriticalSignals } from "./CriticalSignals";
+import { LocalMarketData } from "./LocalMarketData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,17 +24,17 @@ const mockAlerts: AlertData[] = [
   {
     id: "1",
     type: "red",
-    title: "Breakthrough Quântico - Computação",
-    description: "Nova arquitetura de processamento quântico demonstrada na China. Potencial disruptivo imediato para criptografia.",
-    region: "Ásia-Pacífico",
+    title: "Breakthrough Quântico - Criptografia RSA",
+    description: "Cientistas chineses da Universidade de Shanghai conseguiram quebrar criptografia RSA de 90-bit usando computação quântica. Ameaça real para sistemas bancários e militares.",
+    region: "China",
     urgency: 95,
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
   },
   {
     id: "2",
     type: "red",
-    title: "Risco Starlink - Preço Agressivo",
-    description: "Starlink reduz preços para R$ 99/mês no Brasil. Competição direta com ISPs regionais em áreas rurais.",
+    title: "Starlink - Pressão Competitiva Real",
+    description: "Starlink consolida preço de R$ 184/mês no Brasil com promoções no equipamento. Ameaça direta aos ISPs regionais em áreas rurais e remotas.",
     region: "Brasil",
     urgency: 88,
     timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
@@ -41,47 +42,56 @@ const mockAlerts: AlertData[] = [
   {
     id: "3",
     type: "yellow",
-    title: "Regulamentação ANATEL - 5G",
-    description: "Novas regras de compartilhamento de infraestrutura podem impactar contratos de backhaul.",
+    title: "ANATEL - Regulamentação 5G Atualizada",
+    description: "Resolução 777/2025 da ANATEL revoga regulamentações antigas do 5G. Novos requisitos de compartilhamento de infraestrutura impactam contratos existentes.",
     region: "Brasil",
     urgency: 82,
     timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
   },
   {
     id: "4",
-    type: "red",
-    title: "Aquisição Big Tech - Fibra",
-    description: "Google negocia compra de provedores regionais para expandir Google Fiber no Brasil.",
-    region: "São Paulo",
-    urgency: 91,
+    type: "yellow",  
+    title: "5G - Expansão Acelerada no Brasil",
+    description: "5G ativo em 589 cidades brasileiras com 45% de cobertura média e 28 milhões de usuários. Pressão sobre ISPs tradicionais aumenta.",
+    region: "Brasil",
+    urgency: 78,
     timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
   },
   {
     id: "5",
-    type: "yellow",
-    title: "Escassez de Fibra Óptica",
-    description: "Fornecedores reportam atraso de 6 meses na entrega de cabos de fibra óptica importados.",
-    region: "Brasil",
-    urgency: 77,
-    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+    type: "red",
+    title: "Mercado Local ABC - Concorrência Acirrada",
+    description: "Topnet lidera velocidade média em São Bernardo (573Mbps). K2 Network e Fibercom expandem agressivamente na região ABC paulista.",
+    region: "São Bernardo do Campo",
+    urgency: 85,
+    timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
   },
   {
     id: "6",
     type: "yellow",
-    title: "Tendência Emergente - Biomateriais",
-    description: "Convergência de nanotecnologia e biotecnologia criando novos materiais autorreparáveis.",
-    region: "Europa",
-    urgency: 75,
-    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+    title: "Supply Chain - Fibra Óptica Global",
+    description: "Fornecedores asiáticos reportam normalização gradual na entrega de cabos de fibra óptica, mas custos 15% mais altos que 2023.",
+    region: "Global",
+    urgency: 72,
+    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
   },
   {
     id: "7",
     type: "blue",
-    title: "Sinal Fraco - IA Generativa Médica",
-    description: "Modelos de linguagem especializados em diagnóstico médico mostrando precisão superior a especialistas.",
+    title: "Edge Computing - Sinal Fraco Emergente",
+    description: "Convergência entre IA generativa e edge computing criando novos modelos de distribuição de conteúdo. Potencial disruptivo para CDNs tradicionais.",
     region: "América do Norte",
-    urgency: 60,
-    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24 hours ago
+    urgency: 65,
+    timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+  },
+  {
+    id: "8",
+    type: "yellow",
+    title: "Regulamentação IA - União Europeia",
+    description: "AI Act europeu entra em vigor afetando provedores de serviços de IA. Compliance custará milhões para grandes players tecnológicos.",
+    region: "Europa",
+    urgency: 70,
+    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
   },
 ];
 
@@ -159,9 +169,17 @@ export const SituationRoom = () => {
         </div>
       </div>
 
-      {/* Alert Panel */}
-      <div className="mb-6">
-        <AlertPanel alerts={mockAlerts} />
+      {/* Secondary Grid - Local Market & Alert Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        {/* Local Market Data */}
+        <div className="lg:col-span-5">
+          <LocalMarketData />
+        </div>
+        
+        {/* Alert Panel */}
+        <div className="lg:col-span-7">
+          <AlertPanel alerts={mockAlerts} />
+        </div>
       </div>
 
       {/* Navigation */}
