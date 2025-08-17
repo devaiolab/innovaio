@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, TrendingUp, Zap } from "lucide-react";
+import { AlertDialog } from "./AlertDialog";
+import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
 
 interface AlertData {
   id: string;
@@ -22,6 +23,50 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
   const displayedAlerts = criticalAlerts.slice(0, 3);
   const hasMoreAlerts = criticalAlerts.length > 3;
 
+  const getAlertConfig = (type: AlertData["type"]) => {
+    switch (type) {
+      case "red":
+        return {
+          color: "border-destructive text-destructive bg-destructive/10",
+          label: "CRÍTICO",
+          icon: AlertTriangle,
+          priority: "Alta"
+        };
+      case "yellow":
+        return {
+          color: "border-warning text-warning bg-warning/10",
+          label: "ALERTA",
+          icon: Zap,
+          priority: "Média"
+        };
+      case "blue":
+        return {
+          color: "border-primary text-primary bg-primary/10",
+          label: "SINAL",
+          icon: Zap,
+          priority: "Baixa"
+        };
+      default:
+        return {
+          color: "border-muted text-muted-foreground",
+          label: "INFO",
+          icon: Zap,
+          priority: "Baixa"
+        };
+    }
+  };
+
+  const formatTimeAgo = (date: Date) => {
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) return "< 1h";
+    if (diffInHours < 24) return `${diffInHours}h`;
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d`;
+  };
+
   return (
     <Card className="h-[450px] sm:h-[400px] md:h-[500px] p-3 sm:p-6">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
@@ -32,84 +77,56 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
         </Badge>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-4 overflow-y-auto max-h-[320px] sm:max-h-[280px] md:max-h-[350px]">
-        {displayedAlerts.map((alert, index) => (
-          <Card 
-            key={alert.id}
-            className={`p-2.5 sm:p-4 border-l-4 ${
-              alert.type === 'red' ? 'border-l-destructive bg-destructive/5' :
-              alert.type === 'yellow' ? 'border-l-warning bg-warning/5' :
-              'border-l-primary bg-primary/5'
-            } ${index === 0 ? 'alert-pulse' : ''}`}
-          >
-            <div className="flex items-start gap-2 sm:gap-3">
-              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 flex-shrink-0 ${
-                alert.type === 'red' ? 'bg-destructive' :
-                alert.type === 'yellow' ? 'bg-warning' :
-                'bg-primary'
-              } pulse-glow`} />
-              
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-                  <Badge 
-                    variant="outline" 
-                    className={`text-xs w-fit ${
-                      alert.type === 'red' ? 'border-destructive text-destructive' :
-                      alert.type === 'yellow' ? 'border-warning text-warning' :
-                      'border-primary text-primary'
-                    }`}
-                  >
-                    {alert.urgency}%
-                  </Badge>
-                  <span className="text-xs text-muted-foreground truncate">
-                    {alert.region}
-                  </span>
+      <div className="space-y-1.5 sm:space-y-4 max-h-[320px] sm:max-h-[280px] md:max-h-[350px]">
+        {displayedAlerts.map((alert, index) => {
+          const config = getAlertConfig(alert.type);
+          const IconComponent = config.icon;
+          
+          return (
+            <Card 
+              key={alert.id}
+              className={`p-2.5 sm:p-4 border-l-4 ${
+                alert.type === 'red' ? 'border-l-destructive bg-destructive/5' :
+                alert.type === 'yellow' ? 'border-l-warning bg-warning/5' :
+                'border-l-primary bg-primary/5'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <Badge className={config.color}>
+                  <IconComponent className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
+                  {config.label}
+                </Badge>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Clock className="h-2 w-2 sm:h-3 sm:w-3" />
+                  {formatTimeAgo(alert.timestamp)}
                 </div>
-                
-                <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 line-clamp-2 leading-tight">
-                  {alert.title}
-                </h3>
-                
-                <p className="text-xs text-muted-foreground line-clamp-2 sm:line-clamp-3 leading-relaxed">
-                  {alert.description}
-                </p>
               </div>
-            </div>
-          </Card>
-        ))}
-
-        {displayedAlerts.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-6 sm:py-12 text-center">
-            <TrendingUp className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground mb-2 sm:mb-4" />
-            <h3 className="font-semibold text-muted-foreground mb-1 sm:mb-2 text-xs sm:text-base">
-              Nenhum Sinal Crítico
-            </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              Indicadores normais
-            </p>
+              <h3 className="font-semibold text-xs sm:text-sm mb-1 line-clamp-2 leading-tight">{alert.title}</h3>
+              <p className="text-xs text-muted-foreground mb-2 line-clamp-2 leading-tight">{alert.description}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-2 w-2 sm:h-3 sm:w-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground truncate">{alert.region}</span>
+                </div>
+                <span className="text-xs font-bold">{alert.urgency}%</span>
+              </div>
+            </Card>
+          );
+        })}
+        
+        {hasMoreAlerts && (
+          <div className="flex justify-center pt-3">
+            <AlertDialog 
+              alerts={alerts}
+              trigger={
+                <Button variant="outline" size="sm" className="cyber-glow text-xs w-full">
+                  <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
+                  <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
+                </Button>
+              }
+            />
           </div>
         )}
-      </div>
-
-      <div className="mt-3 sm:mt-4">
-        <Button 
-          variant="outline" 
-          className="w-full cyber-glow text-xs sm:text-sm"
-          size="sm"
-        >
-          <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-          {hasMoreAlerts ? (
-            <>
-              <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
-              <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
-            </>
-          ) : (
-            <>
-              <span className="hidden sm:inline">Ver Todos os Alertas</span>
-              <span className="sm:hidden">Ver Alertas</span>
-            </>
-          )}
-        </Button>
       </div>
     </Card>
   );

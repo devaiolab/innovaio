@@ -84,21 +84,25 @@ export const Globe3D = ({ alerts }: Globe3DProps) => {
 
     // Create pulse points based on alerts
     const pulsePoints: THREE.Mesh[] = [];
+    const glowPoints: THREE.Mesh[] = [];
+    
     alerts.forEach((alert, index) => {
       // Convert region to approximate coordinates
       const coords = getRegionCoordinates(alert.region);
       const position = latLongToVector3(coords.lat, coords.lng, 1.05);
 
-      const pulseGeometry = new THREE.SphereGeometry(0.02, 16, 16);
-      let pulseColor = 0x0066ff; // blue
+      // Size based on urgency
+      const baseSize = 0.015 + (alert.urgency / 100) * 0.015;
+      const pulseGeometry = new THREE.SphereGeometry(baseSize, 16, 16);
       
-      if (alert.type === 'yellow') pulseColor = 0xffaa00;
-      if (alert.type === 'red') pulseColor = 0xff0044;
+      let pulseColor = 0x00d4ff; // blue - sinais fracos
+      if (alert.type === 'yellow') pulseColor = 0xffaa00; // yellow - alertas
+      if (alert.type === 'red') pulseColor = 0xff0044; // red - críticos
 
       const pulseMaterial = new THREE.MeshBasicMaterial({
         color: pulseColor,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.9,
       });
 
       const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
@@ -106,16 +110,33 @@ export const Globe3D = ({ alerts }: Globe3DProps) => {
       scene.add(pulse);
       pulsePoints.push(pulse);
 
-      // Add glow effect
-      const glowGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+      // Add glow effect with intensity based on urgency
+      const glowSize = baseSize * (2 + alert.urgency / 50);
+      const glowGeometry = new THREE.SphereGeometry(glowSize, 16, 16);
       const glowMaterial = new THREE.MeshBasicMaterial({
         color: pulseColor,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.2 + (alert.urgency / 100) * 0.3,
       });
       const glow = new THREE.Mesh(glowGeometry, glowMaterial);
       glow.position.copy(position);
       scene.add(glow);
+      glowPoints.push(glow);
+
+      // Add connection lines for critical alerts
+      if (alert.type === 'red') {
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(0, 0, 0),
+          position
+        ]);
+        const lineMaterial = new THREE.LineBasicMaterial({
+          color: pulseColor,
+          transparent: true,
+          opacity: 0.3,
+        });
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        scene.add(line);
+      }
     });
 
     // Animation
@@ -148,15 +169,33 @@ export const Globe3D = ({ alerts }: Globe3DProps) => {
       earth.rotation.y += 0.002;
       wireframe.rotation.y += 0.002;
 
-      // Animate pulse points
+      // Animate pulse points with different intensities
       const time = Date.now() * 0.003;
       pulsePoints.forEach((pulse, index) => {
-        const scale = 1 + Math.sin(time + index) * 0.3;
+        const alert = alerts[index];
+        const intensity = alert ? alert.urgency / 100 : 0.5;
+        
+        // More intense pulsing for critical alerts
+        const pulseSpeed = alert?.type === 'red' ? 4 : alert?.type === 'yellow' ? 2 : 1;
+        const scale = 1 + Math.sin(time * pulseSpeed + index) * (0.3 + intensity * 0.4);
         pulse.scale.setScalar(scale);
         
         // Update opacity for pulse effect
         const material = pulse.material as THREE.MeshBasicMaterial;
-        material.opacity = 0.8 + Math.sin(time * 2 + index) * 0.2;
+        material.opacity = 0.8 + Math.sin(time * pulseSpeed * 2 + index) * 0.3;
+      });
+
+      // Animate glow effects
+      glowPoints.forEach((glow, index) => {
+        const alert = alerts[index];
+        const intensity = alert ? alert.urgency / 100 : 0.5;
+        const pulseSpeed = alert?.type === 'red' ? 3 : alert?.type === 'yellow' ? 2 : 1;
+        
+        const scale = 1 + Math.sin(time * pulseSpeed * 0.5 + index) * (0.2 + intensity * 0.3);
+        glow.scale.setScalar(scale);
+        
+        const material = glow.material as THREE.MeshBasicMaterial;
+        material.opacity = (0.2 + intensity * 0.3) + Math.sin(time * pulseSpeed + index) * 0.1;
       });
 
       renderer.render(scene, camera);
@@ -208,7 +247,7 @@ export const Globe3D = ({ alerts }: Globe3DProps) => {
   return (
     <div 
       ref={mountRef} 
-      className="w-full h-full rounded-lg overflow-hidden cyber-glow"
+      className="w-full h-full rounded-lg overflow-hidden cyber-glow relative"
       style={{ minHeight: '400px' }}
     />
   );
@@ -234,6 +273,20 @@ function getRegionCoordinates(region: string): { lat: number; lng: number } {
     "Ásia-Pacífico": { lat: 35, lng: 120 },
     "África": { lat: 0, lng: 20 },
     "Oceania": { lat: -25, lng: 140 },
+    "Brasil": { lat: -15, lng: -47 },
+    "São Paulo": { lat: -23, lng: -46 },
+    "Rio de Janeiro": { lat: -22, lng: -43 },
+    "China": { lat: 35, lng: 104 },
+    "Estados Unidos": { lat: 39, lng: -98 },
+    "Coreia do Sul": { lat: 36, lng: 128 },
+    "Japão": { lat: 36, lng: 138 },
+    "Alemanha": { lat: 51, lng: 9 },
+    "Reino Unido": { lat: 55, lng: -3 },
+    "Singapura": { lat: 1, lng: 103 },
+    "Índia": { lat: 20, lng: 77 },
+    "Austrália": { lat: -25, lng: 133 },
+    "Canadá": { lat: 60, lng: -95 },
+    "Rússia": { lat: 60, lng: 100 },
   };
 
   return coordinates[region] || { lat: 0, lng: 0 };

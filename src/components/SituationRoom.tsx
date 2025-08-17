@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Globe3D } from "./Globe3D";
+import { GlobalPulseInfo } from "./GlobalPulseInfo";
 import { AlertPanel } from "./AlertPanel";
 import { Navigation } from "./Navigation";
 import { CriticalSignals } from "./CriticalSignals";
@@ -130,7 +131,7 @@ export const SituationRoom = () => {
       {/* Main Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Globe Section */}
-        <div className="md:col-span-2 mb-6 md:mb-0">
+        <div className="md:col-span-2 mb-6 md:mb-0 relative">
           <Card className="h-[300px] sm:h-[400px] lg:h-[500px] p-3 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
@@ -142,7 +143,10 @@ export const SituationRoom = () => {
                 Tempo Real
               </Badge>
             </div>
-            <Globe3D alerts={mockAlerts} />
+            <div className="relative h-full">
+              <Globe3D alerts={mockAlerts} />
+              <GlobalPulseInfo alerts={mockAlerts} />
+            </div>
           </Card>
         </div>
 
