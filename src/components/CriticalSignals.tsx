@@ -2,9 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertDialog } from "./AlertDialog";
-import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
-import { CriticalSignalDetails } from "./CriticalSignalDetails";
-import { AlertImpactAnalysis } from "./AlertImpactAnalysis";
+import { Bot, Clock, MapPin, AlertTriangle, Zap } from "lucide-react";
+import { CriticalSignalUnifiedDetails } from "./CriticalSignalUnifiedDetails";
 interface AlertData {
   id: string;
   type: "blue" | "yellow" | "red";
@@ -65,8 +64,8 @@ export const CriticalSignals = ({
   };
   return <Card className="h-fit p-3 sm:p-6">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
-        <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-destructive pulse-glow" />
-        <h2 className="text-sm sm:text-xl font-semibold">Central de Alertas</h2>
+        <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" />
+        <h2 className="text-sm sm:text-xl font-semibold">Alertas Inteligentes</h2>
         <Badge variant="destructive" className="ml-auto text-xs">
           ATIVO
         </Badge>
@@ -96,11 +95,8 @@ export const CriticalSignals = ({
                   </div>
                   <div className="flex items-center gap-1">
                     <span className="text-xs font-bold">{alert.urgency}%</span>
-                    <CriticalSignalDetails signal={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
-                          Ver
-                        </Button>} />
-                    <AlertImpactAnalysis alert={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
-                          Analisar
+                    <CriticalSignalUnifiedDetails signal={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
+                          Ver Detalhes
                         </Button>} />
                   </div>
                 </div>

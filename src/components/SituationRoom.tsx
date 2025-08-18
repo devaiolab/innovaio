@@ -208,7 +208,7 @@ export const SituationRoom = () => {
           </Card>
         </div>
 
-        {/* Right Panel - Global Info & Critical Signals */}
+        {/* Right Panel - Global Info, Critical Signals & Local Market */}
         <div className="lg:col-span-5 space-y-4 sm:space-y-6 relative z-10">
           {/* Scenario Controls (only when simulation is active) */}
           {isSimulationActive && (
@@ -222,25 +222,20 @@ export const SituationRoom = () => {
           {/* Global Pulse Info */}
           <GlobalPulseInfo alerts={currentAlerts} />
           
-          {/* Critical Signals */}
-          <CriticalSignals alerts={currentAlerts} />
+          {/* Critical Signals & Local Market Side by Side */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <CriticalSignals alerts={currentAlerts} />
+            <LocalMarketData />
+          </div>
         </div>
       </div>
 
-      {/* Secondary Grid - Local Market */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
-        {/* Local Market Data */}
-        <div className={`${isSimulationActive ? 'lg:col-span-9' : 'lg:col-span-12'}`}>
-          <LocalMarketData />
+      {/* Impact Analysis (only when simulation is active) */}
+      {isSimulationActive && (
+        <div className="mb-4 sm:mb-6">
+          <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
         </div>
-        
-        {/* Impact Analysis (only when simulation is active) */}
-        {isSimulationActive && (
-          <div className="lg:col-span-3">
-            <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Navigation */}
       <Navigation />
