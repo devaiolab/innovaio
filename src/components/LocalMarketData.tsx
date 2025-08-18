@@ -159,7 +159,7 @@ export const LocalMarketData = () => {
   const sortedData = filteredData.sort((a, b) => b.urgency - a.urgency);
 
   return (
-    <Card className="p-4 sm:p-6">
+    <Card className="p-4 sm:p-6 h-full flex flex-col">
       <div className="flex items-center gap-2 mb-4">
         <MapPin className="h-5 w-5 text-primary pulse-glow" />
         <h2 className="text-lg sm:text-xl font-semibold">Mercado Local</h2>
@@ -168,7 +168,7 @@ export const LocalMarketData = () => {
         </Badge>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1">
         <TabsList className="grid w-full grid-cols-5 mb-4">
           <TabsTrigger value="all" className="text-xs">Todos</TabsTrigger>
           <TabsTrigger value="competitor" className="text-xs">Concorrentes</TabsTrigger>
@@ -177,7 +177,7 @@ export const LocalMarketData = () => {
           <TabsTrigger value="regulation" className="text-xs">Regulação</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={activeTab} className="space-y-3">
+        <TabsContent value={activeTab} className="space-y-3 flex-1 overflow-y-auto">
           {sortedData.slice(0, 6).map((item) => {
             const IconComponent = getTypeIcon(item.type);
             const iconColor = getTypeColor(item.type);

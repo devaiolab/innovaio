@@ -62,7 +62,7 @@ export const CriticalSignals = ({
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d`;
   };
-  return <Card className="h-fit p-3 sm:p-6">
+  return <Card className="h-full p-3 sm:p-6 flex flex-col">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
         <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" />
         <h2 className="text-sm sm:text-xl font-semibold">Alertas Inteligentes</h2>
@@ -71,7 +71,7 @@ export const CriticalSignals = ({
         </Badge>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-4">
+      <div className="space-y-1.5 sm:space-y-4 flex-1 overflow-y-auto">
         {displayedAlerts.map((alert, index) => {
         const config = getAlertConfig(alert.type);
         const IconComponent = config.icon;
