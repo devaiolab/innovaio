@@ -192,7 +192,7 @@ export const SituationRoom = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Globe Section */}
         <div className="lg:col-span-7 relative z-0">
-          <Card className="h-[400px] lg:h-[500px] p-3 sm:p-6 relative isolate">
+          <Card className="h-[200px] lg:h-[500px] p-3 sm:p-6 relative isolate">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
                 <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
