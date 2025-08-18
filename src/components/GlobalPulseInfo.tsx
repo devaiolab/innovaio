@@ -55,7 +55,7 @@ export const GlobalPulseInfo = ({
   return <Card className="p-4 border-primary/20 cyber-glow h-fit my-0">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
-          <Globe className="h-4 w-4 text-primary pulse-glow" fill="none" />
+          <Globe className="h-4 w-4 text-primary" fill="none" />
           <h3 className="font-semibold text-sm">Status Global</h3>
           <Badge variant="outline" className="ml-auto text-xs">
             TEMPO REAL

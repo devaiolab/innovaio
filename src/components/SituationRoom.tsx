@@ -131,7 +131,7 @@ export const SituationRoom = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
-            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary cyber-glow" fill="none" />
+            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary" fill="none" />
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">ORÁCULO IA</h1>
           </div>
           <div className="flex items-center gap-2">

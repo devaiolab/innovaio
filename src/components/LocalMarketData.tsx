@@ -162,7 +162,7 @@ export const LocalMarketData = () => {
     <Card className="p-4 sm:p-6 h-full flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" fill="none" />
+          <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
           <h2 className="text-base sm:text-xl font-semibold">Mercado Local</h2>
         </div>
         <Badge variant="outline" className="text-xs w-fit sm:ml-auto">
