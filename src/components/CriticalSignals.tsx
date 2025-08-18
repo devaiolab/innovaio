@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { AlertDialog } from "./AlertDialog";
 import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
 import { CriticalSignalDetails } from "./CriticalSignalDetails";
-
 interface AlertData {
   id: string;
   type: "blue" | "yellow" | "red";
@@ -14,16 +13,15 @@ interface AlertData {
   urgency: number;
   timestamp: Date;
 }
-
 interface CriticalSignalsProps {
   alerts: AlertData[];
 }
-
-export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
+export const CriticalSignals = ({
+  alerts
+}: CriticalSignalsProps) => {
   const criticalAlerts = alerts.filter(alert => alert.urgency >= 75);
   const displayedAlerts = criticalAlerts.slice(0, 3);
   const hasMoreAlerts = criticalAlerts.length > 3;
-
   const getAlertConfig = (type: AlertData["type"]) => {
     switch (type) {
       case "red":
@@ -56,23 +54,18 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
         };
     }
   };
-
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
     if (diffInHours < 1) return "< 1h";
     if (diffInHours < 24) return `${diffInHours}h`;
-    
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d`;
   };
-
-  return (
-    <Card className="h-fit p-3 sm:p-6">
+  return <Card className="h-fit p-3 sm:p-6">
       <div className="flex items-center gap-2 mb-3 sm:mb-6">
         <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-destructive pulse-glow" />
-        <h2 className="text-sm sm:text-xl font-semibold">Sinais Críticos</h2>
+        <h2 className="text-sm sm:text-xl font-semibold">Central de Alertas</h2>
         <Badge variant="destructive" className="ml-auto text-xs">
           ATIVO
         </Badge>
@@ -80,18 +73,9 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
 
       <div className="space-y-1.5 sm:space-y-4">
         {displayedAlerts.map((alert, index) => {
-          const config = getAlertConfig(alert.type);
-          const IconComponent = config.icon;
-          
-          return (
-            <Card 
-              key={alert.id}
-              className={`p-2.5 sm:p-4 border-l-4 ${
-                alert.type === 'red' ? 'border-l-destructive bg-destructive/5' :
-                alert.type === 'yellow' ? 'border-l-warning bg-warning/5' :
-                'border-l-primary bg-primary/5'
-              }`}
-            >
+        const config = getAlertConfig(alert.type);
+        const IconComponent = config.icon;
+        return <Card key={alert.id} className={`p-2.5 sm:p-4 border-l-4 ${alert.type === 'red' ? 'border-l-destructive bg-destructive/5' : alert.type === 'yellow' ? 'border-l-warning bg-warning/5' : 'border-l-primary bg-primary/5'}`}>
               <div className="flex items-center justify-between mb-2">
                 <Badge className={config.color}>
                   <IconComponent className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
@@ -111,34 +95,20 @@ export const CriticalSignals = ({ alerts }: CriticalSignalsProps) => {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold">{alert.urgency}%</span>
-                    <CriticalSignalDetails 
-                      signal={alert}
-                      trigger={
-                        <Button variant="ghost" size="sm" className="text-xs p-1 h-5">
+                    <CriticalSignalDetails signal={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
                           Ver
-                        </Button>
-                      }
-                    />
+                        </Button>} />
                   </div>
                 </div>
-            </Card>
-          );
-        })}
+            </Card>;
+      })}
         
-        {hasMoreAlerts && (
-          <div className="flex justify-center pt-3">
-            <AlertDialog 
-              alerts={alerts}
-              trigger={
-                <Button variant="outline" size="sm" className="cyber-glow text-xs w-full">
+        {hasMoreAlerts && <div className="flex justify-center pt-3">
+            <AlertDialog alerts={alerts} trigger={<Button variant="outline" size="sm" className="cyber-glow text-xs w-full">
                   <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
                   <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
-                </Button>
-              }
-            />
-          </div>
-        )}
+                </Button>} />
+          </div>}
       </div>
-    </Card>
-  );
+    </Card>;
 };
