@@ -57,9 +57,9 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <Globe className="h-4 w-4 text-primary pulse-glow" />
-          <h3 className="font-semibold text-sm">Status Global</h3>
+          <h3 className="font-semibold text-sm">Status Regional</h3>
           <Badge variant="outline" className="ml-auto text-xs">
-            TEMPO REAL
+            SÃO PAULO
           </Badge>
         </div>
 
@@ -105,7 +105,7 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         {/* Intensity Level */}
         <div className="p-2 rounded-lg bg-muted/50 mb-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-muted-foreground">Nível Global:</span>
+            <span className="text-xs text-muted-foreground">Nível Regional:</span>
             <Badge 
               variant="outline" 
               className={`text-xs ${intensityInfo.color} border-current`}
