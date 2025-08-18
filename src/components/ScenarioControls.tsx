@@ -41,7 +41,7 @@ export const ScenarioControls = ({ scenarioMetrics, onStop, onSpeedChange }: Sce
       {/* Header with Simulation Active Badge */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-warning pulse-glow" />
+          <Zap className="h-4 w-4 text-warning" fill="none" />
           <h3 className="font-semibold text-sm">Simulação Ativa</h3>
           <Badge className="bg-warning text-warning-foreground pulse-glow">
             <Activity className="h-3 w-3 mr-1" />

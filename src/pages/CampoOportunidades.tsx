@@ -19,7 +19,7 @@ const CampoOportunidades = () => {
           Voltar
         </Button>
         <div className="flex items-center gap-2">
-          <Target className="h-8 w-8 text-primary cyber-glow" />
+          <Target className="h-8 w-8 text-primary" fill="none" />
           <h1 className="text-3xl font-bold gradient-text">Campo de Oportunidades</h1>
         </div>
         <Badge variant="outline" className="border-success text-success">

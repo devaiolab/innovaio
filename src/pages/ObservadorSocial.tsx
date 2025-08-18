@@ -19,7 +19,7 @@ const ObservadorSocial = () => {
           Voltar
         </Button>
         <div className="flex items-center gap-2">
-          <Users className="h-8 w-8 text-primary cyber-glow" />
+          <Users className="h-8 w-8 text-primary" fill="none" />
           <h1 className="text-3xl font-bold gradient-text">Observador Social</h1>
         </div>
         <Badge variant="outline" className="border-muted text-muted-foreground">

@@ -21,7 +21,7 @@ const LinhaFogo = () => {
           <span className="text-xs sm:text-sm">Voltar</span>
         </Button>
         <div className="flex items-center gap-2">
-          <Crosshair className="h-6 w-6 sm:h-8 sm:w-8 text-primary cyber-glow" />
+          <Crosshair className="h-6 w-6 sm:h-8 sm:w-8 text-primary" fill="none" />
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">Linha de Fogo</h1>
         </div>
         <Badge variant="destructive" className="alert-pulse text-xs sm:text-sm w-fit sm:ml-auto">

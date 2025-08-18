@@ -98,7 +98,7 @@ export const Navigation = () => {
   return (
     <Card className="p-6">
       <div className="flex items-center gap-2 mb-6">
-        <Activity className="h-5 w-5 text-primary" />
+        <Activity className="h-5 w-5 text-primary" fill="none" />
         <h2 className="text-xl font-semibold">Dashboards Inteligentes</h2>
         <Badge variant="outline" className="ml-auto">
           6 Módulos Disponíveis
@@ -174,7 +174,7 @@ export const Navigation = () => {
       {selectedDashboard && (
         <div className="mt-6 p-4 border border-primary/20 rounded-lg bg-primary/5">
           <div className="flex items-center gap-2 mb-2">
-            <Target className="h-4 w-4 text-primary" />
+            <Target className="h-4 w-4 text-primary" fill="none" />
             <span className="text-sm font-semibold text-primary">
               Dashboard Selecionado
             </span>
