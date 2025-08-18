@@ -52,7 +52,7 @@ export const GlobalPulseInfo = ({
   };
   const intensityInfo = getIntensityLevel(globalIntensity);
   const recentAlerts = alerts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime()).slice(0, 3);
-  return <Card className="p-4 border-primary/20 cyber-glow h-fit my-0 px-[28px] py-[26px]">
+  return <Card className="p-4 border-primary/20 cyber-glow h-fit my-0 px-[28px] py-[23px]">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <Globe className="h-4 w-4 text-primary" fill="none" />
