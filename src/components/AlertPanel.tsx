@@ -75,7 +75,7 @@ export const AlertPanel = ({ alerts }: AlertPanelProps) => {
             <Card 
               key={alert.id} 
               className={`p-3 sm:p-4 border-l-4 transition-all hover:scale-105 cyber-glow ${
-                alert.type === 'red' ? 'border-l-destructive alert-pulse' : 
+                alert.type === 'red' ? 'border-l-destructive' : 
                 alert.type === 'yellow' ? 'border-l-warning' : 
                 'border-l-primary'
               }`}

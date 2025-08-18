@@ -150,7 +150,7 @@ export const CompetitiveMatrix = () => {
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <Target className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             <h2 className="text-base sm:text-xl font-semibold gradient-text">Matriz Competitiva</h2>
-            <Badge variant="destructive" className="alert-pulse text-xs w-fit">
+            <Badge variant="destructive" className="text-xs w-fit">
               6 AMEAÇAS ATIVAS
             </Badge>
           </div>

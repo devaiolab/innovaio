@@ -77,7 +77,7 @@ export const AlertDialog = ({ alerts, trigger }: AlertDialogProps) => {
           <DialogTitle className="flex items-center gap-2">
             <Zap className="h-5 w-5 text-primary" />
             Todos os Sinais Críticos
-            <Badge variant="destructive" className="alert-pulse">
+            <Badge variant="destructive">
               {sortedAlerts.filter(a => a.type === "red").length} CRÍTICOS
             </Badge>
           </DialogTitle>

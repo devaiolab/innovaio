@@ -24,7 +24,7 @@ const LinhaFogo = () => {
           <Crosshair className="h-6 w-6 sm:h-8 sm:w-8 text-primary" fill="none" />
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">Linha de Fogo</h1>
         </div>
-        <Badge variant="destructive" className="alert-pulse text-xs sm:text-sm w-fit sm:ml-auto">
+        <Badge variant="destructive" className="text-xs sm:text-sm w-fit sm:ml-auto">
           6 AMEAÇAS CRÍTICAS
         </Badge>
       </div>

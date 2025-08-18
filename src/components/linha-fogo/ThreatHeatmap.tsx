@@ -160,7 +160,7 @@ export const ThreatHeatmap = () => {
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
             <h2 className="text-xl font-semibold gradient-text">Mapa de Ameaças em Tempo Real</h2>
-            <Badge variant="destructive" className="alert-pulse">
+            <Badge variant="destructive">
               {filteredThreats.filter(t => t.severity === "crítico").length} CRÍTICAS
             </Badge>
           </div>
