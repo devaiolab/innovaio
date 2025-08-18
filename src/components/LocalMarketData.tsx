@@ -159,7 +159,7 @@ export const LocalMarketData = () => {
   const sortedData = filteredData.sort((a, b) => b.urgency - a.urgency);
 
   return (
-    <Card className="p-4 sm:p-6 h-full flex flex-col border-primary/20 cyber-glow">
+    <Card className="p-4 sm:p-6 h-full flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" />
