@@ -64,7 +64,7 @@ export const CriticalSignals = ({
   };
   return <Card className="h-full p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex items-center gap-2 mb-4">
-        <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" />
+        <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" fill="none" />
         <h2 className="text-base sm:text-xl font-semibold">Alertas Inteligentes</h2>
         <Badge variant="destructive" className="ml-auto text-xs">
           ATIVO
@@ -78,11 +78,11 @@ export const CriticalSignals = ({
         return <Card key={alert.id} className={`p-3 sm:p-4 border-l-4 ${alert.type === 'red' ? 'border-l-destructive bg-destructive/5' : alert.type === 'yellow' ? 'border-l-warning bg-warning/5' : 'border-l-primary bg-primary/5'}`}>
               <div className="flex items-center justify-between mb-2">
                 <Badge className={`${config.color} text-xs`}>
-                  <IconComponent className="h-3 w-3 mr-1" />
+                  <IconComponent className="h-3 w-3 mr-1" fill="none" />
                   {config.label}
                 </Badge>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
+                  <Clock className="h-3 w-3" fill="none" />
                   {formatTimeAgo(alert.timestamp)}
                 </div>
               </div>
@@ -90,7 +90,7 @@ export const CriticalSignals = ({
               <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-tight">{alert.description}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3 text-muted-foreground" />
+                    <MapPin className="h-3 w-3 text-muted-foreground" fill="none" />
                     <span className="text-xs text-muted-foreground truncate">{alert.region}</span>
                   </div>
                   <div className="flex items-center gap-2">

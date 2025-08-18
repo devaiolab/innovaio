@@ -162,7 +162,7 @@ export const LocalMarketData = () => {
     <Card className="p-4 sm:p-6 h-full flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" />
+          <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary pulse-glow" fill="none" />
           <h2 className="text-base sm:text-xl font-semibold">Mercado Local</h2>
         </div>
         <Badge variant="outline" className="text-xs w-fit sm:ml-auto">
@@ -188,7 +188,7 @@ export const LocalMarketData = () => {
               return (
                 <Card key={item.id} className="p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all">
                   <div className="flex items-start gap-3">
-                    <IconComponent className={`h-4 w-4 mt-1 flex-shrink-0 ${iconColor}`} />
+                    <IconComponent className={`h-4 w-4 mt-1 flex-shrink-0 ${iconColor}`} fill="none" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="font-medium text-sm truncate">{item.title}</h3>
@@ -211,7 +211,7 @@ export const LocalMarketData = () => {
                     </div>
                     <div className="flex flex-col gap-2 items-end flex-shrink-0">
                       <div className="flex items-center gap-1">
-                        <Zap className="h-3 w-3 text-yellow-400" />
+                        <Zap className="h-3 w-3 text-yellow-400" fill="none" />
                         <span className="text-xs font-mono text-primary">{item.urgency}</span>
                       </div>
                       <LocalMarketDetails 

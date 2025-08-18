@@ -55,7 +55,7 @@ export const GlobalPulseInfo = ({
   return <Card className="p-4 border-primary/20 cyber-glow h-fit my-0">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
-          <Globe className="h-4 w-4 text-primary pulse-glow" />
+          <Globe className="h-4 w-4 text-primary pulse-glow" fill="none" />
           <h3 className="font-semibold text-sm">Status Global</h3>
           <Badge variant="outline" className="ml-auto text-xs">
             TEMPO REAL
@@ -119,7 +119,7 @@ export const GlobalPulseInfo = ({
         {/* Recent Activity */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-3 w-3 text-muted-foreground" />
+            <TrendingUp className="h-3 w-3 text-muted-foreground" fill="none" />
             <span className="text-xs text-muted-foreground">Atividade Recente</span>
           </div>
           <div className="space-y-2">
@@ -130,7 +130,7 @@ export const GlobalPulseInfo = ({
                   <div className="text-muted-foreground truncate">{alert.region}</div>
                 </div>
                 <div className="flex items-center gap-1 text-muted-foreground">
-                  <Clock className="h-2 w-2" />
+                  <Clock className="h-2 w-2" fill="none" />
                   <span>{Math.floor((realTime.getTime() - alert.timestamp.getTime()) / (1000 * 60 * 60))}h</span>
                 </div>
               </div>)}
