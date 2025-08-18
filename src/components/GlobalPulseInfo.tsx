@@ -56,7 +56,7 @@ export const GlobalPulseInfo = ({
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <Globe className="h-4 w-4 text-primary" fill="none" />
-          <h3 className="font-semibold text-sm">Status Global</h3>
+          <h3 className="font-semibold text-sm">Status Regional</h3>
           <Badge variant="outline" className="ml-auto text-xs">
             TEMPO REAL
           </Badge>
@@ -66,13 +66,13 @@ export const GlobalPulseInfo = ({
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="text-center">
             <div className="text-lg font-bold text-primary">{alerts.length}</div>
-            <div className="text-xs text-muted-foreground">Pulsos Ativos</div>
+            <div className="text-xs text-muted-foreground">Pulsos Regionais</div>
           </div>
           <div className="text-center">
             <div className={`text-lg font-bold ${intensityInfo.color}`}>
               {globalIntensity}%
             </div>
-            <div className="text-xs text-muted-foreground">Intensidade</div>
+            <div className="text-xs text-muted-foreground">Intensidade Regional</div>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export const GlobalPulseInfo = ({
         {/* Intensity Level */}
         <div className="p-2 rounded-lg bg-muted/50 mb-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-muted-foreground">Nível Global:</span>
+            <span className="text-xs text-muted-foreground">Nível Regional:</span>
             <Badge variant="outline" className={`text-xs ${intensityInfo.color} border-current`}>
               {intensityInfo.level}
             </Badge>
@@ -120,7 +120,7 @@ export const GlobalPulseInfo = ({
         <div>
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-3 w-3 text-muted-foreground" fill="none" />
-            <span className="text-xs text-muted-foreground">Atividade Recente</span>
+            <span className="text-xs text-muted-foreground">Atividade Regional</span>
           </div>
           <div className="space-y-2">
             {recentAlerts.map(alert => <div key={alert.id} className="flex items-start gap-2 text-xs">
@@ -142,7 +142,7 @@ export const GlobalPulseInfo = ({
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-success pulse-glow"></div>
-              <span>Sistema Ativo</span>
+              <span>Monitoramento Regional</span>
             </div>
             <span className="font-mono">
               {realTime.toLocaleTimeString('pt-BR')}

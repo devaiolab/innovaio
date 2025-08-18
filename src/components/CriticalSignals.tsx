@@ -65,7 +65,7 @@ export const CriticalSignals = ({
   return <Card className="h-full p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex items-center gap-2 mb-4">
         <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
-        <h2 className="text-base sm:text-xl font-semibold">Alertas Inteligentes</h2>
+        <h2 className="text-base sm:text-xl font-semibold">Alertas Globais</h2>
         <Badge variant="destructive" className="ml-auto text-xs">
           ATIVO
         </Badge>
