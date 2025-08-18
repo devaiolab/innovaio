@@ -62,7 +62,7 @@ export const CriticalSignals = ({
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d`;
   };
-  return <Card className="h-full p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden">
+  return <Card className="h-full p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden my-0 py-[23px] px-[28px]">
       <div className="flex items-center gap-2 mb-4">
         <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
         <h2 className="text-base sm:text-xl font-semibold">Alertas Globais</h2>
