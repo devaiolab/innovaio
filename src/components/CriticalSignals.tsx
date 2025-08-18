@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AlertDialog } from "./AlertDialog";
 import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
 import { CriticalSignalDetails } from "./CriticalSignalDetails";
+import { AlertImpactAnalysis } from "./AlertImpactAnalysis";
 interface AlertData {
   id: string;
   type: "blue" | "yellow" | "red";
@@ -93,10 +94,13 @@ export const CriticalSignals = ({
                     <MapPin className="h-2 w-2 sm:h-3 sm:w-3 text-muted-foreground" />
                     <span className="text-xs text-muted-foreground truncate">{alert.region}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <span className="text-xs font-bold">{alert.urgency}%</span>
                     <CriticalSignalDetails signal={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
                           Ver
+                        </Button>} />
+                    <AlertImpactAnalysis alert={alert} trigger={<Button variant="ghost" size="sm" className="text-xs p-1 h-5">
+                          Analisar
                         </Button>} />
                   </div>
                 </div>

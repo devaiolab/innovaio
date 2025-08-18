@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Zap, Clock, MapPin, AlertTriangle } from "lucide-react";
+import { AlertImpactAnalysis } from "./AlertImpactAnalysis";
 
 interface AlertData {
   id: string;
@@ -136,6 +137,12 @@ export const AlertDialog = ({ alerts, trigger }: AlertDialogProps) => {
                         style={{ width: `${alert.urgency}%` }}
                       ></div>
                     </div>
+                  </div>
+                  
+                  <div className="mt-3 flex justify-end">
+                    <AlertImpactAnalysis alert={alert} trigger={<Button variant="outline" size="sm" className="text-xs">
+                          Analisar Impacto
+                        </Button>} />
                   </div>
                 </Card>
               );

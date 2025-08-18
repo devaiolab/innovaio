@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Globe3D } from "./Globe3D";
 import { GlobalPulseInfo } from "./GlobalPulseInfo";
-import { AlertPanel } from "./AlertPanel";
 import { Navigation } from "./Navigation";
 import { CriticalSignals } from "./CriticalSignals";
 import { LocalMarketData } from "./LocalMarketData";
@@ -228,10 +227,10 @@ export const SituationRoom = () => {
         </div>
       </div>
 
-      {/* Secondary Grid - Local Market & Alert Panel */}
+      {/* Secondary Grid - Local Market */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Local Market Data */}
-        <div className={`${isSimulationActive ? 'lg:col-span-4' : 'lg:col-span-5'}`}>
+        <div className={`${isSimulationActive ? 'lg:col-span-9' : 'lg:col-span-12'}`}>
           <LocalMarketData />
         </div>
         
@@ -241,11 +240,6 @@ export const SituationRoom = () => {
             <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
           </div>
         )}
-        
-        {/* Alert Panel */}
-        <div className={`${isSimulationActive ? 'lg:col-span-5' : 'lg:col-span-7'}`}>
-          <AlertPanel alerts={currentAlerts} />
-        </div>
       </div>
 
       {/* Navigation */}
