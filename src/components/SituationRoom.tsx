@@ -195,7 +195,7 @@ export const SituationRoom = () => {
       {/* Section 02 - Status Regional + Mercado Local (50%/50%) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Status Regional */}
-        <div className="relative z-10">
+        <div className="relative z-10 h-[400px] lg:h-[450px]">
           {/* Scenario Controls (only when simulation is active) */}
           {isSimulationActive && (
             <div className="mb-4">
@@ -211,7 +211,7 @@ export const SituationRoom = () => {
         </div>
 
         {/* Mercado Local */}
-        <div className="h-fit">
+        <div className="h-[400px] lg:h-[450px]">
           <LocalMarketData />
         </div>
       </div>

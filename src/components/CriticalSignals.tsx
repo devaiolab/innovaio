@@ -20,8 +20,8 @@ export const CriticalSignals = ({
   alerts
 }: CriticalSignalsProps) => {
   const criticalAlerts = alerts.filter(alert => alert.urgency >= 75);
-  const displayedAlerts = criticalAlerts.slice(0, 3);
-  const hasMoreAlerts = criticalAlerts.length > 3;
+  const displayedAlerts = criticalAlerts.slice(0, 4);
+  const hasMoreAlerts = criticalAlerts.length > 4;
   const getAlertConfig = (type: AlertData["type"]) => {
     switch (type) {
       case "red":
@@ -71,7 +71,7 @@ export const CriticalSignals = ({
         </Badge>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-4 flex-1 overflow-y-auto">
+      <div className="space-y-1.5 sm:space-y-4 flex-1">
         {displayedAlerts.map((alert, index) => {
         const config = getAlertConfig(alert.type);
         const IconComponent = config.icon;
@@ -105,8 +105,8 @@ export const CriticalSignals = ({
         
         {hasMoreAlerts && <div className="flex justify-center pt-3">
             <AlertDialog alerts={alerts} trigger={<Button variant="outline" size="sm" className="cyber-glow text-xs w-full">
-                  <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
-                  <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
+                  <span className="sm:hidden">+{criticalAlerts.length - 4}</span>
+                  <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 4} Alertas</span>
                 </Button>} />
           </div>}
       </div>

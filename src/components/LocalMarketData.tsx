@@ -177,8 +177,8 @@ export const LocalMarketData = () => {
           <TabsTrigger value="regulation" className="text-xs">Regulação</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={activeTab} className="space-y-3 flex-1 overflow-y-auto">
-          {sortedData.slice(0, 6).map((item) => {
+        <TabsContent value={activeTab} className="space-y-3 flex-1">
+          {sortedData.slice(0, 4).map((item) => {
             const IconComponent = getTypeIcon(item.type);
             const iconColor = getTypeColor(item.type);
             
@@ -225,9 +225,9 @@ export const LocalMarketData = () => {
             );
           })}
           
-          {sortedData.length > 6 && (
+          {sortedData.length > 4 && (
             <Button variant="outline" className="w-full mt-4">
-              Ver Mais ({sortedData.length - 6} itens)
+              Ver Mais ({sortedData.length - 4} itens)
             </Button>
           )}
         </TabsContent>

@@ -53,7 +53,7 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
     .slice(0, 3);
 
   return (
-    <Card className="p-4 border-primary/20 cyber-glow h-fit">
+    <Card className="p-4 border-primary/20 cyber-glow h-full flex flex-col">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <Globe className="h-4 w-4 text-primary pulse-glow" />
