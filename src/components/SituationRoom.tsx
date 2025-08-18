@@ -131,7 +131,7 @@ export const SituationRoom = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
-            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary cyber-glow" />
+            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary cyber-glow" fill="none" />
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">ORÁCULO IA</h1>
           </div>
           <div className="flex items-center gap-2">
@@ -224,11 +224,11 @@ export const SituationRoom = () => {
         <Card className="h-[450px] lg:h-[500px] p-3 sm:p-6 relative isolate">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
               <h2 className="text-base sm:text-xl font-semibold">Pulsos Globais</h2>
             </div>
             <Badge variant="outline" className="text-xs w-fit sm:ml-auto">
-              <Activity className="h-3 w-3 mr-1" />
+              <Activity className="h-3 w-3 mr-1" fill="none" />
               Tempo Real
             </Badge>
           </div>
