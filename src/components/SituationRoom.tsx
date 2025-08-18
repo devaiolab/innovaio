@@ -195,7 +195,7 @@ export const SituationRoom = () => {
       {/* Section 02 - Status Regional + Mercado Local (50%/50%) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Status Regional */}
-        <div className="relative z-10 h-[400px] lg:h-[450px]">
+        <div className="relative z-10 h-[480px] lg:h-[520px]">
           {/* Scenario Controls (only when simulation is active) */}
           {isSimulationActive && (
             <div className="mb-4">
@@ -207,11 +207,13 @@ export const SituationRoom = () => {
             </div>
           )}
           
-          <GlobalPulseInfo alerts={currentAlerts} />
+          <div className={isSimulationActive ? "h-[calc(100%-80px)]" : "h-full"}>
+            <GlobalPulseInfo alerts={currentAlerts} />
+          </div>
         </div>
 
         {/* Mercado Local */}
-        <div className="h-[400px] lg:h-[450px]">
+        <div className="h-[480px] lg:h-[520px]">
           <LocalMarketData />
         </div>
       </div>
@@ -219,7 +221,7 @@ export const SituationRoom = () => {
       {/* Section 03 - Pulsos Globais + Alertas Inteligentes (50%/50%) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Pulsos Globais */}
-        <Card className="h-[300px] lg:h-[400px] p-3 sm:p-6 relative isolate">
+        <Card className="h-[450px] lg:h-[500px] p-3 sm:p-6 relative isolate">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
@@ -230,13 +232,13 @@ export const SituationRoom = () => {
               Tempo Real
             </Badge>
           </div>
-          <div className="relative h-[calc(100%-60px)] overflow-hidden">
+          <div className="relative h-[calc(100%-80px)] overflow-hidden">
             <Globe3D alerts={currentAlerts} />
           </div>
         </Card>
 
         {/* Alertas Inteligentes */}
-        <div className="h-[300px] lg:h-[400px] overflow-hidden">
+        <div className="h-[450px] lg:h-[500px]">
           <CriticalSignals alerts={currentAlerts} />
         </div>
       </div>

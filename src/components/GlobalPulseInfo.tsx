@@ -55,22 +55,24 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
   return (
     <Card className="p-4 border-primary/20 cyber-glow h-full flex flex-col">
         {/* Header */}
-        <div className="flex items-center gap-2 mb-4">
-          <Globe className="h-4 w-4 text-primary pulse-glow" />
-          <h3 className="font-semibold text-sm">Status Regional</h3>
-          <Badge variant="outline" className="ml-auto text-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <Globe className="h-4 w-4 text-primary pulse-glow" />
+            <h3 className="font-semibold text-base sm:text-lg">Status Regional</h3>
+          </div>
+          <Badge variant="outline" className="text-xs w-fit sm:ml-auto">
             SÃO PAULO
           </Badge>
         </div>
 
         {/* Global Metrics */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="text-center">
-            <div className="text-lg font-bold text-primary">{alerts.length}</div>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="text-center p-3 rounded-lg bg-muted/30">
+            <div className="text-xl sm:text-2xl font-bold text-primary">{alerts.length}</div>
             <div className="text-xs text-muted-foreground">Pulsos Ativos</div>
           </div>
-          <div className="text-center">
-            <div className={`text-lg font-bold ${intensityInfo.color}`}>
+          <div className="text-center p-3 rounded-lg bg-muted/30">
+            <div className={`text-xl sm:text-2xl font-bold ${intensityInfo.color}`}>
               {globalIntensity}%
             </div>
             <div className="text-xs text-muted-foreground">Intensidade</div>
@@ -78,22 +80,22 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         </div>
 
         {/* Alert Distribution */}
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center justify-between text-xs">
+        <div className="space-y-3 mb-6">
+          <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-destructive"></div>
               <span>Críticos</span>
             </div>
             <span className="font-medium">{criticalCount}</span>
           </div>
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-warning"></div>
               <span>Alertas</span>
             </div>
             <span className="font-medium">{alertCount}</span>
           </div>
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-primary"></div>
               <span>Sinais</span>
@@ -103,9 +105,9 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         </div>
 
         {/* Intensity Level */}
-        <div className="p-2 rounded-lg bg-muted/50 mb-4">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-muted-foreground">Nível Regional:</span>
+        <div className="p-3 rounded-lg bg-muted/50 mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-muted-foreground">Nível Regional:</span>
             <Badge 
               variant="outline" 
               className={`text-xs ${intensityInfo.color} border-current`}
@@ -126,24 +128,24 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         </div>
 
         {/* Recent Activity */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-3 w-3 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Atividade Recente</span>
+        <div className="flex-1 min-h-0">
+          <div className="flex items-center gap-2 mb-3">
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Atividade Recente</span>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {recentAlerts.map((alert) => (
-              <div key={alert.id} className="flex items-start gap-2 text-xs">
-                <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+              <div key={alert.id} className="flex items-start gap-3 text-sm">
+                <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
                   alert.type === 'red' ? 'bg-destructive' :
                   alert.type === 'yellow' ? 'bg-warning' : 'bg-primary'
                 }`}></div>
                 <div className="min-w-0 flex-1">
                   <div className="font-medium truncate">{alert.title}</div>
-                  <div className="text-muted-foreground truncate">{alert.region}</div>
+                  <div className="text-xs text-muted-foreground truncate">{alert.region}</div>
                 </div>
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Clock className="h-2 w-2" />
+                <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                  <Clock className="h-3 w-3" />
                   <span>{Math.floor((realTime.getTime() - alert.timestamp.getTime()) / (1000 * 60 * 60))}h</span>
                 </div>
               </div>
@@ -152,10 +154,10 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
         </div>
 
         {/* Live Status */}
-        <div className="mt-4 pt-3 border-t border-border/50">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-success pulse-glow"></div>
+        <div className="mt-6 pt-3 border-t border-border/50">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-success pulse-glow"></div>
               <span>Sistema Ativo</span>
             </div>
             <span className="font-mono">
@@ -169,7 +171,7 @@ export const GlobalPulseInfo = ({ alerts }: GlobalPulseInfoProps) => {
           <GlobalPulseDetails 
             alerts={alerts}
             trigger={
-              <Button variant="outline" size="sm" className="w-full text-xs">
+              <Button variant="outline" size="sm" className="w-full text-xs h-8 cyber-glow">
                 Ver Análise Completa
               </Button>
             }
