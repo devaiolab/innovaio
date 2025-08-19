@@ -72,18 +72,20 @@ export const AlertDialog = ({ alerts, trigger }: AlertDialogProps) => {
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
+      <DialogContent className="w-full max-w-[95vw] sm:max-w-[90vw] lg:max-w-4xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
-            Todos os Sinais Críticos
-            <Badge variant="destructive">
+          <DialogTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              <span className="text-sm sm:text-base">Todos os Sinais Críticos</span>
+            </div>
+            <Badge variant="destructive" className="text-xs sm:text-sm w-fit">
               {sortedAlerts.filter(a => a.type === "red").length} CRÍTICOS
             </Badge>
           </DialogTitle>
         </DialogHeader>
         
-        <div className="overflow-y-auto max-h-[60vh] pr-2">
+        <div className="overflow-y-auto max-h-[calc(90vh-120px)] sm:max-h-[calc(80vh-120px)] pr-2">
           <div className="space-y-3">
             {sortedAlerts.map((alert) => {
               const config = getAlertConfig(alert.type);

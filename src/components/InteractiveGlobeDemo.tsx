@@ -547,7 +547,7 @@ export const InteractiveGlobeDemo = ({ alerts }: InteractiveGlobeDemoProps) => {
       />
 
       {/* Control Panel */}
-      <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
+      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex flex-col gap-2 z-20">
         <Button
           size="sm"
           variant="outline"
@@ -577,27 +577,36 @@ export const InteractiveGlobeDemo = ({ alerts }: InteractiveGlobeDemoProps) => {
       </div>
 
       {/* Stats Panel */}
-      <div className="absolute bottom-4 left-4 flex gap-2 z-10">
-        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-red-400 border-red-400/50">
+      <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 flex flex-wrap gap-1 sm:gap-2 z-20">
+        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-red-400 border-red-400/50 text-xs">
           <AlertTriangle className="h-3 w-3 mr-1" />
-          {alertCounts.red} Críticos
+          <span className="hidden sm:inline">{alertCounts.red} Críticos</span>
+          <span className="sm:hidden">{alertCounts.red}</span>
         </Badge>
-        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-yellow-400 border-yellow-400/50">
+        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-yellow-400 border-yellow-400/50 text-xs">
           <TrendingUp className="h-3 w-3 mr-1" />
-          {alertCounts.yellow} Alertas
+          <span className="hidden sm:inline">{alertCounts.yellow} Alertas</span>
+          <span className="sm:hidden">{alertCounts.yellow}</span>
         </Badge>
-        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-blue-400 border-blue-400/50">
+        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm text-blue-400 border-blue-400/50 text-xs">
           <Activity className="h-3 w-3 mr-1" />
-          {alertCounts.blue} Sinais
+          <span className="hidden sm:inline">{alertCounts.blue} Sinais</span>
+          <span className="sm:hidden">{alertCounts.blue}</span>
         </Badge>
       </div>
 
       {/* Hover Tooltip */}
       {hoveredAlert && (
-        <div className="absolute pointer-events-none z-20 bg-background/95 backdrop-blur-sm border rounded-lg p-3 shadow-lg max-w-xs"
+        <div className="absolute pointer-events-none z-40 bg-background/95 backdrop-blur-sm border rounded-lg p-2 sm:p-3 shadow-lg max-w-xs"
              style={{
-               left: (mouseRef.current.x + 1) * (mountRef.current?.clientWidth || 0) / 2 + 10,
-               top: (-mouseRef.current.y + 1) * (mountRef.current?.clientHeight || 0) / 2 - 50
+               left: Math.min(
+                 (mouseRef.current.x + 1) * (mountRef.current?.clientWidth || 0) / 2 + 10,
+                 (mountRef.current?.clientWidth || 0) - 250
+               ),
+               top: Math.max(
+                 (-mouseRef.current.y + 1) * (mountRef.current?.clientHeight || 0) / 2 - 50,
+                 10
+               )
              }}>
           <div className="flex items-center gap-2 mb-1">
             <Badge variant="outline" className={getAlertTypeInfo(hoveredAlert.type).color}>
@@ -605,7 +614,7 @@ export const InteractiveGlobeDemo = ({ alerts }: InteractiveGlobeDemoProps) => {
             </Badge>
             <span className="text-xs text-muted-foreground">{hoveredAlert.urgency}%</span>
           </div>
-          <h4 className="font-semibold text-sm mb-1">{hoveredAlert.title}</h4>
+          <h4 className="font-semibold text-xs sm:text-sm mb-1 line-clamp-2">{hoveredAlert.title}</h4>
           <p className="text-xs text-muted-foreground flex items-center gap-1">
             <MapPin className="h-3 w-3" />
             {hoveredAlert.region}
@@ -615,8 +624,8 @@ export const InteractiveGlobeDemo = ({ alerts }: InteractiveGlobeDemoProps) => {
 
       {/* Filters Panel */}
       {showFilters && (
-        <Card className="absolute top-16 right-4 w-80 p-4 bg-background/95 backdrop-blur-sm z-10">
-          <h3 className="font-semibold mb-3">Filtros</h3>
+        <Card className="absolute top-16 right-2 sm:right-4 w-[calc(100vw-1rem)] sm:w-80 max-w-sm p-3 sm:p-4 bg-background/95 backdrop-blur-sm z-30">
+          <h3 className="font-semibold mb-3 text-sm sm:text-base">Filtros</h3>
           
           <div className="space-y-4">
             {/* Type Filters */}
@@ -689,7 +698,7 @@ export const InteractiveGlobeDemo = ({ alerts }: InteractiveGlobeDemoProps) => {
 
       {/* Alert Detail Dialog */}
       <Dialog open={!!selectedAlert} onOpenChange={() => setSelectedAlert(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-full max-w-[95vw] sm:max-w-[90vw] lg:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />

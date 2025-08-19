@@ -105,26 +105,26 @@ export const Navigation = () => {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
         {dashboards.map((dashboard) => {
           const IconComponent = dashboard.icon;
           const statusConfig = getStatusConfig(dashboard.status);
 
           return (
             <Card
-              key={dashboard.id}
-              className={`p-3 sm:p-4 cursor-pointer transition-all hover:scale-105 cyber-glow ${
+              key={dashboard.id}  
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover:scale-[1.02] cyber-glow ${
                 selectedDashboard === dashboard.id ? 'ring-2 ring-primary' : ''
               }`}
               onClick={() => setSelectedDashboard(dashboard.id)}
             >
               <div className="flex items-start justify-between mb-2 sm:mb-3">
-                <div className="flex items-center gap-1 sm:gap-2">
+                <div className="flex items-center gap-2">
                   <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
                   {dashboard.alertCount && (
                     <Badge 
                       variant="destructive" 
-                      className="text-xs h-4 px-1 sm:h-5 sm:px-2"
+                      className="text-xs h-5 px-2 min-w-[1.5rem] flex items-center justify-center"
                     >
                       {dashboard.alertCount}
                     </Badge>
@@ -149,22 +149,23 @@ export const Navigation = () => {
                 </div>
               </div>
 
-              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 leading-tight">
+              <h3 className="font-semibold text-sm sm:text-base mb-2 leading-tight">
                 {dashboard.title}
               </h3>
 
-              <p className="text-xs text-muted-foreground mb-3 sm:mb-4 line-clamp-2 leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
                 {dashboard.description}
               </p>
 
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="w-full text-xs group"
+                className="w-full text-xs sm:text-sm group"
                 onClick={() => navigate(dashboard.route)}
               >
-                Acessar Dashboard
-                <ArrowRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">Acessar Dashboard</span>
+                <span className="sm:hidden">Acessar</span>
+                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Card>
           );
