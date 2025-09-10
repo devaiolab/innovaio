@@ -39,7 +39,7 @@ const scenarioTemplates: Record<string, Scenario> = {
         id: "nc-1",
         type: "red",
         title: "ALERTA: NuCel Lança MVNO com Combos Financeiros",
-        description: "Nubank oficializa NuCel: planos pré-pagos R$ 25/mês com benefícios exclusivos para 90M+ clientes. Combo cartão + conta + celular.",
+        description: "Nubank oficializa NuCel: planos a partir de R$ 45/mês (15GB), R$ 55 (20GB), R$ 69 (30GB) para 110M clientes. Lançado 29/out/2024.",
         region: "Brasil",
         urgency: 95,
         timestamp: new Date(),

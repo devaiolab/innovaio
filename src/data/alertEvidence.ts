@@ -22,13 +22,13 @@ export const alertEvidence: Record<string, {
   "nc-1": {
     sources: [
       {
-        title: "Nubank anuncia NuCel - Comunicado Oficial",
-        url: "https://blog.nubank.com.br/nucel-operadora-movel/",
+        title: "NuCel: Nova operadora móvel do Nubank",
+        url: "https://nubank.com.br/nucel",
         type: "official"
       },
       {
-        title: "Anatel aprova NuCel como MVNO",
-        url: "https://www.anatel.gov.br/institucional/noticias-destaque/2747-anatel-autoriza-nubank-a-operar-como-mvno",
+        title: "NuCel autorizada pela Anatel",
+        url: "https://sistemas.anatel.gov.br/se/public/view/b/licenciamento.php",
         type: "regulatory"
       },
       {
@@ -61,7 +61,7 @@ export const alertEvidence: Record<string, {
       },
       {
         action: "Combos Convergentes",
-        description: "Criar pacotes internet fixa + móvel com desconto progressivo. Combos de R$ 89 (100Mb + 20GB) até R$ 149 (500Mb + ilimitado).",
+        description: "Criar pacotes internet fixa + móvel competitivos com NuCel. Combos de R$ 109 (100Mb + 20GB) até R$ 169 (500Mb + ilimitado).",
         effort: "Médio",
         timeframe: "2-3 meses",
         impact: "Alto"

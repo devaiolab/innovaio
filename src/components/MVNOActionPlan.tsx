@@ -54,7 +54,7 @@ export const MVNOActionPlan = ({ trigger }: MVNOActionPlanProps) => {
         },
         {
           action: "Combos Convergentes",
-          description: "Criar pacotes internet fixa + móvel: R$ 89 (100Mb + 20GB) até R$ 149 (500Mb + ilimitado).",
+          description: "Criar pacotes internet fixa + móvel competitivos: R$ 109 (100Mb + 20GB) até R$ 169 (500Mb + ilimitado).",
           status: "planejado",
           effort: 60,
           impact: 90
