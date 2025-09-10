@@ -4,8 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, TrendingDown, DollarSign, Users, Clock, Target, Zap, BarChart3, Eye, Activity, TrendingUp, MapPin } from "lucide-react";
+import { AlertTriangle, TrendingDown, DollarSign, Users, Clock, Target, Zap, BarChart3, Eye, Activity, TrendingUp, MapPin, ExternalLink, FileText, Lightbulb } from "lucide-react";
 import { ReactNode } from "react";
+import { alertEvidence, standardActions } from "@/data/alertEvidence";
+import { MVNOActionPlan } from "./MVNOActionPlan";
 
 interface AlertData {
   id: string;
@@ -23,6 +25,9 @@ interface CriticalSignalUnifiedDetailsProps {
 }
 
 export const CriticalSignalUnifiedDetails = ({ signal, trigger }: CriticalSignalUnifiedDetailsProps) => {
+  // Get evidence data for this signal if available
+  const evidenceData = alertEvidence[signal.id];
+  
   const getSignalConfig = (type: AlertData["type"]) => {
     switch (type) {
       case "red":
@@ -202,13 +207,14 @@ export const CriticalSignalUnifiedDetails = ({ signal, trigger }: CriticalSignal
         </DialogHeader>
 
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className={`grid w-full ${evidenceData ? 'grid-cols-7' : 'grid-cols-6'}`}>
             <TabsTrigger value="overview">Visão Geral</TabsTrigger>
             <TabsTrigger value="patterns">Padrões</TabsTrigger>
             <TabsTrigger value="impacts">Impactos</TabsTrigger>
             <TabsTrigger value="scenarios">Cenários</TabsTrigger>
             <TabsTrigger value="correlations">Correlações</TabsTrigger>
             <TabsTrigger value="actions">Ações</TabsTrigger>
+            {evidenceData && <TabsTrigger value="sources">Fontes</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
@@ -478,11 +484,59 @@ export const CriticalSignalUnifiedDetails = ({ signal, trigger }: CriticalSignal
                 Com base na análise, recomendamos execução imediata das 2 primeiras ações 
                 para mitigar {analysis.scenarios.immediate.probability}% do risco identificado.
               </p>
-              <Button className="w-full">
-                Ativar Plano de Resposta de Emergência
-              </Button>
+              <div className="space-y-2">
+                <Button className="w-full">
+                  Ativar Plano de Resposta de Emergência
+                </Button>
+                {(signal.id === 'nc-1' || signal.id === 'nc-4') && (
+                  <MVNOActionPlan 
+                    trigger={
+                      <Button variant="outline" className="w-full">
+                        <Lightbulb className="h-4 w-4 mr-2" />
+                        Ver Plano Estratégico MVNO Completo
+                      </Button>
+                    }
+                  />
+                )}
+              </div>
             </Card>
           </TabsContent>
+
+          {evidenceData && (
+            <TabsContent value="sources" className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Fontes e Evidências</h3>
+              </div>
+              
+              <div className="grid gap-4">
+                {evidenceData.sources.map((source, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sm mb-1">{source.title}</h4>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge variant="outline" className="text-xs">
+                            {source.type === 'official' && 'Oficial'}
+                            {source.type === 'news' && 'Notícia'}
+                            {source.type === 'research' && 'Pesquisa'}
+                            {source.type === 'regulatory' && 'Regulatório'}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground">{source.url}</p>
+                      </div>
+                      <Button size="sm" variant="outline" asChild>
+                        <a href={source.url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          Abrir
+                        </a>
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+          )}
         </Tabs>
       </DialogContent>
     </Dialog>
