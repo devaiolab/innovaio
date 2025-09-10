@@ -27,6 +27,58 @@ export interface Scenario {
 }
 
 const scenarioTemplates: Record<string, Scenario> = {
+  nucel_mvno_threat: {
+    id: "nucel_mvno_threat",
+    name: "NuCel: MVNO Disruptivo do Nubank",
+    description: "Nubank lança NuCel com estratégia MVNO agressiva, combinando serviços financeiros e telecom",
+    category: "competition",
+    intensity: "high",
+    duration: 35,
+    alerts: [
+      {
+        id: "nc-1",
+        type: "red",
+        title: "ALERTA: NuCel Lança MVNO com Combos Financeiros",
+        description: "Nubank oficializa NuCel: planos pré-pagos R$ 25/mês com benefícios exclusivos para 90M+ clientes. Combo cartão + conta + celular.",
+        region: "Brasil",
+        urgency: 95,
+        timestamp: new Date(),
+      },
+      {
+        id: "nc-2",
+        type: "red",
+        title: "ESTRATÉGIA: Super App Nubank Completo",
+        description: "NuCel integra cashback, Pix grátis ilimitado e descontos no Nubank Shopping. Ecossistema completo financeiro + telecom.",
+        region: "São Paulo",
+        urgency: 92,
+        timestamp: new Date(Date.now() - 30 * 60 * 1000),
+      },
+      {
+        id: "nc-3",
+        type: "yellow",
+        title: "AMEAÇA: ISPs Regionais Sem Resposta",
+        description: "ISPs tradicionais não possuem portfólio de serviços financeiros para competir com combos Nubank. Gap estratégico crítico.",
+        region: "São Bernardo do Campo",
+        urgency: 88,
+        timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+      },
+      {
+        id: "nc-4",
+        type: "blue",
+        title: "OPORTUNIDADE: Athon Telecom MVNO",
+        description: "Janela para Athon desenvolver MVNO próprio com foco em combos internet + mobile para base instalada ABC.",
+        region: "São Bernardo do Campo",
+        urgency: 85,
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      },
+    ],
+    impacts: {
+      revenue: -22,
+      market_share: -18,
+      operational_risk: 40,
+      customer_satisfaction: -15,
+    },
+  },
   starlink_expansion: {
     id: "starlink_expansion",
     name: "Starlink Expansão Agressiva",
