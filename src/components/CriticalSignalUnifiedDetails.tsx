@@ -450,7 +450,7 @@ export const CriticalSignalUnifiedDetails = ({ signal, trigger }: CriticalSignal
 
           <TabsContent value="actions" className="space-y-4">
             <div className="grid gap-3">
-              {mitigationActions.map((action, index) => (
+              {(evidenceData?.actions || standardActions).map((action, index) => (
                 <Card key={index} className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1">
