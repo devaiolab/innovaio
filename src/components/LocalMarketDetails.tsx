@@ -302,7 +302,16 @@ export const LocalMarketDetails = ({ item, trigger }: LocalMarketDetailsProps) =
                         Prioridade: {index === 0 ? 'Alta' : index === 1 ? 'Média' : 'Baixa'}
                       </div>
                     </div>
-                    <Button size="sm" variant="outline" className="text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs"
+                      onClick={() => {
+                        // Implementar execução da ação
+                        console.log(`Executando ação: ${rec}`);
+                        // Aqui seria integrado com o sistema de ações
+                      }}
+                    >
                       Executar
                     </Button>
                   </div>
@@ -318,7 +327,14 @@ export const LocalMarketDetails = ({ item, trigger }: LocalMarketDetailsProps) =
               <p className="text-sm text-muted-foreground mb-3">
                 Com base na urgência de {item.urgency}%, recomendamos ação imediata nas próximas 24-48h.
               </p>
-              <Button className="w-full">
+              <Button 
+                className="w-full"
+                onClick={() => {
+                  // Criar plano de ação detalhado
+                  console.log(`Criando plano de ação para: ${item.title}`);
+                  // Integração futura com sistema de planejamento
+                }}
+              >
                 Criar Plano de Ação Detalhado
               </Button>
             </Card>

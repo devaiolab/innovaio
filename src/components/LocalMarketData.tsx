@@ -172,10 +172,17 @@ export const LocalMarketData = () => {
 
         <TabsContent value={activeTab} className="space-y-3 flex-1 min-h-0">
           <div className="space-y-3">
-            {sortedData.slice(0, 4).map(item => {
-            const IconComponent = getTypeIcon(item.type);
-            const iconColor = getTypeColor(item.type);
-            return <Card key={item.id} className="p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all">
+            {sortedData.map((item, index) => {
+              const IconComponent = getTypeIcon(item.type);
+              const iconColor = getTypeColor(item.type);
+              const isHidden = index >= 4;
+              
+              return <Card 
+                key={item.id} 
+                className={`p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all ${
+                  isHidden ? 'market-item-hidden hidden' : ''
+                }`}
+              >
                   <div className="flex items-start gap-3">
                     <IconComponent className={`h-4 w-4 mt-1 flex-shrink-0 ${iconColor}`} fill="none" />
                     <div className="flex-1 min-w-0">
@@ -209,11 +216,24 @@ export const LocalMarketData = () => {
                     </div>
                   </div>
                 </Card>;
-          })}
+            })}
           </div>
           
-          {sortedData.length > 4 && <div className="flex justify-center pt-4 mt-auto">
-              <Button variant="outline" className="w-full h-8 text-xs cyber-glow">
+          {sortedData.length > 4 && <div className="flex justify-center pt-4 mt-auto expand-button">
+              <Button 
+                variant="outline" 
+                className="w-full h-8 text-xs cyber-glow"
+                onClick={() => {
+                  // Expandir para mostrar todos os itens
+                  const expandedItems = document.querySelectorAll('.market-item-hidden');
+                  expandedItems.forEach(item => {
+                    item.classList.remove('hidden');
+                  });
+                  // Esconder o botão após expansão
+                  const button = document.querySelector('.expand-button') as HTMLElement;
+                  if (button) button.style.display = 'none';
+                }}
+              >
                 Ver Mais ({sortedData.length - 4} itens)
               </Button>
             </div>}
