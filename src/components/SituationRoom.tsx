@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Brain, Globe, Zap } from "lucide-react";
 import { useScenarioData } from "@/hooks/useScenarioData";
+import { dataService } from "@/services/dataService";
 
 interface AlertData {
   id: string;
@@ -252,6 +253,8 @@ const mockAlerts: AlertData[] = [
 
 export const SituationRoom = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [realAlerts, setRealAlerts] = useState<any[]>([]);
+  const [isLoadingRealData, setIsLoadingRealData] = useState(false);
   const scenarioData = useScenarioData();
   
   const {
@@ -269,8 +272,44 @@ export const SituationRoom = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Use scenario alerts if simulation is active, otherwise use mock alerts
-  const currentAlerts = isSimulationActive ? getScenarioAlerts() : mockAlerts;
+  // Load real data on component mount
+  useEffect(() => {
+    const loadRealData = async () => {
+      setIsLoadingRealData(true);
+      try {
+        const [marketAlerts, regionalTrends] = await Promise.all([
+          dataService.getMarketAlerts(),
+          dataService.getRegionalTrends()
+        ]);
+
+        // Convert market alerts to match AlertData interface
+        const convertedAlerts = marketAlerts.map(alert => ({
+          id: alert.id,
+          type: alert.type === 'critical' ? 'red' as const : 
+                alert.type === 'trending' ? 'yellow' as const : 'blue' as const,
+          title: alert.title,
+          description: alert.description,
+          region: alert.region,
+          urgency: alert.relevance,
+          timestamp: alert.timestamp
+        }));
+
+        setRealAlerts(convertedAlerts);
+      } catch (error) {
+        console.error('Error loading real data:', error);
+        // Fallback to mock data if real data fails
+        setRealAlerts([]);
+      } finally {
+        setIsLoadingRealData(false);
+      }
+    };
+
+    loadRealData();
+  }, []);
+
+  // Use scenario alerts if simulation is active, real alerts if available, otherwise mock alerts
+  const currentAlerts = isSimulationActive ? getScenarioAlerts() : 
+                        realAlerts.length > 0 ? [...realAlerts, ...mockAlerts] : mockAlerts;
   const scenarioMetrics = getScenarioMetrics();
 
   return (

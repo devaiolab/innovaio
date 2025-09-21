@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { AlertTriangle, TrendingDown, DollarSign, Users, Clock, Target, Zap, BarChart3 } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import { actionService } from "@/services/actionService";
+import { dataService } from "@/services/dataService";
+import { toast } from "sonner";
 
 interface AlertData {
   id: string;
@@ -23,6 +26,9 @@ interface AlertImpactAnalysisProps {
 }
 
 export const AlertImpactAnalysis = ({ alert, trigger }: AlertImpactAnalysisProps) => {
+  const [isExecutingAction, setIsExecutingAction] = useState(false);
+  const [actionResults, setActionResults] = useState<any[]>([]);
+
   const getAlertConfig = (type: AlertData["type"]) => {
     switch (type) {
       case "red":
@@ -138,6 +144,49 @@ export const AlertImpactAnalysis = ({ alert, trigger }: AlertImpactAnalysisProps
       currency: 'BRL',
       notation: 'compact'
     }).format(Math.abs(value));
+  };
+
+  const handleExecuteAction = async (actionTitle: string) => {
+    setIsExecutingAction(true);
+    
+    try {
+      const action = {
+        id: `action-${Date.now()}`,
+        title: actionTitle,
+        description: `Ação executada para alerta: ${alert.title}`,
+        type: 'immediate' as const,
+        effort: 'medium' as const,
+        impact: 85,
+        timeframe: 'Imediato',
+        status: 'pending' as const
+      };
+
+      const result = await actionService.executeAction(action);
+      setActionResults(prev => [...prev, result]);
+      
+      toast.success(`✅ ${result.message}`);
+    } catch (error) {
+      toast.error('Erro ao executar ação');
+      console.error('Action execution error:', error);
+    } finally {
+      setIsExecutingAction(false);
+    }
+  };
+
+  const handleActivateEmergencyResponse = async () => {
+    setIsExecutingAction(true);
+    
+    try {
+      const result = await actionService.activateEmergencyResponse(alert);
+      setActionResults(prev => [...prev, result]);
+      
+      toast.success('🚨 Protocolo de emergência ativado');
+    } catch (error) {
+      toast.error('Erro ao ativar protocolo de emergência');
+      console.error('Emergency response error:', error);
+    } finally {
+      setIsExecutingAction(false);
+    }
   };
 
   return (
@@ -315,8 +364,13 @@ export const AlertImpactAnalysis = ({ alert, trigger }: AlertImpactAnalysisProps
                   </div>
                   <div className="flex items-center gap-2 mt-3">
                     <Progress value={parseInt(action.impact)} className="flex-1" />
-                    <Button size="sm" variant="outline">
-                      Executar
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => handleExecuteAction(action.action)}
+                      disabled={isExecutingAction}
+                    >
+                      {isExecutingAction ? 'Executando...' : 'Executar'}
                     </Button>
                   </div>
                 </Card>
@@ -332,9 +386,29 @@ export const AlertImpactAnalysis = ({ alert, trigger }: AlertImpactAnalysisProps
                 Com base na análise, recomendamos execução imediata das 2 primeiras ações 
                 para mitigar {analysis.scenarios.immediate.probability}% do risco identificado.
               </p>
-              <Button className="w-full">
-                Ativar Plano de Resposta de Emergência
+              <Button 
+                className="w-full"
+                onClick={handleActivateEmergencyResponse}
+                disabled={isExecutingAction}
+              >
+                {isExecutingAction ? 'Ativando...' : 'Ativar Plano de Resposta de Emergência'}
               </Button>
+              
+              {actionResults.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  <h4 className="font-semibold text-sm">Ações Executadas:</h4>
+                  {actionResults.map((result, index) => (
+                    <div 
+                      key={index} 
+                      className={`text-xs p-2 rounded ${
+                        result.success ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'
+                      }`}
+                    >
+                      {result.message}
+                    </div>
+                  ))}
+                </div>
+              )}
             </Card>
           </TabsContent>
         </Tabs>

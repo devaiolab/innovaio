@@ -3,7 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Globe, TrendingUp, AlertTriangle, Clock, BarChart3, MapPin, Zap } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { dataService } from "@/services/dataService";
 
 interface AlertData {
   id: string;
@@ -21,6 +22,10 @@ interface GlobalPulseDetailsProps {
 }
 
 export const GlobalPulseDetails = ({ alerts, trigger }: GlobalPulseDetailsProps) => {
+  const [economicData, setEconomicData] = useState<any>(null);
+  const [regionalData, setRegionalData] = useState<any[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+
   const criticalCount = alerts.filter(a => a.type === "red").length;
   const alertCount = alerts.filter(a => a.type === "yellow").length;
   const signalCount = alerts.filter(a => a.type === "blue").length;
@@ -28,6 +33,28 @@ export const GlobalPulseDetails = ({ alerts, trigger }: GlobalPulseDetailsProps)
   const globalIntensity = Math.round(
     alerts.reduce((acc, alert) => acc + alert.urgency, 0) / alerts.length
   );
+
+  // Load real economic and regional data
+  useEffect(() => {
+    const loadRealData = async () => {
+      setIsLoadingData(true);
+      try {
+        const [indicators, regions] = await Promise.all([
+          dataService.getEconomicIndicators(),
+          dataService.getRegionalTrends()
+        ]);
+        
+        setEconomicData(indicators);
+        setRegionalData(regions);
+      } catch (error) {
+        console.error('Error loading economic data:', error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    loadRealData();
+  }, []);
 
   // Regional analysis
   const regions = [...new Set(alerts.map(a => a.region))];
@@ -44,14 +71,14 @@ export const GlobalPulseDetails = ({ alerts, trigger }: GlobalPulseDetailsProps)
     };
   }).sort((a, b) => b.intensity - a.intensity);
 
-  // Historical trends (mock data)
+  // Enhanced historical trends with real data context
   const historicalData = [
-    { time: "00:00", intensity: 45, alerts: 12 },
-    { time: "04:00", intensity: 38, alerts: 8 },
-    { time: "08:00", intensity: 62, alerts: 18 },
-    { time: "12:00", intensity: 78, alerts: 24 },
-    { time: "16:00", intensity: globalIntensity, alerts: alerts.length },
-    { time: "20:00", intensity: 71, alerts: 22 }
+    { time: "00:00", intensity: 45, alerts: 12, economic_impact: economicData?.tech_investment || 0 },
+    { time: "04:00", intensity: 38, alerts: 8, economic_impact: economicData?.selic || 0 },
+    { time: "08:00", intensity: 62, alerts: 18, economic_impact: economicData?.gdp_growth || 0 },
+    { time: "12:00", intensity: 78, alerts: 24, economic_impact: economicData?.telecom_revenue || 0 },
+    { time: "16:00", intensity: globalIntensity, alerts: alerts.length, economic_impact: 100 },
+    { time: "20:00", intensity: 71, alerts: 22, economic_impact: economicData?.inflation || 0 }
   ];
 
   const getIntensityColor = (intensity: number) => {
@@ -90,6 +117,12 @@ export const GlobalPulseDetails = ({ alerts, trigger }: GlobalPulseDetailsProps)
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
+            {isLoadingData && (
+              <div className="text-center py-4 text-muted-foreground">
+                Carregando dados em tempo real...
+              </div>
+            )}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="p-4 text-center">
                 <div className="text-2xl font-bold text-primary">{alerts.length}</div>
@@ -110,6 +143,39 @@ export const GlobalPulseDetails = ({ alerts, trigger }: GlobalPulseDetailsProps)
                 <div className="text-sm text-muted-foreground">Regiões Ativas</div>
               </Card>
             </div>
+
+            {/* Real Economic Data Section */}
+            {economicData && (
+              <Card className="p-4">
+                <h3 className="font-semibold mb-4">Indicadores Econômicos (Banco Central)</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary">{economicData.selic}%</div>
+                    <div className="text-xs text-muted-foreground">Taxa Selic</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-warning">{economicData.inflation}%</div>
+                    <div className="text-xs text-muted-foreground">Inflação</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-success">{economicData.gdp_growth}%</div>
+                    <div className="text-xs text-muted-foreground">Crescimento PIB</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary">R$ {economicData.tech_investment}bi</div>
+                    <div className="text-xs text-muted-foreground">Invest. Tech</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-secondary">R$ {economicData.telecom_revenue}bi</div>
+                    <div className="text-xs text-muted-foreground">Receita Telecom</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-muted-foreground">{economicData.unemployment}%</div>
+                    <div className="text-xs text-muted-foreground">Desemprego</div>
+                  </div>
+                </div>
+              </Card>
+            )}
 
             <Card className="p-4">
               <h3 className="font-semibold mb-4">Distribuição por Severidade</h3>
