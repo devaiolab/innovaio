@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Target, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { OpportunityMatrix } from "@/components/campo-oportunidades/OpportunityMatrix";
 
 const CampoOportunidades = () => {
   const navigate = useNavigate();
@@ -27,13 +27,7 @@ const CampoOportunidades = () => {
         </Badge>
       </div>
 
-      <div className="text-center py-20">
-        <Target className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-        <h2 className="text-2xl font-semibold mb-4">Mapeamento de Oportunidades</h2>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Identificação e análise de oportunidades emergentes no ecossistema de inovação.
-        </p>
-      </div>
+      <OpportunityMatrix />
     </div>
   );
 };
