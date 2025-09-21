@@ -1,5 +1,4 @@
 import { SituationRoom } from "@/components/SituationRoom";
-import { Navigation } from "@/components/Navigation";
 import { GlobalSearchSystem } from "@/components/shared/GlobalSearchSystem";
 import { ExportSystem } from "@/components/shared/ExportSystem";
 
@@ -15,7 +14,6 @@ const Index = () => {
         </div>
         
         <SituationRoom />
-        <Navigation />
       </div>
     </div>
   );
