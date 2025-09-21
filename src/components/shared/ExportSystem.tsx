@@ -15,6 +15,8 @@ import {
   Settings,
   Check
 } from "lucide-react";
+import { exportService, type ExportOptions } from "@/services/exportService";
+import { toast } from "sonner";
 
 interface ExportOption {
   id: string;
@@ -99,21 +101,40 @@ export const ExportSystem = () => {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExport = async () => {
+    if (selectedOptions.length === 0) {
+      toast.error("Selecione pelo menos um relatório para exportar");
+      return;
+    }
+
     setIsExporting(true);
     
-    // Simulate export process
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // In a real implementation, this would generate and download the file
-    const filename = `innovaio-report-${new Date().toISOString().split('T')[0]}.${selectedFormat.toLowerCase()}`;
-    
-    // Create a mock download
-    const link = document.createElement('a');
-    link.href = 'data:text/plain;charset=utf-8,Mock export file content';
-    link.download = filename;
-    link.click();
-    
-    setIsExporting(false);
+    try {
+      const options: ExportOptions = {
+        format: selectedFormat.toLowerCase() as 'pdf' | 'csv' | 'json',
+        modules: selectedOptions,
+        includeCharts: customOptions.includeCharts,
+        includeRawData: customOptions.includeMetrics
+      };
+
+      const blob = await exportService.generateReport(options);
+      const filename = `innovaio-report-${new Date().toISOString().split('T')[0]}.${selectedFormat.toLowerCase()}`;
+      
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      toast.success(`Relatório ${selectedFormat} gerado com dados reais!`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error("Erro ao gerar relatório");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleOptionToggle = (optionId: string) => {

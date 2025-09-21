@@ -2,41 +2,41 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, MapPin, Filter } from "lucide-react";
-import { useState } from "react";
-
-interface TrendData {
-  id: string;
-  region: string;
-  technology: string;
-  intensity: number;
-  growth: number;
-  impact: "high" | "medium" | "low";
-}
-
-const mockTrends: TrendData[] = [
-  { id: "1", region: "São Paulo", technology: "FTTH (Fibra Óptica)", intensity: 95, growth: 45, impact: "high" },
-  { id: "2", region: "Rio de Janeiro", technology: "5G FWA", intensity: 88, growth: 156, impact: "high" },
-  { id: "3", region: "Brasília", technology: "WiFi 6E", intensity: 82, growth: 89, impact: "medium" },
-  { id: "4", region: "Minas Gerais", technology: "Edge Computing", intensity: 78, growth: 134, impact: "medium" },
-  { id: "5", region: "Sul (RS/SC/PR)", technology: "Private Networks", intensity: 71, growth: 98, impact: "medium" },
-  { id: "6", region: "Nordeste", technology: "Satellite Internet", intensity: 69, growth: 187, impact: "high" },
-  { id: "7", region: "Centro-Oeste", technology: "SD-WAN", intensity: 65, growth: 76, impact: "medium" },
-  { id: "8", region: "Norte", technology: "LEO Constellation", intensity: 58, growth: 245, impact: "high" },
-];
+import { useState, useEffect } from "react";
+import { dataService, type RegionData } from "@/services/dataService";
 
 export const TrendingMap = () => {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [trends, setTrends] = useState<RegionData[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredTrends = mockTrends.filter(trend => 
-    filter === "all" || trend.impact === filter
-  );
+  useEffect(() => {
+    const loadTrends = async () => {
+      try {
+        const data = await dataService.getRegionalTrends();
+        setTrends(data);
+      } catch (error) {
+        console.error('Error loading trends:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTrends();
+  }, []);
+
+  const filteredTrends = trends.filter(trend => {
+    if (filter === "all") return true;
+    const impactMap = { "Alto": "high", "Médio": "medium", "Baixo": "low" };
+    return impactMap[trend.impact] === filter;
+  });
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case "high": return "border-destructive text-destructive bg-destructive/10";
-      case "medium": return "border-warning text-warning bg-warning/10";
-      case "low": return "border-success text-success bg-success/10";
+      case "Alto": return "border-destructive text-destructive bg-destructive/10";
+      case "Médio": return "border-warning text-warning bg-warning/10";
+      case "Baixo": return "border-success text-success bg-success/10";
       default: return "border-muted text-muted-foreground";
     }
   };
@@ -83,7 +83,7 @@ export const TrendingMap = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-pulse"></div>
         {filteredTrends.map((trend, index) => (
           <div
-            key={trend.id}
+            key={trend.region}
             className={`absolute animate-pulse cursor-pointer transition-all duration-300 ${
               selectedRegion === trend.region ? "scale-150 z-10" : "hover:scale-125"
             }`}
@@ -105,7 +105,7 @@ export const TrendingMap = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {filteredTrends.map((trend) => (
           <div
-            key={trend.id}
+            key={trend.region}
             className={`p-3 sm:p-4 border rounded-lg transition-all duration-300 cursor-pointer ${
               selectedRegion === trend.region
                 ? "border-primary bg-primary/5 cyber-glow"
@@ -115,7 +115,7 @@ export const TrendingMap = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <Badge className={getImpactColor(trend.impact)}>
-                {trend.impact === "high" ? "ALTO" : trend.impact === "medium" ? "MÉDIO" : "BAIXO"}
+                {trend.impact.toUpperCase()}
               </Badge>
               <div className="flex items-center gap-1 text-success">
                 <TrendingUp className="h-3 w-3" />

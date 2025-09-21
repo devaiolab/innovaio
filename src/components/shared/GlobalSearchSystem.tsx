@@ -18,6 +18,7 @@ import {
   Swords,
   X
 } from "lucide-react";
+import { dataService } from "@/services/dataService";
 
 interface SearchResult {
   id: string;
@@ -31,63 +32,7 @@ interface SearchResult {
   metadata?: Record<string, any>;
 }
 
-const mockSearchResults: SearchResult[] = [
-  {
-    id: "alert-nc-1",
-    title: "NuCel MVNO Launch",
-    description: "Nubank launches NuCel: R$45-69/month plans for 110M clients",
-    type: "alert",
-    module: "Panorama Global",
-    relevance: 98,
-    timestamp: new Date(Date.now() - 30 * 60 * 1000),
-    tags: ["MVNO", "Nubank", "Competição", "Preços"],
-    metadata: { urgency: 95, region: "Brasil" }
-  },
-  {
-    id: "opp-mvno-1", 
-    title: "MVNO Regional Premium",
-    description: "MVNO focused on ABC region with differentiated services",
-    type: "opportunity",
-    module: "Campo Oportunidades",
-    relevance: 92,
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    tags: ["MVNO", "ABC", "Regional", "Premium"],
-    metadata: { impact: 82, feasibility: 88, revenue: 18000000 }
-  },
-  {
-    id: "trend-5g-1",
-    title: "5G Private Networks Growth",
-    description: "Enterprise 5G adoption accelerating in manufacturing",
-    type: "trend",
-    module: "Fábrica Inovação",
-    relevance: 87,
-    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
-    tags: ["5G", "Enterprise", "Manufacturing", "Private Networks"],
-    metadata: { growth: 127, sector: "Industrial" }
-  },
-  {
-    id: "inf-tech-1",
-    title: "Dr. Tech Brasil",
-    description: "Tech influencer discussing 5G industrial applications",
-    type: "influencer",
-    module: "Observador Social", 
-    relevance: 85,
-    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
-    tags: ["5G", "IoT", "Technology", "Industry"],
-    metadata: { followers: 850000, engagement: 12.5, influence: 94 }
-  },
-  {
-    id: "threat-reg-1",
-    title: "Regulatory Changes 2024",
-    description: "New Anatel regulations affecting MVNO operations",
-    type: "threat",
-    module: "Linha de Fogo",
-    relevance: 90,
-    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000),
-    tags: ["Regulação", "Anatel", "MVNO", "Compliance"],
-    metadata: { severity: "High", impact: "Operational" }
-  }
-];
+// Real search results will be fetched through dataService
 
 const typeIcons = {
   alert: AlertTriangle,
@@ -121,6 +66,7 @@ export const GlobalSearchSystem = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([
     "NuCel MVNO",
     "5G Private Networks", 
@@ -138,21 +84,24 @@ export const GlobalSearchSystem = () => {
 
   useEffect(() => {
     if (searchQuery.length > 2) {
-      // Simulate search with filtering and sorting
-      const filtered = mockSearchResults
-        .filter(result => 
-          result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          result.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          result.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-        )
-        .filter(result => 
-          selectedFilters.length === 0 || selectedFilters.includes(result.type)
-        )
-        .sort((a, b) => b.relevance - a.relevance);
+      const performSearch = async () => {
+        setLoading(true);
+        try {
+          const searchResults = await dataService.performGlobalSearch(searchQuery, selectedFilters);
+          setResults(searchResults);
+        } catch (error) {
+          console.error('Search error:', error);
+          setResults([]);
+        } finally {
+          setLoading(false);
+        }
+      };
       
-      setResults(filtered);
+      const debounceTimer = setTimeout(performSearch, 300);
+      return () => clearTimeout(debounceTimer);
     } else {
       setResults([]);
+      setLoading(false);
     }
   }, [searchQuery, selectedFilters]);
 
@@ -252,7 +201,12 @@ export const GlobalSearchSystem = () => {
 
           {/* Results */}
           <div className="max-h-96 overflow-y-auto space-y-2">
-            {searchQuery.length <= 2 ? (
+            {loading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-3"></div>
+                <p className="text-sm text-muted-foreground">Buscando dados reais...</p>
+              </div>
+            ) : searchQuery.length <= 2 ? (
               <div className="space-y-4">
                 {/* Recent Searches */}
                 <div>
