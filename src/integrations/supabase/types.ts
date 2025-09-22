@@ -186,6 +186,90 @@ export type Database = {
         }
         Relationships: []
       }
+      competitive_intelligence: {
+        Row: {
+          competitor_id: string
+          created_at: string
+          funding_millions: number | null
+          id: string
+          innovation_score: number
+          market_share: number
+          name: string
+          patent_score: number
+          recent_moves: Json | null
+          sector: string
+          threat_level: string
+          updated_at: string
+        }
+        Insert: {
+          competitor_id: string
+          created_at?: string
+          funding_millions?: number | null
+          id?: string
+          innovation_score: number
+          market_share: number
+          name: string
+          patent_score: number
+          recent_moves?: Json | null
+          sector: string
+          threat_level: string
+          updated_at?: string
+        }
+        Update: {
+          competitor_id?: string
+          created_at?: string
+          funding_millions?: number | null
+          id?: string
+          innovation_score?: number
+          market_share?: number
+          name?: string
+          patent_score?: number
+          recent_moves?: Json | null
+          sector?: string
+          threat_level?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contingency_plans: {
+        Row: {
+          created_at: string
+          estimated_time: string
+          id: string
+          plan_id: string
+          resource_requirements: string
+          response_actions: Json
+          scenario: string
+          success_probability: number
+          threat_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estimated_time: string
+          id?: string
+          plan_id: string
+          resource_requirements: string
+          response_actions: Json
+          scenario: string
+          success_probability: number
+          threat_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estimated_time?: string
+          id?: string
+          plan_id?: string
+          resource_requirements?: string
+          response_actions?: Json
+          scenario?: string
+          success_probability?: number
+          threat_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       data_sources_status: {
         Row: {
           created_at: string
@@ -222,6 +306,318 @@ export type Database = {
         }
         Relationships: []
       }
+      innovation_opportunities: {
+        Row: {
+          applications: Json | null
+          category: string
+          created_at: string
+          id: string
+          investment_millions: number
+          maturity_level: string
+          opportunity_id: string
+          potential_level: string
+          roi_percentage: number
+          technologies: Json | null
+          time_to_market_months: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          applications?: Json | null
+          category: string
+          created_at?: string
+          id?: string
+          investment_millions: number
+          maturity_level: string
+          opportunity_id: string
+          potential_level: string
+          roi_percentage: number
+          technologies?: Json | null
+          time_to_market_months: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          applications?: Json | null
+          category?: string
+          created_at?: string
+          id?: string
+          investment_millions?: number
+          maturity_level?: string
+          opportunity_id?: string
+          potential_level?: string
+          roi_percentage?: number
+          technologies?: Json | null
+          time_to_market_months?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      market_threats: {
+        Row: {
+          created_at: string
+          id: string
+          impact_area: string
+          likelihood: number
+          mitigation_status: string
+          region: string
+          severity_level: string
+          threat_id: string
+          threat_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          impact_area: string
+          likelihood: number
+          mitigation_status: string
+          region: string
+          severity_level: string
+          threat_id: string
+          threat_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          impact_area?: string
+          likelihood?: number
+          mitigation_status?: string
+          region?: string
+          severity_level?: string
+          threat_id?: string
+          threat_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      regional_trends: {
+        Row: {
+          coordinates: Json | null
+          created_at: string
+          growth_percentage: number
+          id: string
+          impact_level: string
+          intensity: number
+          market_data: Json | null
+          region: string
+          technology: string
+          trend_id: string
+          updated_at: string
+        }
+        Insert: {
+          coordinates?: Json | null
+          created_at?: string
+          growth_percentage: number
+          id?: string
+          impact_level: string
+          intensity: number
+          market_data?: Json | null
+          region: string
+          technology: string
+          trend_id: string
+          updated_at?: string
+        }
+        Update: {
+          coordinates?: Json | null
+          created_at?: string
+          growth_percentage?: number
+          id?: string
+          impact_level?: string
+          intensity?: number
+          market_data?: Json | null
+          region?: string
+          technology?: string
+          trend_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sector_analysis: {
+        Row: {
+          created_at: string
+          id: string
+          investment_millions: number
+          opportunity_score: number
+          patents_count: number
+          risk_level: string
+          sector_id: string
+          sector_name: string
+          startups_count: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          investment_millions: number
+          opportunity_score: number
+          patents_count: number
+          risk_level: string
+          sector_id: string
+          sector_name: string
+          startups_count: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          investment_millions?: number
+          opportunity_score?: number
+          patents_count?: number
+          risk_level?: string
+          sector_id?: string
+          sector_name?: string
+          startups_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      social_influencers: {
+        Row: {
+          business_impact: string
+          created_at: string
+          engagement_rate: number
+          followers: number
+          id: string
+          influence_score: number
+          influencer_id: string
+          name: string
+          platform: string
+          recent_post: string | null
+          tier: string
+          topics: Json | null
+          updated_at: string
+        }
+        Insert: {
+          business_impact: string
+          created_at?: string
+          engagement_rate: number
+          followers: number
+          id?: string
+          influence_score: number
+          influencer_id: string
+          name: string
+          platform: string
+          recent_post?: string | null
+          tier: string
+          topics?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          business_impact?: string
+          created_at?: string
+          engagement_rate?: number
+          followers?: number
+          id?: string
+          influence_score?: number
+          influencer_id?: string
+          name?: string
+          platform?: string
+          recent_post?: string | null
+          tier?: string
+          topics?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      social_trends: {
+        Row: {
+          business_relevance: number
+          created_at: string
+          engagement: number
+          growth_rate: number
+          id: string
+          impact_level: string
+          keywords: Json | null
+          mentions: number
+          platform: string
+          region: string
+          sentiment: string
+          topic: string
+          trend_id: string
+          updated_at: string
+        }
+        Insert: {
+          business_relevance: number
+          created_at?: string
+          engagement: number
+          growth_rate: number
+          id?: string
+          impact_level: string
+          keywords?: Json | null
+          mentions: number
+          platform: string
+          region: string
+          sentiment: string
+          topic: string
+          trend_id: string
+          updated_at?: string
+        }
+        Update: {
+          business_relevance?: number
+          created_at?: string
+          engagement?: number
+          growth_rate?: number
+          id?: string
+          impact_level?: string
+          keywords?: Json | null
+          mentions?: number
+          platform?: string
+          region?: string
+          sentiment?: string
+          topic?: string
+          trend_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      strategic_events: {
+        Row: {
+          company: string
+          created_at: string
+          description: string
+          event_date: string
+          event_id: string
+          event_type: string
+          financial_value: number | null
+          id: string
+          impact_score: number
+          sector: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          description: string
+          event_date: string
+          event_id: string
+          event_type: string
+          financial_value?: number | null
+          id?: string
+          impact_score: number
+          sector: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          description?: string
+          event_date?: string
+          event_id?: string
+          event_type?: string
+          financial_value?: number | null
+          id?: string
+          impact_score?: number
+          sector?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       system_metrics: {
         Row: {
           created_at: string
@@ -255,6 +651,45 @@ export type Database = {
           region?: string | null
           source?: string
           timestamp?: string
+        }
+        Relationships: []
+      }
+      tech_evolution: {
+        Row: {
+          category: string
+          color_code: string | null
+          created_at: string
+          growth_rate: number
+          icon: string | null
+          id: string
+          month_year: string
+          progress_value: number
+          tech_id: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          color_code?: string | null
+          created_at?: string
+          growth_rate: number
+          icon?: string | null
+          id?: string
+          month_year: string
+          progress_value: number
+          tech_id: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          color_code?: string | null
+          created_at?: string
+          growth_rate?: number
+          icon?: string | null
+          id?: string
+          month_year?: string
+          progress_value?: number
+          tech_id?: string
+          updated_at?: string
         }
         Relationships: []
       }
