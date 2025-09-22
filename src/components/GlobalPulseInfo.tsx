@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Globe, TrendingUp, AlertTriangle, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GlobalPulseDetails } from "./GlobalPulseDetails";
-
 interface AlertData {
   id: string;
   type: "blue" | "yellow" | "red";
@@ -14,17 +13,14 @@ interface AlertData {
   urgency: number;
   timestamp: Date;
 }
-
 interface GlobalPulseInfoProps {
   alerts: AlertData[];
 }
-
 export const GlobalPulseInfo = ({
   alerts
 }: GlobalPulseInfoProps) => {
   const [realTime, setRealTime] = useState(new Date());
   const [pulseCount, setPulseCount] = useState(0);
-
   useEffect(() => {
     const timer = setInterval(() => {
       setRealTime(new Date());
@@ -32,12 +28,10 @@ export const GlobalPulseInfo = ({
     }, 2000);
     return () => clearInterval(timer);
   }, []);
-
   const criticalCount = alerts.filter(a => a.type === "red").length;
   const alertCount = alerts.filter(a => a.type === "yellow").length;
   const signalCount = alerts.filter(a => a.type === "blue").length;
   const globalIntensity = Math.round(alerts.reduce((acc, alert) => acc + alert.urgency, 0) / alerts.length);
-
   const getIntensityLevel = (intensity: number) => {
     if (intensity >= 85) return {
       level: "EXTREMA",
@@ -56,12 +50,9 @@ export const GlobalPulseInfo = ({
       color: "text-success"
     };
   };
-
   const intensityInfo = getIntensityLevel(globalIntensity);
   const recentAlerts = alerts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime()).slice(0, 3);
-
-  return (
-    <div className="p-4 border-primary/20 cyber-glow h-[600px] flex flex-col bg-card text-card-foreground shadow-sm rounded-lg border">
+  return <div className="p-4 border-primary/20 cyber-glow h-[600px] flex flex-col bg-card text-card-foreground shadow-sm rounded-lg border">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Globe className="h-5 w-5 text-primary" fill="none" />
@@ -109,7 +100,7 @@ export const GlobalPulseInfo = ({
       </div>
 
       {/* Intensity Level - Redesigned */}
-      <div className="p-2 rounded-lg bg-gradient-to-r from-muted/50 to-muted/20 mb-3">
+      <div className="p-2 rounded-lg bg-gradient-to-r from-muted/50 to-muted/20 mb-3 py-[10px] my-[10px]">
         <div className="flex items-center justify-between mb-1">
           <span className="text-sm font-medium">Nível Regional</span>
           <Badge variant="outline" className={`text-xs ${intensityInfo.color} border-current`}>
@@ -117,30 +108,21 @@ export const GlobalPulseInfo = ({
           </Badge>
         </div>
         <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-          <div 
-            className={`h-2 rounded-full transition-all duration-1000 ${
-              globalIntensity >= 85 ? 'bg-destructive' : 
-              globalIntensity >= 70 ? 'bg-warning' : 
-              globalIntensity >= 50 ? 'bg-primary' : 'bg-success'
-            }`} 
-            style={{ width: `${globalIntensity}%` }}
-          ></div>
+          <div className={`h-2 rounded-full transition-all duration-1000 ${globalIntensity >= 85 ? 'bg-destructive' : globalIntensity >= 70 ? 'bg-warning' : globalIntensity >= 50 ? 'bg-primary' : 'bg-success'}`} style={{
+          width: `${globalIntensity}%`
+        }}></div>
         </div>
       </div>
 
       {/* Recent Activity - Improved Layout */}
-      <div className="flex-1 min-h-0 overflow-hidden">
+      <div className="flex-1 min-h-0 overflow-hidden my-[5px] py-[17px]">
         <div className="flex items-center gap-2 mb-2">
           <TrendingUp className="h-4 w-4 text-muted-foreground" fill="none" />
           <span className="text-sm font-medium">Atividade Recente</span>
         </div>
         <div className="space-y-1">
-          {recentAlerts.slice(0, 3).map(alert => (
-            <div key={alert.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors">
-              <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                alert.type === 'red' ? 'bg-destructive' : 
-                alert.type === 'yellow' ? 'bg-warning' : 'bg-primary'
-              }`}></div>
+          {recentAlerts.slice(0, 3).map(alert => <div key={alert.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors">
+              <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${alert.type === 'red' ? 'bg-destructive' : alert.type === 'yellow' ? 'bg-warning' : 'bg-primary'}`}></div>
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-xs truncate">{alert.title}</div>
                 <div className="text-xs text-muted-foreground truncate">{alert.region}</div>
@@ -149,8 +131,7 @@ export const GlobalPulseInfo = ({
                 <Clock className="h-3 w-3" fill="none" />
                 <span>{Math.floor((realTime.getTime() - alert.timestamp.getTime()) / (1000 * 60 * 60))}h</span>
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
       </div>
 
@@ -168,15 +149,9 @@ export const GlobalPulseInfo = ({
         </div>
 
         {/* Analysis Button */}
-        <GlobalPulseDetails 
-          alerts={alerts} 
-          trigger={
-            <Button variant="outline" size="sm" className="w-full text-xs cyber-glow h-8">
+        <GlobalPulseDetails alerts={alerts} trigger={<Button variant="outline" size="sm" className="w-full text-xs cyber-glow h-8">
               Ver Análise Detalhada
-            </Button>
-          } 
-        />
+            </Button>} />
       </div>
-    </div>
-  );
+    </div>;
 };
