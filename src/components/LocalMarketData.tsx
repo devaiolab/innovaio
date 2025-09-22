@@ -163,7 +163,7 @@ export const LocalMarketData = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1 min-h-0">
-        <TabsList className="grid w-full grid-cols-5 mb-4 h-8">
+        <TabsList className="grid w-full grid-cols-5 mb-4 h-8 py-0">
           <TabsTrigger value="all" className="text-xs px-2">Todos</TabsTrigger>
           <TabsTrigger value="competitor" className="text-xs px-1">Concorrentes</TabsTrigger>
           <TabsTrigger value="threat" className="text-xs px-2">Ameaças</TabsTrigger>
