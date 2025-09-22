@@ -21,7 +21,7 @@ export const CriticalSignals = ({
 }: CriticalSignalsProps) => {
   const criticalAlerts = alerts.filter(alert => alert.urgency >= 75);
   const displayedAlerts = criticalAlerts.slice(0, 3);
-  const hasMoreAlerts = criticalAlerts.length > 3;
+  const hasMoreAlerts = alerts.length > 3;
   const getAlertConfig = (type: AlertData["type"]) => {
     switch (type) {
       case "red":
@@ -62,7 +62,7 @@ export const CriticalSignals = ({
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d`;
   };
-  return <Card className="h-full p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden my-0 py-[23px] px-[28px]">
+  return <Card className="h-[600px] p-4 sm:p-6 flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex items-center gap-2 mb-4">
         <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
         <h2 className="text-base sm:text-xl font-semibold">Alertas Globais</h2>
@@ -104,10 +104,10 @@ export const CriticalSignals = ({
       })}
         
         {hasMoreAlerts && (
-          <div className="pt-4">
+          <div className="pt-4 mt-auto">
             <AlertDialog alerts={alerts} trigger={<Button variant="outline" size="sm" className="cyber-glow text-xs w-full h-8">
-                  <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
-                  <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
+                  <span className="sm:hidden">+{alerts.length - 3}</span>
+                  <span className="hidden sm:inline">Ver Mais {alerts.length - 3} Alertas</span>
                 </Button>} />
           </div>
         )}

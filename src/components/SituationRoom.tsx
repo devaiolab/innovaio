@@ -153,9 +153,7 @@ export const SituationRoom = () => {
             <InteractiveGlobeDemo alerts={currentAlerts} />
           </Card>
           
-          <div className="h-[600px]">
-            <CriticalSignals alerts={currentAlerts} />
-          </div>
+          <CriticalSignals alerts={currentAlerts} />
           
           {/* Bottom Row */}
           <Card className="p-6 h-[600px]">

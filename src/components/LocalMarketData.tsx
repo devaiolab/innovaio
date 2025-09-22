@@ -151,7 +151,7 @@ export const LocalMarketData = () => {
   };
   const filteredData = activeTab === "all" ? localMarketData : localMarketData.filter(item => item.type === activeTab);
   const sortedData = filteredData.sort((a, b) => b.urgency - a.urgency);
-  return <Card className="p-4 sm:p-6 h-full flex flex-col border-primary/20 cyber-glow overflow-hidden my-0 px-[28px] py-[23px]">
+  return <Card className="p-4 h-[600px] flex flex-col border-primary/20 cyber-glow overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary" fill="none" />
@@ -171,29 +171,26 @@ export const LocalMarketData = () => {
           <TabsTrigger value="regulation" className="text-xs px-2">Regulação</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={activeTab} className="space-y-3 flex-1 min-h-0">
-          <div className="space-y-3">
-            {sortedData.map((item, index) => {
+        <TabsContent value={activeTab} className="space-y-2 flex-1 flex flex-col min-h-0">
+          <div className="space-y-2 flex-1 overflow-y-auto">
+            {sortedData.slice(0, 3).map((item, index) => {
               const IconComponent = getTypeIcon(item.type);
               const iconColor = getTypeColor(item.type);
-              const isHidden = index >= 3;
               
               return <Card 
                 key={item.id} 
-                className={`p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all ${
-                  isHidden ? 'market-item-hidden hidden' : ''
-                }`}
+                className="p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all"
               >
                   <div className="flex items-start gap-3">
-                    <IconComponent className={`h-4 w-4 mt-1 flex-shrink-0 ${iconColor}`} fill="none" />
+                    <IconComponent className={`h-3 w-3 mt-1 flex-shrink-0 ${iconColor}`} fill="none" />
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-medium text-sm truncate">{item.title}</h3>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-medium text-xs truncate">{item.title}</h3>
                         <Badge variant={getImpactVariant(item.impact)} className="text-xs flex-shrink-0">
                           {item.impact}
                         </Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-muted-foreground mb-2 line-clamp-2 leading-relaxed">
                         {item.description}
                       </p>
                       <div className="flex items-center justify-between text-xs">
@@ -206,7 +203,7 @@ export const LocalMarketData = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-2 items-end flex-shrink-0">
+                    <div className="flex flex-col gap-1 items-end flex-shrink-0">
                       <div className="flex items-center gap-1">
                         <Zap className="h-3 w-3 text-yellow-400" fill="none" />
                         <span className="text-xs font-mono text-primary">{item.urgency}</span>
@@ -221,7 +218,7 @@ export const LocalMarketData = () => {
           </div>
           
           {sortedData.length > 3 && (
-            <div className="flex justify-center pt-4 mt-auto">
+            <div className="pt-2 mt-auto">
               <LocalMarketDialog 
                 items={sortedData} 
                 trigger={
