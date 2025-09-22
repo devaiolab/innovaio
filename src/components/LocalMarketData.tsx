@@ -175,7 +175,7 @@ export const LocalMarketData = () => {
             {sortedData.map((item, index) => {
               const IconComponent = getTypeIcon(item.type);
               const iconColor = getTypeColor(item.type);
-              const isHidden = index >= 4;
+              const isHidden = index >= 3;
               
               return <Card 
                 key={item.id} 
@@ -219,7 +219,7 @@ export const LocalMarketData = () => {
             })}
           </div>
           
-          {sortedData.length > 4 && <div className="flex justify-center pt-4 mt-auto expand-button">
+          {sortedData.length > 3 && <div className="flex justify-center pt-4 mt-auto expand-button">
               <Button 
                 variant="outline" 
                 className="w-full h-8 text-xs cyber-glow"
@@ -234,7 +234,7 @@ export const LocalMarketData = () => {
                   if (button) button.style.display = 'none';
                 }}
               >
-                Ver Mais ({sortedData.length - 4} itens)
+                Ver Mais ({sortedData.length - 3} itens)
               </Button>
             </div>}
         </TabsContent>

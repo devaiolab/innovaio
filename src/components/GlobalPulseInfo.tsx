@@ -135,7 +135,7 @@ export const GlobalPulseInfo = ({
           <span className="text-sm font-medium">Atividade Recente</span>
         </div>
         <div className="space-y-2">
-          {recentAlerts.slice(0, 2).map(alert => (
+          {recentAlerts.slice(0, 3).map(alert => (
             <div key={alert.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors">
               <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
                 alert.type === 'red' ? 'bg-destructive' : 
@@ -152,6 +152,20 @@ export const GlobalPulseInfo = ({
             </div>
           ))}
         </div>
+        
+        {/* Ver Mais Button */}
+        {alerts.length > 3 && (
+          <div className="mt-3">
+            <GlobalPulseDetails 
+              alerts={alerts} 
+              trigger={
+                <Button variant="ghost" size="sm" className="w-full text-xs text-muted-foreground hover:text-primary">
+                  Ver Mais ({alerts.length - 3} alertas)
+                </Button>
+              } 
+            />
+          </div>
+        )}
       </div>
 
       {/* Bottom Section - Status & Actions */}
