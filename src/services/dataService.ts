@@ -358,18 +358,29 @@ class DataService {
 
     const status = await Promise.all(
       sources.map(async (source) => {
+        const startTime = Date.now();
         try {
           const response = await fetch(source.endpoint, { method: 'HEAD' });
+          const responseTime = Date.now() - startTime;
           return {
             name: source.name,
+            endpoint: source.endpoint,
             status: response.ok ? 'online' : 'offline',
-            lastCheck: new Date()
+            lastCheck: new Date(),
+            responseTime,
+            error: response.ok ? null : `HTTP ${response.status}`,
+            metadata: { status_code: response.status }
           };
-        } catch {
+        } catch (error: any) {
+          const responseTime = Date.now() - startTime;
           return {
             name: source.name,
+            endpoint: source.endpoint,
             status: 'offline',
-            lastCheck: new Date()
+            lastCheck: new Date(),
+            responseTime,
+            error: error.message,
+            metadata: { error_type: 'connection_failed' }
           };
         }
       })
