@@ -9,7 +9,7 @@ import { GlobalPulseInfo } from "@/components/GlobalPulseInfo";
 import { LocalMarketData } from "@/components/LocalMarketData";
 import { ScenarioSelector } from "@/components/ScenarioSelector";
 import { ImpactAnalysis } from "@/components/ImpactAnalysis";
-import { SystemHealthMonitor } from "@/components/SystemHealthMonitor";
+
 import { useScenarioData } from "@/hooks/useScenarioData";
 import { Clock, Activity } from "lucide-react";
 import { dataService } from "@/services/dataService";
@@ -110,42 +110,17 @@ export const SituationRoom = () => {
     }`}>
       <div className="max-w-[1800px] mx-auto space-y-4">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              INNOVAIO
-            </h1>
-            {isSimulationActive && (
-              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 animate-pulse">
-                SIMULAÇÃO ATIVA
-              </Badge>
-            )}
-          </div>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            INNOVAIO
+          </h1>
           
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${
-                isLoadingData ? 'bg-yellow-400 animate-pulse' : 
-                systemInitialized ? 'bg-green-400' : 'bg-red-400'
-              }`}></div>
-              <span>
-                {isLoadingData ? 'Inicializando sistema...' : 
-                 systemInitialized ? `${databaseAlerts.length} alertas em tempo real` : 'Sistema offline'}
-              </span>
-            </div>
-            
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
               <span>{currentTime.toLocaleTimeString('pt-BR')}</span>
             </div>
             
-            <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4" />
-              <span>{currentTime.toLocaleDateString('pt-BR')}</span>
-            </div>
-          </div>
-          
-          <div className="flex gap-2">
             {!isSimulationActive ? (
               <ScenarioSelector
                 scenarios={scenarioTemplates}
@@ -153,12 +128,17 @@ export const SituationRoom = () => {
                 trigger={<Button variant="outline">Iniciar Simulação</Button>}
               />
             ) : (
-              <button
-                onClick={stopScenario}
-                className="px-4 py-2 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors"
-              >
-                Parar Simulação
-              </button>
+              <div className="flex items-center gap-2">
+                <Badge variant="destructive" className="animate-pulse">
+                  SIMULAÇÃO ATIVA
+                </Badge>
+                <button
+                  onClick={stopScenario}
+                  className="px-4 py-2 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors"
+                >
+                  Parar Simulação
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -167,35 +147,31 @@ export const SituationRoom = () => {
         <Navigation />
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
-          {/* Left Column - Globe and Signals */}
-          <div className="xl:col-span-2 space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <div className="lg:col-span-1">
-                <InteractiveGlobeDemo alerts={currentAlerts} />
-              </div>
-              
-              <div className="lg:col-span-1">
-                <CriticalSignals alerts={currentAlerts} />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Top Row */}
+          <Card className="p-6">
+            <InteractiveGlobeDemo alerts={currentAlerts} />
+          </Card>
+          
+          <Card className="p-6">
+            <CriticalSignals alerts={currentAlerts} />
+          </Card>
+          
+          {/* Bottom Row */}
+          <Card className="p-6">
+            <GlobalPulseInfo alerts={currentAlerts} />
+          </Card>
+          
+          <Card className="p-6 relative">
+            <LocalMarketData />
             
-            {/* Global Pulse and Local Market */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <GlobalPulseInfo alerts={currentAlerts} />
-              <LocalMarketData />
-            </div>
-          </div>
-
-          {/* Right Column - System Health */}
-          <div className="space-y-4 sm:space-y-6">
-            <SystemHealthMonitor />
-            
-            {/* Impact Analysis during simulations */}
+            {/* Impact Analysis overlay during simulations */}
             {isSimulationActive && scenarioMetrics && (
-              <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
+              <div className="absolute inset-0 bg-background/95 backdrop-blur-sm rounded-lg">
+                <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
+              </div>
             )}
-          </div>
+          </Card>
         </div>
       </div>
     </div>
