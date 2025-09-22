@@ -2,6 +2,7 @@ import { competitiveService } from './competitiveService';
 import { socialService } from './socialService';
 import { innovationService } from './innovationService';
 import { threatService } from './threatService';
+import { marketService } from './marketService';
 
 class DataSeeder {
   async seedAllData(): Promise<void> {
@@ -12,7 +13,8 @@ class DataSeeder {
         this.seedCompetitiveData(),
         this.seedSocialData(),
         this.seedInnovationData(),
-        this.seedThreatData()
+        this.seedThreatData(),
+        this.seedMarketData()
       ]);
       
       console.log('Data seeding completed successfully!');
@@ -213,6 +215,79 @@ class DataSeeder {
 
     for (const trend of regionalTrends) {
       await threatService.addRegionalTrend(trend);
+    }
+  }
+
+  private async seedMarketData(): Promise<void> {
+    try {
+      console.log('Seeding market data...');
+      
+      // Sample local market data
+      const marketData = [
+        {
+          market_id: "sbc-001",
+          region: "São Bernardo do Campo",
+          country: "Brasil",
+          operator: "Athon Telecom",
+          technology: "FTTH",
+          market_share: 15.5,
+          revenue_millions: 25.8,
+          growth_rate: 12.3,
+          subscriber_base: 45000,
+          network_coverage: 85.2,
+          investment_millions: 5.2,
+          regulatory_status: "Conforme",
+          competitive_position: "Forte",
+          key_partnerships: ["Mercedes-Benz", "Scania", "Volkswagen"],
+          market_challenges: ["Competição intensa", "Regulação complexa"],
+          opportunities: ["5G Enterprise", "IoT Industrial", "Smart City"]
+        },
+        {
+          market_id: "grajau-001",
+          region: "Grajaú",
+          country: "Brasil", 
+          operator: "Athon Telecom",
+          technology: "FTTH",
+          market_share: 8.7,
+          revenue_millions: 12.4,
+          growth_rate: 18.5,
+          subscriber_base: 28000,
+          network_coverage: 72.1,
+          investment_millions: 3.1,
+          regulatory_status: "Conforme",
+          competitive_position: "Crescimento",
+          key_partnerships: ["Construtoras locais"],
+          market_challenges: ["Entrada de grandes players"],
+          opportunities: ["Expansão residencial", "Parcerias imobiliárias"]
+        },
+        {
+          market_id: "franco-001",
+          region: "Franco da Rocha",
+          country: "Brasil",
+          operator: "Athon Telecom", 
+          technology: "FTTH",
+          market_share: 22.1,
+          revenue_millions: 18.9,
+          growth_rate: 9.8,
+          subscriber_base: 35000,
+          network_coverage: 91.5,
+          investment_millions: 2.8,
+          regulatory_status: "Conforme",
+          competitive_position: "Lider",
+          key_partnerships: ["Prefeitura", "ANATEL"],
+          market_challenges: ["Pressão de preços"],
+          opportunities: ["Banda larga rural", "Programa governo"]
+        }
+      ];
+
+      for (const data of marketData) {
+        await marketService.addLocalMarketData(data);
+      }
+
+      console.log('Market data seeded successfully');
+    } catch (error) {
+      console.error('Error seeding market data:', error);
+      throw error;
     }
   }
 }

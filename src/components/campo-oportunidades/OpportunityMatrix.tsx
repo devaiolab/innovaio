@@ -3,8 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Target, DollarSign, Clock, Zap, TrendingUp } from "lucide-react";
+import { innovationService } from "@/services/innovationService";
 
 interface Opportunity {
   id: string;
@@ -22,7 +23,7 @@ interface Opportunity {
   nextSteps: string[];
 }
 
-const opportunities: Opportunity[] = [
+const mockOpportunities: Opportunity[] = [
   {
     id: "opp-1",
     title: "5G Enterprise Solutions",
@@ -133,6 +134,42 @@ const quadrantConfig = {
 
 export const OpportunityMatrix = () => {
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadOpportunities = async () => {
+      try {
+        const opportunityData = await innovationService.getOpportunities();
+        // Transform data to match component format
+        const transformedOpportunities = opportunityData.map(opp => ({
+          id: opp.opportunity_id,
+          title: opp.title,
+          description: `Oportunidade de inovação na categoria ${opp.category}`,
+          impact: 85, // Mock impact score
+          feasibility: 75, // Mock feasibility score  
+          urgency: 80, // Mock urgency score
+          revenue: opp.investment_millions * 1000000, // Convert to revenue estimate
+          timeframe: `${opp.time_to_market_months} meses`,
+          category: opp.category as "5G" | "IoT" | "MVNO" | "Digital" | "Infrastructure",
+          quadrant: "high-impact-high-feasibility" as any,
+          roi: opp.roi_percentage,
+          risks: ["Competição", "Investimento"], // Mock risks
+          nextSteps: ["Análise detalhada", "Estudo de viabilidade"] // Mock steps
+        }));
+        
+        // If no data from DB, use mock data
+        setOpportunities(transformedOpportunities.length > 0 ? transformedOpportunities : mockOpportunities);
+      } catch (error) {
+        console.error('Error loading opportunities:', error);
+        setOpportunities(mockOpportunities);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadOpportunities();
+  }, []);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -155,6 +192,17 @@ export const OpportunityMatrix = () => {
     acc[quadrant].push(opp);
     return acc;
   }, {} as Record<string, Opportunity[]>);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+          <p className="text-sm text-muted-foreground">Carregando matriz de oportunidades...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

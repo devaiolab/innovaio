@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Clock, Target, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
+import { threatService } from "@/services/threatService";
 
 interface ThreatData {
   id: string;
@@ -17,7 +18,7 @@ interface ThreatData {
   countermeasures: string[];
 }
 
-const threats: ThreatData[] = [
+const mockThreats: ThreatData[] = [
   {
     id: "1",
     name: "Starlink Aggressive Pricing",
@@ -120,6 +121,39 @@ export const ThreatHeatmap = () => {
   const [selectedThreat, setSelectedThreat] = useState<string | null>(null);
   const [realTime, setRealTime] = useState(new Date());
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [threats, setThreats] = useState<ThreatData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadThreats = async () => {
+      try {
+        const threatData = await threatService.getMarketThreats();
+        // Transform data to match component format
+        const transformedThreats = threatData.map(threat => ({
+          id: threat.threat_id,
+          name: threat.threat_type,
+          category: threat.impact_area,
+          probability: threat.likelihood * 100,
+          impact: 85, // Mock impact score
+          timeToImpact: 30, // Mock timeframe
+          severity: threat.severity_level as "crítico" | "alto" | "médio" | "baixo",
+          region: threat.region,
+          description: `Ameaça ${threat.threat_type} identificada na região ${threat.region}`,
+          countermeasures: ["Monitoramento contínuo", "Planos de contingência", "Avaliação de riscos"]
+        }));
+        
+        // If no data from DB, use mock data
+        setThreats(transformedThreats.length > 0 ? transformedThreats : mockThreats);
+      } catch (error) {
+        console.error('Error loading threats:', error);
+        setThreats(mockThreats);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadThreats();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setRealTime(new Date()), 1000);
@@ -130,6 +164,17 @@ export const ThreatHeatmap = () => {
   const filteredThreats = filterCategory === "all" 
     ? threats 
     : threats.filter(t => t.category === filterCategory);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+          <p className="text-sm text-muted-foreground">Carregando mapa de ameaças...</p>
+        </div>
+      </div>
+    );
+  }
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {

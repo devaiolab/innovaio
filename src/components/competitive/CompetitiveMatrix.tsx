@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { Target, TrendingUp, AlertTriangle, Users } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { competitiveService } from "@/services/competitiveService";
 
 interface CompetitorData {
   id: string;
@@ -17,7 +18,7 @@ interface CompetitorData {
   recentMoves: string[];
 }
 
-const competitors: CompetitorData[] = [
+const mockCompetitors: CompetitorData[] = [
   {
     id: "claro",
     name: "Claro (NET)",
@@ -113,6 +114,38 @@ const competitors: CompetitorData[] = [
 export const CompetitiveMatrix = () => {
   const [selectedCompetitor, setSelectedCompetitor] = useState<string | null>(null);
   const [filterSector, setFilterSector] = useState<string>("all");
+  const [competitors, setCompetitors] = useState<CompetitorData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCompetitors = async () => {
+      try {
+        const competitorData = await competitiveService.getCompetitors();
+        // Transform data to match component format
+        const transformedCompetitors = competitorData.map(comp => ({
+          id: comp.competitor_id,
+          name: comp.name,
+          marketShare: comp.market_share,
+          innovation: comp.innovation_score,
+          funding: comp.funding_millions || 0,
+          patentScore: comp.patent_score,
+          threatLevel: comp.threat_level as "baixo" | "médio" | "alto" | "crítico",
+          sector: comp.sector,
+          recentMoves: comp.recent_moves || []
+        }));
+        
+        // If no data from DB, use mock data
+        setCompetitors(transformedCompetitors.length > 0 ? transformedCompetitors : mockCompetitors);
+      } catch (error) {
+        console.error('Error loading competitors:', error);
+        setCompetitors(mockCompetitors);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCompetitors();
+  }, []);
 
   const sectors = ["all", ...Array.from(new Set(competitors.map(c => c.sector)))];
   const filteredCompetitors = filterSector === "all" 
@@ -142,6 +175,17 @@ export const CompetitiveMatrix = () => {
   const selectedData = selectedCompetitor 
     ? competitors.find(c => c.id === selectedCompetitor)
     : null;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+          <p className="text-sm text-muted-foreground">Carregando matriz competitiva...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6">

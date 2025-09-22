@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Shield, Clock, CheckCircle, AlertCircle, Play, Pause } from "lucide-react";
 import { useState, useEffect } from "react";
+import { threatService } from "@/services/threatService";
 
 interface ContingencyPlan {
   id: string;
@@ -24,7 +25,7 @@ interface PlanStep {
   dependencies: string[];
 }
 
-const contingencyPlans: ContingencyPlan[] = [
+const mockContingencyPlans: ContingencyPlan[] = [
   {
     id: "1",
     name: "Resposta Anti-Starlink",
@@ -110,8 +111,46 @@ const contingencyPlans: ContingencyPlan[] = [
 
 export const ContingencyPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [contingencyPlans, setContingencyPlans] = useState<ContingencyPlan[]>([]);
+  const [loading, setLoading] = useState(true);
   // Real-time calculation based on actual timestamps
   const [, setTimeRemaining] = useState<{[key: string]: number}>({});
+
+  useEffect(() => {
+    const loadPlans = async () => {
+      try {
+        const plansData = await threatService.getContingencyPlans();
+        // Transform data to match component format
+        const transformedPlans = plansData.map(plan => ({
+          id: plan.plan_id,
+          name: plan.scenario,
+          status: "standby" as "ativo" | "standby" | "em_progresso" | "concluido",
+          priority: "alta" as "crítica" | "alta" | "média",
+          timeToActivation: plan.estimated_time,
+          completionRate: Math.floor(plan.success_probability),
+          steps: (plan.response_actions as any[])?.map((action, index) => ({
+            id: index.toString(),
+            description: typeof action === 'string' ? action : action.description || 'Ação de resposta',
+            status: "pendente" as "pendente" | "em_progresso" | "concluído",
+            estimatedTime: "1 hora",
+            dependencies: []
+          })) || [],
+          resources: [plan.resource_requirements],
+          responsibleTeam: plan.threat_type
+        }));
+        
+        // If no data from DB, use mock data
+        setContingencyPlans(transformedPlans.length > 0 ? transformedPlans : mockContingencyPlans);
+      } catch (error) {
+        console.error('Error loading contingency plans:', error);
+        setContingencyPlans(mockContingencyPlans);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPlans();
+  }, []);
 
   useEffect(() => {
     // Real calculation based on plan activation times
@@ -170,6 +209,17 @@ export const ContingencyPlans = () => {
   };
 
   const selectedData = selectedPlan ? contingencyPlans.find(p => p.id === selectedPlan) : null;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+          <p className="text-sm text-muted-foreground">Carregando planos de contingência...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6">

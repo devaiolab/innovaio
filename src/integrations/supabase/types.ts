@@ -354,6 +354,72 @@ export type Database = {
         }
         Relationships: []
       }
+      local_market_intel: {
+        Row: {
+          competitive_position: string
+          country: string
+          created_at: string
+          growth_rate: number
+          id: string
+          investment_millions: number | null
+          key_partnerships: Json | null
+          market_challenges: Json | null
+          market_id: string
+          market_share: number
+          network_coverage: number
+          operator: string
+          opportunities: Json | null
+          region: string
+          regulatory_status: string
+          revenue_millions: number
+          subscriber_base: number
+          technology: string
+          updated_at: string
+        }
+        Insert: {
+          competitive_position: string
+          country: string
+          created_at?: string
+          growth_rate: number
+          id?: string
+          investment_millions?: number | null
+          key_partnerships?: Json | null
+          market_challenges?: Json | null
+          market_id: string
+          market_share: number
+          network_coverage: number
+          operator: string
+          opportunities?: Json | null
+          region: string
+          regulatory_status: string
+          revenue_millions: number
+          subscriber_base: number
+          technology: string
+          updated_at?: string
+        }
+        Update: {
+          competitive_position?: string
+          country?: string
+          created_at?: string
+          growth_rate?: number
+          id?: string
+          investment_millions?: number | null
+          key_partnerships?: Json | null
+          market_challenges?: Json | null
+          market_id?: string
+          market_share?: number
+          network_coverage?: number
+          operator?: string
+          opportunities?: Json | null
+          region?: string
+          regulatory_status?: string
+          revenue_millions?: number
+          subscriber_base?: number
+          technology?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       market_threats: {
         Row: {
           created_at: string
