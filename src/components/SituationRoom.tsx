@@ -156,11 +156,10 @@ export const SituationRoom = () => {
           <CriticalSignals alerts={currentAlerts} />
           
           {/* Bottom Row */}
-          <Card className="p-6 h-[600px]">
-            <GlobalPulseInfo alerts={currentAlerts} />
-          </Card>
           
-          <Card className="p-6 relative h-[600px]">
+          <GlobalPulseInfo alerts={currentAlerts} />
+          
+          <div className="relative h-[600px]">
             <LocalMarketData />
             
             {/* Impact Analysis overlay during simulations */}
@@ -169,7 +168,7 @@ export const SituationRoom = () => {
                 <ImpactAnalysis scenarioMetrics={scenarioMetrics} />
               </div>
             )}
-          </Card>
+          </div>
         </div>
       </div>
     </div>

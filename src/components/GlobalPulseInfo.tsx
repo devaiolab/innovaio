@@ -61,7 +61,7 @@ export const GlobalPulseInfo = ({
   const recentAlerts = alerts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime()).slice(0, 3);
 
   return (
-    <Card className="p-4 border-primary/20 cyber-glow h-[600px] flex flex-col">
+    <div className="p-4 border-primary/20 cyber-glow h-[600px] flex flex-col bg-card text-card-foreground shadow-sm rounded-lg border">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Globe className="h-5 w-5 text-primary" fill="none" />
@@ -177,6 +177,6 @@ export const GlobalPulseInfo = ({
           } 
         />
       </div>
-    </Card>
+    </div>
   );
 };
