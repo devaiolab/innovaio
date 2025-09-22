@@ -134,7 +134,7 @@ export const GlobalPulseInfo = ({
           <TrendingUp className="h-4 w-4 text-muted-foreground" fill="none" />
           <span className="text-sm font-medium">Atividade Recente</span>
         </div>
-        <div className="space-y-1 overflow-y-auto max-h-32">
+        <div className="space-y-1">
           {recentAlerts.slice(0, 3).map(alert => (
             <div key={alert.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors">
               <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
