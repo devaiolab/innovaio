@@ -84,10 +84,10 @@ export class RealDataService {
         .maybeSingle();
 
       if (!existing) {
-        // Create new alert
+        // Create new alert with correct type mapping
         const alertData = {
           alert_id: alert.id,
-          type: alert.type,
+          type: this.mapAlertType(alert.type),
           title: alert.title,
           description: alert.description,
           region: alert.region,
@@ -208,7 +208,7 @@ export class RealDataService {
         .upsert({
           source_name: source.name,
           endpoint: source.endpoint,
-          status: source.status,
+          status: this.mapSourceStatus(source.status),
           last_check: new Date().toISOString(),
           response_time_ms: source.responseTime,
           error_message: source.error || null,
@@ -231,6 +231,28 @@ export class RealDataService {
     } catch (error) {
       console.error('Error generating action plan:', error);
     }
+  }
+
+  private mapAlertType(type: string): string {
+    const mapping = {
+      'critical': 'red',
+      'trending': 'yellow',
+      'emerging': 'blue',
+      'red': 'red',
+      'yellow': 'yellow',
+      'blue': 'blue'
+    };
+    return mapping[type.toLowerCase()] || 'yellow';
+  }
+
+  private mapSourceStatus(status: string): string {
+    const mapping = {
+      'online': 'online',
+      'offline': 'degraded',
+      'partial': 'degraded',
+      'degraded': 'degraded'
+    };
+    return mapping[status.toLowerCase()] || 'degraded';
   }
 
   private urgencyToNumber(urgency: string): number {

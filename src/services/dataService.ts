@@ -35,11 +35,11 @@ interface RegionData {
 
 interface MarketAlert {
   id: string;
-  type: 'critical' | 'trending' | 'emerging';
+  type: 'red' | 'yellow' | 'blue';
   title: string;
   description: string;
   region: string;
-  urgency: 'high' | 'medium' | 'low';
+  urgency: number;
   timestamp: Date;
   source: string;
   relevance: number;
@@ -74,16 +74,16 @@ class DataService {
     return cached.data;
   }
 
-  // IBGE SIDRA API Integration
+// IBGE SIDRA API Integration
   async getRegionalTrends(): Promise<RegionData[]> {
     const cacheKey = this.getCacheKey('regional_trends');
     const cached = this.getCache(cacheKey);
     if (cached) return cached;
 
     try {
-      // IBGE Internet access by households API
+      // IBGE Internet access by households API - Fixed parameters
       const response = await fetch(
-        'https://apisidra.ibge.gov.br/values/t/2616/n1/all/n2/all/v/1134/p/last%205/c12070/all?formato=json'
+        'https://apisidra.ibge.gov.br/values/t/2616/n1/all/v/1134/p/last%201/f/u?formato=json'
       );
       
       if (!response.ok) {
@@ -181,33 +181,33 @@ class DataService {
       const alerts: MarketAlert[] = [
         {
           id: 'alert-001',
-          type: 'critical',
+          type: 'red',
           title: 'ANATEL aprova novo leilão de frequências 5G para interior',
           description: 'Regulamentação publicada hoje estabelece novos prazos para cobertura 5G em cidades de médio porte.',
           region: 'Nacional',
-          urgency: 'high',
+          urgency: 85,
           timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
           source: 'Portal ANATEL',
           relevance: 95
         },
         {
           id: 'alert-002',
-          type: 'trending',
+          type: 'yellow',
           title: 'Crescimento de 340% em conexões 5G no Q3 2024',
           description: 'Dados da ANATEL mostram aceleração no crescimento de assinantes 5G, superando projeções.',
           region: 'Nacional',
-          urgency: 'medium',
+          urgency: 70,
           timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
           source: 'ANATEL - Dados Abertos',
           relevance: 88
         },
         {
           id: 'alert-003',
-          type: 'emerging',
+          type: 'blue',
           title: 'Investimento de R$ 15 bi em infraestrutura no Nordeste',
           description: 'Novo programa governamental focará em conectividade rural e urbana na região Nordeste.',
           region: 'Nordeste',
-          urgency: 'medium',
+          urgency: 60,
           timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
           source: 'Ministério das Comunicações',
           relevance: 82
@@ -334,17 +334,17 @@ class DataService {
 
   private getFallbackMarketAlerts(): MarketAlert[] {
     return [
-      {
-        id: 'fallback-001',
-        type: 'critical',
-        title: 'Sistema em modo offline - Dados de cache',
-        description: 'Utilizando últimos dados disponíveis em cache local.',
-        region: 'Sistema',
-        urgency: 'low',
-        timestamp: new Date(),
-        source: 'Cache Local',
-        relevance: 50
-      }
+        {
+          id: 'fallback-001',
+          type: 'yellow',
+          title: 'Sistema em modo offline - Dados de cache',
+          description: 'Utilizando últimos dados disponíveis em cache local.',
+          region: 'Sistema',
+          urgency: 25,
+          timestamp: new Date(),
+          source: 'Cache Local',
+          relevance: 50
+        }
     ];
   }
 
@@ -365,7 +365,7 @@ class DataService {
           return {
             name: source.name,
             endpoint: source.endpoint,
-            status: response.ok ? 'online' : 'offline',
+            status: response.ok ? 'online' : 'degraded',
             lastCheck: new Date(),
             responseTime,
             error: response.ok ? null : `HTTP ${response.status}`,
@@ -376,7 +376,7 @@ class DataService {
           return {
             name: source.name,
             endpoint: source.endpoint,
-            status: 'offline',
+            status: 'degraded',
             lastCheck: new Date(),
             responseTime,
             error: error.message,

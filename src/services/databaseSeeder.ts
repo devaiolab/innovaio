@@ -19,7 +19,7 @@ export class DatabaseSeeder {
     const alertsToSeed = [
       {
         alert_id: 'alert-001',
-        type: 'critical',
+        type: 'red',
         title: 'Saturação de rede 5G em São Paulo - Zona Sul',
         description: 'Congestionamento severo detectado em torres 5G da região, causando degradação de 40% na velocidade média.',
         region: 'São Paulo - Zona Sul',
@@ -36,7 +36,7 @@ export class DatabaseSeeder {
       },
       {
         alert_id: 'alert-002',
-        type: 'trending',
+        type: 'yellow',
         title: 'Expansão 5G acelerada no Interior de SP',
         description: 'Detecção de instalações simultâneas de 127 novas estações 5G em cidades do interior paulista.',
         region: 'São Paulo - Interior',
@@ -52,7 +52,7 @@ export class DatabaseSeeder {
       },
       {
         alert_id: 'alert-003',
-        type: 'emerging',
+        type: 'blue',
         title: 'Investimento de R$ 15 bi em infraestrutura no Nordeste',
         description: 'Novo programa governamental focará em conectividade rural e urbana na região Nordeste.',
         region: 'Nordeste',
@@ -68,7 +68,7 @@ export class DatabaseSeeder {
       },
       {
         alert_id: 'alert-004',
-        type: 'trending',
+        type: 'yellow',
         title: 'Rio de Janeiro - Modernização de Backbone',
         description: 'Upgrade massivo da infraestrutura de backbone metropolitano com fibra óptica de nova geração.',
         region: 'Rio de Janeiro',
@@ -84,7 +84,7 @@ export class DatabaseSeeder {
       },
       {
         alert_id: 'alert-005',
-        type: 'critical',
+        type: 'red',
         title: 'Falha massiva em datacenter Brasília',
         description: 'Interrupção em datacenter principal afeta conectividade de órgãos governamentais e empresas.',
         region: 'Brasília',
@@ -193,7 +193,7 @@ export class DatabaseSeeder {
       {
         source_name: 'Ministério Comunicações',
         endpoint: 'https://www.gov.br/mcom/api/dados',
-        status: 'partial',
+        status: 'degraded',
         last_check: new Date().toISOString(),
         response_time_ms: 3400,
         error_message: 'Rate limit exceeded',

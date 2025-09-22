@@ -51,9 +51,9 @@ class ExportService {
       dataService.getEconomicIndicators()
     ]);
 
-    const criticalAlerts = alerts.filter(a => a.urgency === 'high').length;
+    const criticalAlerts = alerts.filter(a => a.urgency > 80).length;
     const opportunities = trends.filter(t => t.growth > 20).length;
-    const risks = alerts.filter(a => a.type === 'critical').length;
+    const risks = alerts.filter(a => a.type === 'red').length;
 
     return {
       metadata: {
@@ -96,7 +96,7 @@ class ExportService {
           roi_projections: this.calculateROIProjections(trends)
         },
         linhaFogo: {
-          threats: alerts.filter(a => a.type === 'critical'),
+          threats: alerts.filter(a => a.type === 'red'),
           contingencyPlans: this.getContingencyStatus()
         }
       }

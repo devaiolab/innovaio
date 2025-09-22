@@ -2,8 +2,10 @@ import { SituationRoom } from "@/components/SituationRoom";
 import { GlobalSearchSystem } from "@/components/shared/GlobalSearchSystem";
 import { ExportSystem } from "@/components/shared/ExportSystem";
 import { UserMenu } from "@/components/UserMenu";
+import { useDataInitialization } from "@/hooks/useDataInitialization";
 
 const Index = () => {
+  const { isInitialized, isLoading } = useDataInitialization();
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/5">
       <div className="container mx-auto p-4 space-y-8">
