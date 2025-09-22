@@ -149,20 +149,20 @@ export const SituationRoom = () => {
         {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Row */}
-          <Card className="p-6">
+          <Card className="p-6 h-[600px]">
             <InteractiveGlobeDemo alerts={currentAlerts} />
           </Card>
           
-          <Card className="p-6">
+          <div className="h-[600px]">
             <CriticalSignals alerts={currentAlerts} />
-          </Card>
+          </div>
           
           {/* Bottom Row */}
-          <Card className="p-6">
+          <Card className="p-6 h-[600px]">
             <GlobalPulseInfo alerts={currentAlerts} />
           </Card>
           
-          <Card className="p-6 relative">
+          <Card className="p-6 relative h-[600px]">
             <LocalMarketData />
             
             {/* Impact Analysis overlay during simulations */}

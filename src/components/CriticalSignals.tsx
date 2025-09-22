@@ -103,12 +103,14 @@ export const CriticalSignals = ({
             </Card>;
       })}
         
-        {hasMoreAlerts && <div className="flex justify-center pt-4 mt-auto">
+        {hasMoreAlerts && (
+          <div className="pt-4">
             <AlertDialog alerts={alerts} trigger={<Button variant="outline" size="sm" className="cyber-glow text-xs w-full h-8">
                   <span className="sm:hidden">+{criticalAlerts.length - 3}</span>
                   <span className="hidden sm:inline">Ver Mais {criticalAlerts.length - 3} Alertas</span>
                 </Button>} />
-          </div>}
+          </div>
+        )}
       </div>
     </Card>;
 };
