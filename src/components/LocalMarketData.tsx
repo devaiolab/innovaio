@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, TrendingUp, Users, Zap, AlertTriangle, Building2 } from "lucide-react";
 import { LocalMarketDetails } from "./LocalMarketDetails";
+import { LocalMarketDialog } from "./LocalMarketDialog";
 interface LocalMarketItem {
   id: string;
   type: "competitor" | "regulation" | "opportunity" | "threat";
@@ -219,24 +220,21 @@ export const LocalMarketData = () => {
             })}
           </div>
           
-          {sortedData.length > 3 && <div className="flex justify-center pt-4 mt-auto expand-button">
-              <Button 
-                variant="outline" 
-                className="w-full h-8 text-xs cyber-glow"
-                onClick={() => {
-                  // Expandir para mostrar todos os itens
-                  const expandedItems = document.querySelectorAll('.market-item-hidden');
-                  expandedItems.forEach(item => {
-                    item.classList.remove('hidden');
-                  });
-                  // Esconder o botão após expansão
-                  const button = document.querySelector('.expand-button') as HTMLElement;
-                  if (button) button.style.display = 'none';
-                }}
-              >
-                Ver Mais ({sortedData.length - 3} itens)
-              </Button>
-            </div>}
+          {sortedData.length > 3 && (
+            <div className="flex justify-center pt-4 mt-auto">
+              <LocalMarketDialog 
+                items={sortedData} 
+                trigger={
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-8 text-xs cyber-glow"
+                  >
+                    Ver Mais ({sortedData.length - 3} itens)
+                  </Button>
+                } 
+              />
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </Card>;
