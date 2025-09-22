@@ -172,15 +172,11 @@ export const LocalMarketData = () => {
         </TabsList>
 
         <TabsContent value={activeTab} className="space-y-2 flex-1 flex flex-col min-h-0">
-          <div className="space-y-2 flex-1 overflow-y-auto">
+          <div className="space-y-2 flex-1 overflow-y-auto my-0 py-[4px]">
             {sortedData.slice(0, 3).map((item, index) => {
-              const IconComponent = getTypeIcon(item.type);
-              const iconColor = getTypeColor(item.type);
-              
-              return <Card 
-                key={item.id} 
-                className="p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all"
-              >
+            const IconComponent = getTypeIcon(item.type);
+            const iconColor = getTypeColor(item.type);
+            return <Card key={item.id} className="p-3 border-l-4 border-l-primary/20 hover:border-l-primary/60 transition-all py-[16px]">
                   <div className="flex items-start gap-3">
                     <IconComponent className={`h-3 w-3 mt-1 flex-shrink-0 ${iconColor}`} fill="none" />
                     <div className="flex-1 min-w-0">
@@ -214,24 +210,14 @@ export const LocalMarketData = () => {
                     </div>
                   </div>
                 </Card>;
-            })}
+          })}
           </div>
           
-          {sortedData.length > 3 && (
-            <div className="pt-2 mt-auto">
-              <LocalMarketDialog 
-                items={sortedData} 
-                trigger={
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-8 text-xs cyber-glow"
-                  >
+          {sortedData.length > 3 && <div className="pt-2 mt-auto">
+              <LocalMarketDialog items={sortedData} trigger={<Button variant="outline" className="w-full h-8 text-xs cyber-glow">
                     Ver Mais ({sortedData.length - 3} itens)
-                  </Button>
-                } 
-              />
-            </div>
-          )}
+                  </Button>} />
+            </div>}
         </TabsContent>
       </Tabs>
     </div>;
