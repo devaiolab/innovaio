@@ -152,20 +152,6 @@ export const GlobalPulseInfo = ({
             </div>
           ))}
         </div>
-        
-        {/* Ver Mais Button */}
-        {alerts.length > 3 && (
-          <div className="mt-3">
-            <GlobalPulseDetails 
-              alerts={alerts} 
-              trigger={
-                <Button variant="ghost" size="sm" className="w-full text-xs text-muted-foreground hover:text-primary">
-                  Ver Mais ({alerts.length - 3} alertas)
-                </Button>
-              } 
-            />
-          </div>
-        )}
       </div>
 
       {/* Bottom Section - Status & Actions */}
