@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { TrendingUp, TrendingDown, Heart, MessageCircle, Share, Eye } from "lucide-react";
+import { useState, useEffect } from "react";
+import { socialService } from "@/services/socialService";
 
 interface SocialTrend {
   id: string;
@@ -81,6 +83,39 @@ const platformIcons = {
 };
 
 export const SocialTrendsAnalysis = () => {
+  const [selectedTrend, setSelectedTrend] = useState<string | null>(null);
+  const [trends, setTrends] = useState<SocialTrend[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadTrends = async () => {
+      try {
+        const data = await socialService.getSocialTrends();
+        const mapped: SocialTrend[] = data.map(t => ({
+          id: t.trend_id,
+          topic: t.topic,
+          platform: t.platform,
+          sentiment: t.sentiment as any,
+          engagement: t.engagement,
+          mentions: t.mentions,
+          growth: t.growth_rate,
+          impact: t.impact_level as any,
+          region: t.region,
+          keywords: t.keywords || [],
+          businessRelevance: t.business_relevance
+        }));
+        setTrends(mapped.length > 0 ? mapped : socialTrends);
+      } catch (error) {
+        console.error('Error loading trends:', error);
+        setTrends(socialTrends);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTrends();
+  }, []);
+
   const getSentimentColor = (sentiment: SocialTrend["sentiment"]) => {
     switch (sentiment) {
       case "positive":
@@ -103,6 +138,34 @@ export const SocialTrendsAnalysis = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 bg-muted rounded"></div>
+            ))}
+          </div>
+          <div className="space-y-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-48 bg-muted rounded"></div>
+            ))}
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
+  const totalMentions = trends.reduce((sum, trend) => sum + trend.mentions, 0);
+  const avgEngagement = trends.length > 0 ? Math.round(
+    trends.reduce((sum, trend) => sum + trend.engagement, 0) / trends.length
+  ) : 0;
+  const avgRelevance = trends.length > 0 ? Math.round(
+    trends.reduce((sum, trend) => sum + trend.businessRelevance, 0) / trends.length
+  ) : 0;
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -112,7 +175,7 @@ export const SocialTrendsAnalysis = () => {
             <span className="font-semibold">Menções Totais</span>
           </div>
           <div className="text-2xl font-bold gradient-text">
-            {socialTrends.reduce((acc, trend) => acc + trend.mentions, 0).toLocaleString()}
+            {totalMentions.toLocaleString()}
           </div>
           <div className="flex items-center gap-1 text-sm text-success">
             <TrendingUp className="h-4 w-4" />
@@ -126,7 +189,7 @@ export const SocialTrendsAnalysis = () => {
             <span className="font-semibold">Engajamento Médio</span>
           </div>
           <div className="text-2xl font-bold gradient-text">
-            {Math.round(socialTrends.reduce((acc, trend) => acc + trend.engagement, 0) / socialTrends.length)}%
+            {avgEngagement}%
           </div>
           <div className="flex items-center gap-1 text-sm text-success">
             <TrendingUp className="h-4 w-4" />
@@ -140,7 +203,7 @@ export const SocialTrendsAnalysis = () => {
             <span className="font-semibold">Relevância Business</span>
           </div>
           <div className="text-2xl font-bold gradient-text">
-            {Math.round(socialTrends.reduce((acc, trend) => acc + trend.businessRelevance, 0) / socialTrends.length)}%
+            {avgRelevance}%
           </div>
           <div className="flex items-center gap-1 text-sm text-warning">
             <TrendingDown className="h-4 w-4" />
@@ -154,7 +217,7 @@ export const SocialTrendsAnalysis = () => {
             <span className="font-semibold">Tendências Ativas</span>
           </div>
           <div className="text-2xl font-bold gradient-text">
-            {socialTrends.length}
+            {trends.length}
           </div>
           <div className="flex items-center gap-1 text-sm text-success">
             <TrendingUp className="h-4 w-4" />
@@ -172,7 +235,7 @@ export const SocialTrendsAnalysis = () => {
         </div>
 
         <div className="space-y-4">
-          {socialTrends.map((trend) => (
+          {trends.map((trend) => (
             <Card key={trend.id} className="p-4 hover:shadow-lg transition-shadow">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">

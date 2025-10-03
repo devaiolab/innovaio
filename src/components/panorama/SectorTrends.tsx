@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Building2, TrendingUp, AlertTriangle, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { innovationService } from "@/services/innovationService";
 
 interface SectorData {
   sector: string;
@@ -33,6 +34,32 @@ const investmentDistribution = [
 export const SectorTrends = () => {
   const [selectedMetric, setSelectedMetric] = useState<'investment' | 'patents' | 'startups'>('investment');
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
+  const [sectors, setSectors] = useState<SectorData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSectors = async () => {
+      try {
+        const data = await innovationService.getSectorAnalysis();
+        const mapped: SectorData[] = data.map(s => ({
+          sector: s.sector_name,
+          investment: s.investment_millions,
+          patents: s.patents_count,
+          startups: s.startups_count,
+          risk: s.risk_level as any,
+          opportunity: s.opportunity_score
+        }));
+        setSectors(mapped.length > 0 ? mapped : sectorData);
+      } catch (error) {
+        console.error('Error loading sectors:', error);
+        setSectors(sectorData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSectors();
+  }, []);
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
@@ -66,6 +93,24 @@ export const SectorTrends = () => {
       default: return '';
     }
   };
+
+  const chartData = sectors.map(sector => ({
+    sector: sector.sector,
+    investment: sector.investment,
+    patents: sector.patents,
+    startups: sector.startups
+  }));
+
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="h-64 bg-muted rounded"></div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -101,7 +146,7 @@ export const SectorTrends = () => {
             </h3>
             <div className="h-48 sm:h-64 lg:h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={sectorData}>
+                <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis 
                     dataKey="sector" 
@@ -175,7 +220,7 @@ export const SectorTrends = () => {
       </Card>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        {sectorData.map((sector) => {
+        {sectors.map((sector) => {
           const RiskIcon = getRiskIcon(sector.risk);
           const isSelected = selectedSector === sector.sector;
           

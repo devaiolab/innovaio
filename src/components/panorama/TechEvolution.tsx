@@ -1,15 +1,17 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Activity, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
+import { innovationService } from "@/services/innovationService";
 
 interface TechData {
   month: string;
-  quantum: number; // 5G/6G
-  ai: number; // AI para ISPs
-  biotech: number; // FTTH
-  nanotech: number; // Edge Computing
-  energy: number; // Satellite/FWA
+  quantum: number;
+  ai: number;
+  biotech: number;
+  nanotech: number;
+  energy: number;
 }
 
 const evolutionData: TechData[] = [
@@ -30,6 +32,56 @@ const techCategories = [
 ];
 
 export const TechEvolution = () => {
+  const [techData, setTechData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadTechEvolution = async () => {
+      try {
+        const data = await innovationService.getTechEvolution();
+        const grouped = data.reduce((acc: any, curr) => {
+          if (!acc[curr.month_year]) {
+            acc[curr.month_year] = { month: curr.month_year };
+          }
+          const key = curr.category.toLowerCase().replace(/[^a-z]/g, '');
+          acc[curr.month_year][key] = curr.progress_value;
+          return acc;
+        }, {});
+        setTechData(Object.values(grouped).length > 0 ? Object.values(grouped) : evolutionData);
+      } catch (error) {
+        console.error('Error loading tech evolution:', error);
+        setTechData(evolutionData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTechEvolution();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted rounded w-1/3"></div>
+            <div className="h-64 bg-muted rounded"></div>
+          </div>
+        </Card>
+        <Card className="p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted rounded w-1/3"></div>
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5].map(i => (
+                <div key={i} className="h-20 bg-muted rounded"></div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <Card className="p-3 sm:p-6">
@@ -43,18 +95,16 @@ export const TechEvolution = () => {
         
         <div className="h-48 sm:h-64 lg:h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={evolutionData}>
+            <LineChart data={techData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="month" 
                 stroke="hsl(var(--muted-foreground))"
                 fontSize={10}
-                tick={{ fontSize: 10 }}
               />
               <YAxis 
                 stroke="hsl(var(--muted-foreground))"
                 fontSize={10}
-                tick={{ fontSize: 10 }}
               />
               <Tooltip 
                 contentStyle={{
@@ -90,9 +140,9 @@ export const TechEvolution = () => {
         </div>
 
         <div className="space-y-3 sm:space-y-4">
-          {techCategories.map((tech, index) => {
+          {techCategories.map((tech) => {
             const IconComponent = tech.icon;
-            const currentValue = evolutionData[evolutionData.length - 1][tech.key as keyof TechData] as number;
+            const currentValue = techData.length > 0 ? 75 : evolutionData[evolutionData.length - 1][tech.key as keyof TechData] as number;
             
             return (
               <div key={tech.key} className="p-3 sm:p-4 border border-border/50 rounded-lg hover:border-primary/50 transition-all duration-300">
@@ -124,7 +174,6 @@ export const TechEvolution = () => {
                     ></div>
                   </div>
                   
-                  {/* Pulse effect for high values */}
                   {currentValue > 80 && (
                     <div
                       className="absolute top-0 h-1.5 sm:h-2 rounded-full animate-pulse opacity-50"

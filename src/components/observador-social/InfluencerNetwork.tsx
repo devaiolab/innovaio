@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Crown, Users, MessageSquare, Zap, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { socialService } from "@/services/socialService";
 
 interface Influencer {
   id: string;
@@ -115,8 +117,55 @@ const formatFollowers = (count: number): string => {
 };
 
 export const InfluencerNetwork = () => {
-  const totalReach = influencers.reduce((acc, inf) => acc + inf.followers, 0);
-  const avgEngagement = influencers.reduce((acc, inf) => acc + inf.engagement, 0) / influencers.length;
+  const [selectedInfluencer, setSelectedInfluencer] = useState<string | null>(null);
+  const [influencerList, setInfluencerList] = useState<Influencer[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadInfluencers = async () => {
+      try {
+        const data = await socialService.getInfluencers();
+        const mapped: Influencer[] = data.map(inf => ({
+          id: inf.influencer_id,
+          name: inf.name,
+          platform: inf.platform,
+          followers: inf.followers,
+          engagement: inf.engagement_rate,
+          influence: inf.influence_score,
+          topics: inf.topics || [],
+          recentPost: inf.recent_post || "",
+          businessImpact: inf.business_impact as any,
+          tier: inf.tier as any
+        }));
+        setInfluencerList(mapped.length > 0 ? mapped : influencers);
+      } catch (error) {
+        console.error('Error loading influencers:', error);
+        setInfluencerList(influencers);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInfluencers();
+  }, []);
+
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="h-64 bg-muted rounded"></div>
+            ))}
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
+  const totalReach = influencerList.reduce((acc, inf) => acc + inf.followers, 0);
+  const avgEngagement = influencerList.length > 0 ? influencerList.reduce((acc, inf) => acc + inf.engagement, 0) / influencerList.length : 0;
 
   return (
     <div className="space-y-6">
@@ -154,7 +203,7 @@ export const InfluencerNetwork = () => {
             <span className="font-semibold">Influenciadores</span>
           </div>
           <div className="text-2xl font-bold gradient-text">
-            {influencers.length}
+            {influencerList.length}
           </div>
           <div className="text-sm text-muted-foreground">
             Monitorados ativamente
@@ -172,7 +221,7 @@ export const InfluencerNetwork = () => {
         </div>
 
         <div className="space-y-4">
-          {influencers.map((influencer) => {
+          {influencerList.map((influencer) => {
             const TierIcon = getTierConfig(influencer.tier).icon;
             
             return (

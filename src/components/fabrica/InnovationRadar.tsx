@@ -2,7 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Lightbulb, TrendingUp, Star, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { innovationService } from "@/services/innovationService";
 
 interface InnovationOpportunity {
   id: string;
@@ -58,6 +59,36 @@ const opportunities: InnovationOpportunity[] = [
 
 export const InnovationRadar = () => {
   const [selectedOpp, setSelectedOpp] = useState<string | null>(null);
+  const [oppList, setOppList] = useState<InnovationOpportunity[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadOpportunities = async () => {
+      try {
+        const data = await innovationService.getOpportunities();
+        const mapped: InnovationOpportunity[] = data.map(o => ({
+          id: o.opportunity_id,
+          title: o.title,
+          category: o.category,
+          potential: o.potential_level as any,
+          roi: o.roi_percentage,
+          maturity: 75, // mock - not in DB
+          timeToMarket: o.time_to_market_months,
+          investment: o.investment_millions * 1000,
+          technologies: o.technologies || [],
+          applications: o.applications || []
+        }));
+        setOppList(mapped.length > 0 ? mapped : opportunities);
+      } catch (error) {
+        console.error('Error loading opportunities:', error);
+        setOppList(opportunities);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadOpportunities();
+  }, []);
 
   const getPotentialColor = (potential: string) => {
     switch (potential) {
@@ -68,18 +99,33 @@ export const InnovationRadar = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="h-48 bg-muted rounded"></div>
+            ))}
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-6">
       <div className="flex items-center gap-2 mb-6">
         <Lightbulb className="h-5 w-5 text-primary" />
         <h2 className="text-xl font-semibold gradient-text">Radar de Inovação</h2>
         <Badge className="border-success text-success bg-success/10">
-          {opportunities.filter(o => o.potential === "alto").length} OPORTUNIDADES
+          {oppList.filter(o => o.potential === "alto").length} OPORTUNIDADES
         </Badge>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {opportunities.map((opp) => (
+        {oppList.map((opp) => (
           <div
             key={opp.id}
             className={`p-4 border rounded-lg cursor-pointer transition-all duration-300 ${

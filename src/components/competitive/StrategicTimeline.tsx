@@ -2,7 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, TrendingUp, Users, DollarSign, FileText } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { competitiveService } from "@/services/competitiveService";
 
 interface TimelineEvent {
   id: string;
@@ -82,6 +83,35 @@ const timelineEvents: TimelineEvent[] = [
 export const StrategicTimeline = () => {
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+  const [events, setEvents] = useState<TimelineEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const data = await competitiveService.getStrategicEvents();
+        const mappedEvents: TimelineEvent[] = data.map(e => ({
+          id: e.event_id,
+          date: e.event_date,
+          company: e.company,
+          type: e.event_type as any,
+          title: e.title,
+          description: e.description,
+          impact: e.impact_score,
+          value: e.financial_value || undefined,
+          sector: e.sector
+        }));
+        setEvents(mappedEvents.length > 0 ? mappedEvents : timelineEvents);
+      } catch (error) {
+        console.error('Error loading events:', error);
+        setEvents(timelineEvents);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, []);
 
   const eventTypes = [
     { key: "all", label: "Todos", icon: Clock },
@@ -93,8 +123,8 @@ export const StrategicTimeline = () => {
   ];
 
   const filteredEvents = selectedType === "all" 
-    ? timelineEvents 
-    : timelineEvents.filter(e => e.type === selectedType);
+    ? events 
+    : events.filter(e => e.type === selectedType);
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -132,6 +162,17 @@ export const StrategicTimeline = () => {
     if (impact >= 70) return "text-warning";
     return "text-success";
   };
+
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="h-64 bg-muted rounded"></div>
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="p-6">
