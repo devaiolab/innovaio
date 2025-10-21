@@ -67,6 +67,59 @@ class MarketService {
     }
   }
 
+  async updateLocalMarketData(id: string, data: Partial<LocalMarketData>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('local_market_intel')
+      .update({
+        ...data,
+        key_partnerships: data.key_partnerships || undefined,
+        market_challenges: data.market_challenges || undefined,
+        opportunities: data.opportunities || undefined
+      })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating local market data:', error);
+      throw new Error(`Failed to update market data: ${error.message}`);
+    }
+  }
+
+  async deleteLocalMarketData(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('local_market_intel')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting local market data:', error);
+      throw new Error(`Failed to delete market data: ${error.message}`);
+    }
+  }
+
+  async getMarketDataByRegion(region: string): Promise<LocalMarketData[]> {
+    const { data, error } = await supabase
+      .from('local_market_intel')
+      .select('*')
+      .eq('region', region)
+      .order('growth_rate', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching market data by region:', error);
+      return [];
+    }
+
+    return data.map(item => ({
+      ...item,
+      key_partnerships: Array.isArray(item.key_partnerships) ? item.key_partnerships.filter(p => typeof p === 'string') : [],
+      market_challenges: Array.isArray(item.market_challenges) ? item.market_challenges.filter(c => typeof c === 'string') : [],
+      opportunities: Array.isArray(item.opportunities) ? item.opportunities.filter(o => typeof o === 'string') : []
+    }));
+  }
+
   // Mock alerts for compatibility with existing component
   generateMockAlerts(): LocalMarketAlert[] {
     return [

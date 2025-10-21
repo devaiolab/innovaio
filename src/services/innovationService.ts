@@ -119,6 +119,147 @@ class InnovationService {
       throw error;
     }
   }
+
+  async updateOpportunity(id: string, data: Partial<InnovationOpportunity>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('innovation_opportunities')
+      .update({
+        ...data,
+        technologies: data.technologies || undefined,
+        applications: data.applications || undefined
+      })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating innovation opportunity:', error);
+      throw new Error(`Failed to update opportunity: ${error.message}`);
+    }
+  }
+
+  async deleteOpportunity(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('innovation_opportunities')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting innovation opportunity:', error);
+      throw new Error(`Failed to delete opportunity: ${error.message}`);
+    }
+  }
+
+  async getOpportunitiesByCategory(category: string): Promise<InnovationOpportunity[]> {
+    const { data, error } = await supabase
+      .from('innovation_opportunities')
+      .select('*')
+      .eq('category', category)
+      .order('roi_percentage', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching opportunities by category:', error);
+      return [];
+    }
+
+    return data.map(item => ({
+      ...item,
+      technologies: Array.isArray(item.technologies) ? item.technologies.filter(t => typeof t === 'string') : [],
+      applications: Array.isArray(item.applications) ? item.applications.filter(a => typeof a === 'string') : []
+    }));
+  }
+
+  async getOpportunitiesByMaturity(maturity: string): Promise<InnovationOpportunity[]> {
+    const { data, error } = await supabase
+      .from('innovation_opportunities')
+      .select('*')
+      .eq('maturity_level', maturity)
+      .order('roi_percentage', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching opportunities by maturity:', error);
+      return [];
+    }
+
+    return data.map(item => ({
+      ...item,
+      technologies: Array.isArray(item.technologies) ? item.technologies.filter(t => typeof t === 'string') : [],
+      applications: Array.isArray(item.applications) ? item.applications.filter(a => typeof a === 'string') : []
+    }));
+  }
+
+  async updateTechEvolution(id: string, data: Partial<TechEvolution>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('tech_evolution')
+      .update(data)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating tech evolution:', error);
+      throw new Error(`Failed to update tech evolution: ${error.message}`);
+    }
+  }
+
+  async deleteTechEvolution(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('tech_evolution')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting tech evolution:', error);
+      throw new Error(`Failed to delete tech evolution: ${error.message}`);
+    }
+  }
+
+  async getTechEvolutionByCategory(category: string): Promise<TechEvolution[]> {
+    const { data, error } = await supabase
+      .from('tech_evolution')
+      .select('*')
+      .eq('category', category)
+      .order('month_year', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching tech evolution by category:', error);
+      return [];
+    }
+
+    return data;
+  }
+
+  async updateSectorData(id: string, data: Partial<SectorData>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('sector_analysis')
+      .update(data)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating sector data:', error);
+      throw new Error(`Failed to update sector data: ${error.message}`);
+    }
+  }
+
+  async deleteSectorData(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('sector_analysis')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting sector data:', error);
+      throw new Error(`Failed to delete sector data: ${error.message}`);
+    }
+  }
 }
 
 export const innovationService = new InnovationService();

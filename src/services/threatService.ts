@@ -125,6 +125,145 @@ class ThreatService {
       throw error;
     }
   }
+
+  async updateMarketThreat(id: string, data: Partial<MarketThreat>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('market_threats')
+      .update(data)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating market threat:', error);
+      throw new Error(`Failed to update market threat: ${error.message}`);
+    }
+  }
+
+  async deleteMarketThreat(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('market_threats')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting market threat:', error);
+      throw new Error(`Failed to delete market threat: ${error.message}`);
+    }
+  }
+
+  async getThreatsByRegion(region: string): Promise<MarketThreat[]> {
+    const { data, error } = await supabase
+      .from('market_threats')
+      .select('*')
+      .eq('region', region)
+      .order('likelihood', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching threats by region:', error);
+      return [];
+    }
+
+    return data;
+  }
+
+  async getActiveThreats(minLikelihood: number = 80): Promise<MarketThreat[]> {
+    const { data, error } = await supabase
+      .from('market_threats')
+      .select('*')
+      .gte('likelihood', minLikelihood)
+      .order('likelihood', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching active threats:', error);
+      return [];
+    }
+
+    return data;
+  }
+
+  async updateContingencyPlan(id: string, data: Partial<ContingencyPlan>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('contingency_plans')
+      .update({
+        ...data,
+        response_actions: data.response_actions || undefined
+      })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating contingency plan:', error);
+      throw new Error(`Failed to update contingency plan: ${error.message}`);
+    }
+  }
+
+  async deleteContingencyPlan(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('contingency_plans')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting contingency plan:', error);
+      throw new Error(`Failed to delete contingency plan: ${error.message}`);
+    }
+  }
+
+  async getPlansByThreatType(threatType: string): Promise<ContingencyPlan[]> {
+    const { data, error } = await supabase
+      .from('contingency_plans')
+      .select('*')
+      .eq('threat_type', threatType)
+      .order('success_probability', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching plans by threat type:', error);
+      return [];
+    }
+
+    return data.map(item => ({
+      ...item,
+      response_actions: Array.isArray(item.response_actions) ? item.response_actions.filter(a => typeof a === 'string') : []
+    }));
+  }
+
+  async updateRegionalTrend(id: string, data: Partial<RegionalTrend>): Promise<void> {
+    if (Object.keys(data).length === 0) {
+      throw new Error('No data provided for update');
+    }
+
+    const { error } = await supabase
+      .from('regional_trends')
+      .update({
+        ...data,
+        coordinates: data.coordinates || undefined,
+        market_data: data.market_data || undefined
+      })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating regional trend:', error);
+      throw new Error(`Failed to update regional trend: ${error.message}`);
+    }
+  }
+
+  async deleteRegionalTrend(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('regional_trends')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting regional trend:', error);
+      throw new Error(`Failed to delete regional trend: ${error.message}`);
+    }
+  }
 }
 
 export const threatService = new ThreatService();
