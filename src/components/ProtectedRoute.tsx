@@ -9,24 +9,6 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/5 flex items-center justify-center">
-        <Card>
-          <CardContent className="flex items-center gap-2 p-6">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Carregando...</span>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/auth" replace />;
-  }
-
+  // TEMPORÁRIO: Bypass de autenticação para testes
   return <>{children}</>;
 };
